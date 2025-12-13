@@ -69,17 +69,17 @@ class AuthRouter extends _i13.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.CreateProfileScreen]
-class CreateProfileRoute extends _i13.PageRouteInfo<void> {
-  const CreateProfileRoute({List<_i13.PageRouteInfo>? children})
-    : super(CreateProfileRoute.name, initialChildren: children);
+/// [_i3.CreateAccountScreen]
+class CreateAccountRoute extends _i13.PageRouteInfo<void> {
+  const CreateAccountRoute({List<_i13.PageRouteInfo>? children})
+    : super(CreateAccountRoute.name, initialChildren: children);
 
-  static const String name = 'CreateProfileRoute';
+  static const String name = 'CreateAccountRoute';
 
   static _i13.PageInfo page = _i13.PageInfo(
     name,
     builder: (data) {
-      return const _i3.CreateProfileScreen();
+      return const _i3.CreateAccountScreen();
     },
   );
 }

@@ -24,7 +24,7 @@ class AuthGuard extends AutoRouteGuard {
             onLoggedIn: ({final bool isFromSignup = false}) async {
               if (isFromSignup) {
                 await router.replaceAll(<PageRouteInfo<Object?>>[
-                  const CreateProfileRoute(),
+                  const CreateAccountRoute(),
                 ]);
               } else {
                 resolver.next();
@@ -42,7 +42,7 @@ class AuthGuard extends AutoRouteGuard {
               onLoggedIn: ({final bool isFromSignup = false}) async {
                 if (isFromSignup) {
                   await router.replaceAll(<PageRouteInfo<Object?>>[
-                    const CreateProfileRoute(),
+                    const CreateAccountRoute(),
                   ]);
                 } else {
                   await router.replace(

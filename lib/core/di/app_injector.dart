@@ -5,6 +5,7 @@ import 'package:routiner/core/navigation/auth_guard.dart';
 import 'package:routiner/core/services/firebase/crashlytics_service.dart';
 import 'package:routiner/core/services/firebase/firebase_auth_service.dart';
 import 'package:routiner/core/services/firebase/firebase_firestore_service.dart';
+import 'package:routiner/core/services/storage/hive_service.dart';
 import 'package:routiner/core/services/storage/shared_prefs_service.dart';
 import 'package:routiner/feature/auth/data/data_sources/auth_local_data_source.dart';
 import 'package:routiner/feature/auth/data/data_sources/auth_remote_datasource.dart';
@@ -13,6 +14,11 @@ import 'package:routiner/feature/auth/domain/repositories/auth_repo.dart';
 import 'package:routiner/feature/auth/domain/use_cases/auth_usecase.dart';
 import 'package:routiner/feature/auth/presentation/bloc/login_bloc/login_bloc.dart';
 import 'package:routiner/feature/auth/presentation/bloc/signup_bloc/signup_bloc.dart';
+import 'package:routiner/feature/profile/data/local_data_source/create_account_local_data_source.dart';
+import 'package:routiner/feature/profile/data/repo_impl/create_account_repository_impl.dart';
+import 'package:routiner/feature/profile/domain/repo/create_account_repository.dart';
+import 'package:routiner/feature/profile/domain/usecase/create_account_usecase.dart';
+import 'package:routiner/feature/profile/presentation/bloc/create_account_bloc.dart';
 
 class AppInjector {
   AppInjector._();
@@ -23,6 +29,7 @@ class AppInjector {
     getIt
       // Core Services
       ..registerLazySingleton(SharedPrefsService.new)
+      ..registerSingleton<HiveService>(HiveService())
       ..registerLazySingleton(FirebaseAuthService.new)
       ..registerLazySingleton(FirebaseFirestoreService.new)
       ..registerLazySingleton(CrashlyticsService.new)
@@ -35,7 +42,7 @@ class AppInjector {
       ..registerLazySingleton<LanguageController>(
         () => LanguageController(getIt<SharedPrefsService>()),
       )
-
+      ///DATASOURCE
       ..registerLazySingleton<AuthRemoteDataSource>(
         () => AuthRemoteDataSourceImpl(
           authService: getIt<FirebaseAuthService>(),
@@ -47,16 +54,29 @@ class AppInjector {
           sharedPrefsService: getIt<SharedPrefsService>(),
         ),
       )
+      ..registerLazySingleton<CreateAccountLocalDataSource>(
+        () => CreateAccountLocalDataSourceImpl(getIt<HiveService>()),
+      )
+      ///Repo
       ..registerLazySingleton<AuthRepo>(
         () => AuthRepoImpl(
           authRemoteDataSource: getIt<AuthRemoteDataSource>(),
           authLocalDataSource: getIt<AuthLocalDataSource>(),
         ),
       )
+      ..registerLazySingleton<CreateAccountRepository>(
+        () =>
+            CreateAccountRepositoryImpl(getIt<CreateAccountLocalDataSource>()),
+      )
+      ///USE CASES
       ..registerLazySingleton<AuthUseCase>(
         () => AuthUseCase(authRepo: getIt<AuthRepo>()),
       )
+      ..registerLazySingleton(
+        () => CreateAccountUsecase(getIt<CreateAccountRepository>()),
+      )
       ..registerFactory(() => LoginBloc(authUseCase: getIt<AuthUseCase>()))
-      ..registerFactory(() => SignupBloc(authUseCase: getIt<AuthUseCase>()));
+      ..registerFactory(() => SignupBloc(authUseCase: getIt<AuthUseCase>()))
+      ..registerFactory(() => CreateAccountBloc(getIt<CreateAccountUsecase>()));
   }
 }

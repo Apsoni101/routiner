@@ -53,6 +53,8 @@ dependencies:
   smooth_page_indicator: ^1.2.1
   webview_flutter: ^4.2.2
   image_picker: ^1.2.1
+  hive_flutter: ^1.1.0
+  fluttertoast: ^9.0.0
 
 dev_dependencies:
   auto_route_generator: ^10.4.0

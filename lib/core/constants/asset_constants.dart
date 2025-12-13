@@ -22,9 +22,36 @@ class AppAssets {
   static const String authBgPng = 'assets/images/auth_bg.png';
   static const String routiner = 'assets/images/routiner.gif';
   static const String imagePickerBtn = 'assets/images/image_button_bg.svg';
-  static const String splashBg= 'assets/images/splash_screen_bg.svg';
-  static const String routinerLogo= 'assets/images/routiner_logo.svg';
-  static const String carouselImgOne= 'assets/images/carousel_image_one.png';
-  static const String carouselImgTwo= 'assets/images/carousel_image_two.png';
-  static const String carouselImgThree= 'assets/images/carousel_image_three.png';
+  static const String splashBg = 'assets/images/splash_screen_bg.svg';
+  static const String routinerLogo = 'assets/images/routiner_logo.svg';
+  static const String carouselImgOne = 'assets/images/carousel_image_one.png';
+  static const String carouselImgTwo = 'assets/images/carousel_image_two.png';
+  static const String carouselImgThree =
+      'assets/images/carousel_image_three.png';
+  static const String maleIc = 'assets/images/male_ic.png';
+  static const String femaleIc = 'assets/images/female_ic.png';
+
+  // Sleep
+  static const String sleepIc = 'assets/images/sleep_ic.png';
+
+  // Water plant
+  static const String waterPlantIc = 'assets/images/water_plant.png';
+
+  // Journal
+  static const String journalIc = 'assets/images/journal_ic.png';
+
+  // Study
+  static const String studyIc = 'assets/images/study_ic.png';
+
+  // Meditate
+  static const String meditateIc = 'assets/images/meditate_ic.png';
+
+  // Book
+  static const String bookIc = 'assets/images/book_ic.png';
+
+  // Run
+  static const String runIc = 'assets/images/run_ic.png';
+
+  // Water drop
+  static const String waterIc = 'assets/images/water_ic.png';
 }
