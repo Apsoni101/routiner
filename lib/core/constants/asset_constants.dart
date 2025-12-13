@@ -1,0 +1,30 @@
+class AppAssets {
+  static const String analyticsIc = 'assets/icons/analytics.svg';
+  static const String groupsIc = 'assets/icons/groups.svg';
+  static const String homeIc = 'assets/icons/home_ic.svg';
+  static const String activeHomeIc = 'assets/icons/active_home_ic.svg';
+  static const String plusIc = 'assets/icons/plus_ic.svg';
+  static const String twitterIc = 'assets/icons/twitter_ic.svg';
+  static const String loginIc = 'assets/icons/login_ic.svg';
+  static const String appleIc = 'assets/icons/apple_ic.svg';
+  static const String googleIc = 'assets/icons/google_ic.svg';
+  static const String fbIc = 'assets/icons/fb_ic.svg';
+  static const String profileIc = 'assets/icons/profile.svg';
+  static const String exploreIc = 'assets/icons/explore.svg';
+  static const String activityIc = 'assets/icons/activity.svg';
+  static const String activeProfileIc = 'assets/icons/active_profile.svg';
+  static const String activeExploreIc = 'assets/icons/active_explore.svg';
+  static const String activeActivityIc = 'assets/icons/active_activity.svg';
+  static const String navArrowRightIc = 'assets/icons/nav_arrow.svg';
+  static const String dotsBg = 'assets/images/dots_bg.svg';
+  static const String walletIc = 'assets/icons/wallet_ic.svg';
+  static const String authBg = 'assets/images/auth_bg.svg';
+  static const String authBgPng = 'assets/images/auth_bg.png';
+  static const String routiner = 'assets/images/routiner.gif';
+  static const String imagePickerBtn = 'assets/images/image_button_bg.svg';
+  static const String splashBg= 'assets/images/splash_screen_bg.svg';
+  static const String routinerLogo= 'assets/images/routiner_logo.svg';
+  static const String carouselImgOne= 'assets/images/carousel_image_one.png';
+  static const String carouselImgTwo= 'assets/images/carousel_image_two.png';
+  static const String carouselImgThree= 'assets/images/carousel_image_three.png';
+}

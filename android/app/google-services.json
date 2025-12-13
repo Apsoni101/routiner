@@ -1,0 +1,134 @@
+{
+  "project_info": {
+    "project_number": "221689759358",
+    "project_id": "flashfeed-8fc75",
+    "storage_bucket": "flashfeed-8fc75.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:221689759358:android:0627676b25de35245dfa2f",
+        "android_client_info": {
+          "package_name": "com.coditas.routiner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "221689759358-41gc90ku1jnj90aem96q6cuof0cbjah6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC775deRaxPivvAB8oS5KQhJel99jd6vd8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "221689759358-41gc90ku1jnj90aem96q6cuof0cbjah6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "221689759358-enl0ieicimli1u5c9qs0kgnsluebf8n3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.voipProject"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:221689759358:android:c0270b9060076d2d5dfa2f",
+        "android_client_info": {
+          "package_name": "com.example.marvel_stream"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "221689759358-h8p0nluh8g4cn41rlfumgotsqd587ibt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.marvel_stream",
+            "certificate_hash": "ce65983506e5533e86c22b56e06917d1663adcef"
+          }
+        },
+        {
+          "client_id": "221689759358-to3q2k1ja24hrrehcq46f6koksgaumol.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.marvel_stream",
+            "certificate_hash": "9f33e6c74257587e675da3eaf457afd412199144"
+          }
+        },
+        {
+          "client_id": "221689759358-41gc90ku1jnj90aem96q6cuof0cbjah6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC775deRaxPivvAB8oS5KQhJel99jd6vd8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "221689759358-41gc90ku1jnj90aem96q6cuof0cbjah6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "221689759358-enl0ieicimli1u5c9qs0kgnsluebf8n3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.voipProject"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:221689759358:android:20bdc5dd8c332ba25dfa2f",
+        "android_client_info": {
+          "package_name": "com.example.voip_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "221689759358-41gc90ku1jnj90aem96q6cuof0cbjah6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC775deRaxPivvAB8oS5KQhJel99jd6vd8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "221689759358-41gc90ku1jnj90aem96q6cuof0cbjah6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "221689759358-enl0ieicimli1u5c9qs0kgnsluebf8n3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.voipProject"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
