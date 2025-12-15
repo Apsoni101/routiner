@@ -23,6 +23,8 @@ abstract class AppThemeColors {
 
   Color get c040415;
 
+  Color get c9B9BA1;
+
   Color get cAFB4FF;
 
   Color get cEAECF0;
@@ -38,6 +40,38 @@ abstract class AppThemeColors {
   Color get c686873;
 
   Color get softIndigo;
+
+  Color get c8B5CF6;
+
+  Color get c22C55E;
+
+  Color get c38BDF8;
+
+  Color get cFACC15;
+
+  Color get cFB7185;
+
+  Color get c6366F1;
+
+  Color get c14B8A6;
+
+  Color get cF97316;
+
+  Color get c8C7CF6;
+
+  Color get c22D56A;
+
+  Color get c38C1FF;
+
+  Color get cF5C842;
+
+  Color get cFA7298;
+
+  Color get c5A63F1;
+
+  Color get c12AFA3;
+
+  Color get cF58A1F;
 
   // Permanent colors
   Color get permanentBlack => Colors.black;
@@ -100,6 +134,57 @@ class AppColorsDark extends AppThemeColors {
 
   @override
   Color get c686873 => const Color(0xFF686873);
+
+  @override
+  Color get c9B9BA1 => const Color(0xFF9B9BA1);
+
+  @override
+  Color get c8B5CF6 => const Color(0xFF8B5CF6);
+
+  @override
+  Color get c22C55E => const Color(0xFF22C55E);
+
+  @override
+  Color get c38BDF8 => const Color(0xFF38BDF8);
+
+  @override
+  Color get cFACC15 => const Color(0xFFFACC15);
+
+  @override
+  Color get cFB7185 => const Color(0xFFFB7185);
+
+  @override
+  Color get c6366F1 => const Color(0xFF6366F1);
+
+  @override
+  Color get c14B8A6 => const Color(0xFF14B8A6);
+
+  @override
+  Color get cF97316 => const Color(0xFFF97316);
+
+  @override
+  Color get c8C7CF6 => const Color(0xFF8C7CF6);
+
+  @override
+  Color get c22D56A => const Color(0xFF22D56A);
+
+  @override
+  Color get c38C1FF => const Color(0xFF38C1FF);
+
+  @override
+  Color get cF5C842 => const Color(0xFFF5C842);
+
+  @override
+  Color get cFA7298 => const Color(0xFFFA7298);
+
+  @override
+  Color get c5A63F1 => const Color(0xFF5A63F1);
+
+  @override
+  Color get c12AFA3 => const Color(0xFF12AFA3);
+
+  @override
+  Color get cF58A1F => const Color(0xFFF58A1F);
 }
 
 class AppColorsLight extends AppThemeColors {
@@ -159,4 +244,55 @@ class AppColorsLight extends AppThemeColors {
 
   @override
   Color get c686873 => const Color(0xFF686873);
+
+  @override
+  Color get c9B9BA1 => const Color(0xFF9B9BA1);
+
+  @override
+  Color get c8B5CF6 => const Color(0xFF8B5CF6);
+
+  @override
+  Color get c22C55E => const Color(0xFF22C55E);
+
+  @override
+  Color get c38BDF8 => const Color(0xFF38BDF8);
+
+  @override
+  Color get cFACC15 => const Color(0xFFFACC15);
+
+  @override
+  Color get cFB7185 => const Color(0xFFFB7185);
+
+  @override
+  Color get c6366F1 => const Color(0xFF6366F1);
+
+  @override
+  Color get c14B8A6 => const Color(0xFF14B8A6);
+
+  @override
+  Color get cF97316 => const Color(0xFFF97316);
+
+  @override
+  Color get c8C7CF6 => const Color(0xFF8C7CF6);
+
+  @override
+  Color get c22D56A => const Color(0xFF22D56A);
+
+  @override
+  Color get c38C1FF => const Color(0xFF38C1FF);
+
+  @override
+  Color get cF5C842 => const Color(0xFFF5C842);
+
+  @override
+  Color get cFA7298 => const Color(0xFFFA7298);
+
+  @override
+  Color get c5A63F1 => const Color(0xFF5A63F1);
+
+  @override
+  Color get c12AFA3 => const Color(0xFF12AFA3);
+
+  @override
+  Color get cF58A1F => const Color(0xFFF58A1F);
 }

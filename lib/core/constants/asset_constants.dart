@@ -4,6 +4,7 @@ class AppAssets {
   static const String homeIc = 'assets/icons/home_ic.svg';
   static const String activeHomeIc = 'assets/icons/active_home_ic.svg';
   static const String plusIc = 'assets/icons/plus_ic.svg';
+  static const String crossIc = 'assets/icons/cross_ic.svg';
   static const String twitterIc = 'assets/icons/twitter_ic.svg';
   static const String loginIc = 'assets/icons/login_ic.svg';
   static const String appleIc = 'assets/icons/apple_ic.svg';
@@ -23,6 +24,8 @@ class AppAssets {
   static const String routiner = 'assets/images/routiner.gif';
   static const String imagePickerBtn = 'assets/images/image_button_bg.svg';
   static const String splashBg = 'assets/images/splash_screen_bg.svg';
+  static const String badHabitIc = 'assets/images/bad_habit_ic.svg';
+  static const String goodHabitIc = 'assets/images/good_habit_ic.svg';
   static const String routinerLogo = 'assets/images/routiner_logo.svg';
   static const String carouselImgOne = 'assets/images/carousel_image_one.png';
   static const String carouselImgTwo = 'assets/images/carousel_image_two.png';

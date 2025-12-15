@@ -82,6 +82,18 @@ class AppTextStyles {
     letterSpacing: 0,
   );
 
+ static const TextStyle airbnbCerealW500S14Lh20 = TextStyle(
+    fontFamily: 'AirbnbCereal',
+    fontWeight: FontWeight.w500,
+    fontSize: 14,
+    height: 20 / 14,
+    letterSpacing: -0.4,
+   decoration: TextDecoration.none,
+
+ );
+
+
+
   static const TextStyle hintTxtStyle = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,

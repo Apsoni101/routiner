@@ -6,12 +6,14 @@ class RotatingSvgButton extends StatefulWidget {
   const RotatingSvgButton({
     required this.assetName,
     required this.onTap,
+    required this.isRotated,
     super.key,
     this.size = 64,
   });
 
   final String assetName;
   final VoidCallback onTap;
+  final bool isRotated;
   final double size;
 
   @override
@@ -39,24 +41,26 @@ class _RotatingSvgButtonState extends State<RotatingSvgButton>
   }
 
   @override
+  void didUpdateWidget(covariant final RotatingSvgButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.isRotated) {
+      _controller.forward();
+    } else {
+      _controller.reverse();
+    }
+  }
+
+  @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
 
-  void _handleTap() {
-    if (_controller.isCompleted) {
-      _controller.reverse();
-    } else {
-      _controller.forward();
-    }
-    widget.onTap();
-  }
-
   @override
   Widget build(final BuildContext context) {
     return InkWell(
-      onTap: _handleTap,
+      onTap: widget.onTap,
       child: AnimatedBuilder(
         animation: _rotation,
         builder: (_, final Widget? child) {

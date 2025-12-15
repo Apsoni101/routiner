@@ -417,6 +417,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Logged In Successfully'**
   String get loginSuccess;
+
+  /// No description provided for @quitBadHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit Bad Habit'**
+  String get quitBadHabit;
+
+  /// No description provided for @newGoodHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'New Good Habit'**
+  String get newGoodHabit;
+
+  /// No description provided for @newGoodHabitUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'New Good Habit'**
+  String get newGoodHabitUpper;
+
+  /// No description provided for @neverTooLate.
+  ///
+  /// In en, this message translates to:
+  /// **'Never too late...'**
+  String get neverTooLate;
+
+  /// No description provided for @forABetterLife.
+  ///
+  /// In en, this message translates to:
+  /// **'For a better life'**
+  String get forABetterLife;
+
+  /// No description provided for @addMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Mood'**
+  String get addMood;
+
+  /// No description provided for @addHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Habit'**
+  String get addHabit;
+
+  /// No description provided for @createCustomHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Custom Habit'**
+  String get createCustomHabit;
+
+  /// No description provided for @popularHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'POPULAR Habıts'**
+  String get popularHabits;
+
+  /// No description provided for @moodAngry.
+  ///
+  /// In en, this message translates to:
+  /// **'😡'**
+  String get moodAngry;
+
+  /// No description provided for @moodSad.
+  ///
+  /// In en, this message translates to:
+  /// **'☹️'**
+  String get moodSad;
+
+  /// No description provided for @moodNeutral.
+  ///
+  /// In en, this message translates to:
+  /// **'😐'**
+  String get moodNeutral;
+
+  /// No description provided for @moodHappy.
+  ///
+  /// In en, this message translates to:
+  /// **'🙂'**
+  String get moodHappy;
+
+  /// No description provided for @moodLove.
+  ///
+  /// In en, this message translates to:
+  /// **'😍'**
+  String get moodLove;
+
+  /// No description provided for @howAreYouFeeling.
+  ///
+  /// In en, this message translates to:
+  /// **'How’re you feeling?'**
+  String get howAreYouFeeling;
+
+  /// No description provided for @walk.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk'**
+  String get walk;
+
+  /// No description provided for @icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Icon'**
+  String get icon;
+
+  /// No description provided for @color.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get color;
+
+  /// No description provided for @iconAndColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Icon and Color'**
+  String get iconAndColor;
+
+  /// No description provided for @walking.
+  ///
+  /// In en, this message translates to:
+  /// **'Walking'**
+  String get walking;
+
+  /// No description provided for @orange.
+  ///
+  /// In en, this message translates to:
+  /// **'Orange'**
+  String get orange;
+
+  /// No description provided for @goal.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal'**
+  String get goal;
+
+  /// No description provided for @goalTimesPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'1 times or more per day'**
+  String get goalTimesPerDay;
+
+  /// No description provided for @daily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily'**
+  String get daily;
+
+  /// No description provided for @everyDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get everyDay;
+
+  /// No description provided for @reminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get reminders;
+
+  /// No description provided for @reminderDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember to set off time for a workout today.'**
+  String get reminderDescription;
+
+  /// No description provided for @reminderTime.
+  ///
+  /// In en, this message translates to:
+  /// **'09:30'**
+  String get reminderTime;
+
+  /// No description provided for @reminderEveryDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get reminderEveryDay;
+
+  /// No description provided for @addReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Reminder'**
+  String get addReminder;
+
+  /// No description provided for @type.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit type'**
+  String get type;
+
+  /// No description provided for @build.
+  ///
+  /// In en, this message translates to:
+  /// **'Build'**
+  String get build;
+
+  /// No description provided for @quit.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit'**
+  String get quit;
+
+  /// No description provided for @location.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get location;
 }
 
 class _AppLocalizationsDelegate

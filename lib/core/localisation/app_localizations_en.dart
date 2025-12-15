@@ -173,4 +173,107 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginSuccess => 'Logged In Successfully';
+
+  @override
+  String get quitBadHabit => 'Quit Bad Habit';
+
+  @override
+  String get newGoodHabit => 'New Good Habit';
+
+  @override
+  String get newGoodHabitUpper => 'New Good Habit';
+
+  @override
+  String get neverTooLate => 'Never too late...';
+
+  @override
+  String get forABetterLife => 'For a better life';
+
+  @override
+  String get addMood => 'Add Mood';
+
+  @override
+  String get addHabit => 'Add Habit';
+
+  @override
+  String get createCustomHabit => 'Create Custom Habit';
+
+  @override
+  String get popularHabits => 'POPULAR Habıts';
+
+  @override
+  String get moodAngry => '😡';
+
+  @override
+  String get moodSad => '☹️';
+
+  @override
+  String get moodNeutral => '😐';
+
+  @override
+  String get moodHappy => '🙂';
+
+  @override
+  String get moodLove => '😍';
+
+  @override
+  String get howAreYouFeeling => 'How’re you feeling?';
+
+  @override
+  String get walk => 'Walk';
+
+  @override
+  String get icon => 'Icon';
+
+  @override
+  String get color => 'Color';
+
+  @override
+  String get iconAndColor => 'Icon and Color';
+
+  @override
+  String get walking => 'Walking';
+
+  @override
+  String get orange => 'Orange';
+
+  @override
+  String get goal => 'Goal';
+
+  @override
+  String get goalTimesPerDay => '1 times or more per day';
+
+  @override
+  String get daily => 'Daily';
+
+  @override
+  String get everyDay => 'Every day';
+
+  @override
+  String get reminders => 'Reminders';
+
+  @override
+  String get reminderDescription =>
+      'Remember to set off time for a workout today.';
+
+  @override
+  String get reminderTime => '09:30';
+
+  @override
+  String get reminderEveryDay => 'Every day';
+
+  @override
+  String get addReminder => 'Add Reminder';
+
+  @override
+  String get type => 'Habit type';
+
+  @override
+  String get build => 'Build';
+
+  @override
+  String get quit => 'Quit';
+
+  @override
+  String get location => 'Location';
 }

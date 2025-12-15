@@ -7,6 +7,11 @@ import 'package:routiner/core/services/firebase/firebase_auth_service.dart';
 import 'package:routiner/core/services/firebase/firebase_firestore_service.dart';
 import 'package:routiner/core/services/storage/hive_service.dart';
 import 'package:routiner/core/services/storage/shared_prefs_service.dart';
+import 'package:routiner/feature/add_habit/data/data_source/mood_local_data_source.dart';
+import 'package:routiner/feature/add_habit/data/repo_impl/mood_repository_impl.dart';
+import 'package:routiner/feature/add_habit/domain/repo/mood_repository.dart';
+import 'package:routiner/feature/add_habit/domain/usecase/mood_usecase.dart';
+import 'package:routiner/feature/add_habit/presentation/bloc%20/mood_bloc.dart';
 import 'package:routiner/feature/auth/data/data_sources/auth_local_data_source.dart';
 import 'package:routiner/feature/auth/data/data_sources/auth_remote_datasource.dart';
 import 'package:routiner/feature/auth/data/repositories/auth_repo_impl.dart';
@@ -57,6 +62,9 @@ class AppInjector {
       ..registerLazySingleton<CreateAccountLocalDataSource>(
         () => CreateAccountLocalDataSourceImpl(getIt<HiveService>()),
       )
+      ..registerLazySingleton<MoodLocalDataSource>(
+        () => MoodLocalDataSourceImpl(getIt<HiveService>()),
+      )
       ///Repo
       ..registerLazySingleton<AuthRepo>(
         () => AuthRepoImpl(
@@ -68,6 +76,9 @@ class AppInjector {
         () =>
             CreateAccountRepositoryImpl(getIt<CreateAccountLocalDataSource>()),
       )
+      ..registerLazySingleton<MoodRepository>(
+        () => MoodRepositoryImpl(getIt<MoodLocalDataSource>()),
+      )
       ///USE CASES
       ..registerLazySingleton<AuthUseCase>(
         () => AuthUseCase(authRepo: getIt<AuthRepo>()),
@@ -75,6 +86,9 @@ class AppInjector {
       ..registerLazySingleton(
         () => CreateAccountUsecase(getIt<CreateAccountRepository>()),
       )
+      ..registerLazySingleton(() => MoodUsecase(getIt<MoodRepository>()))
+      ///BLOCS
+      ..registerFactory(() => MoodBloc(moodUsecase: getIt<MoodUsecase>()))
       ..registerFactory(() => LoginBloc(authUseCase: getIt<AuthUseCase>()))
       ..registerFactory(() => SignupBloc(authUseCase: getIt<AuthUseCase>()))
       ..registerFactory(() => CreateAccountBloc(getIt<CreateAccountUsecase>()));
