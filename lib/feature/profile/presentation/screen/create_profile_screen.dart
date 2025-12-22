@@ -14,9 +14,9 @@ import 'package:routiner/core/navigation/app_router.gr.dart';
 import 'package:routiner/core/utils/toast_utils.dart';
 import 'package:routiner/feature/common/presentation/widgets/custom_app_bar.dart';
 import 'package:routiner/feature/common/presentation/widgets/next_button.dart';
-import 'package:routiner/feature/profile/presentation/bloc/create_account_bloc.dart';
-import 'package:routiner/feature/profile/presentation/bloc/create_account_event.dart';
-import 'package:routiner/feature/profile/presentation/bloc/create_account_state.dart';
+import 'package:routiner/feature/profile/presentation/bloc/create_account_bloc/create_account_bloc.dart';
+import 'package:routiner/feature/profile/presentation/bloc/create_account_bloc/create_account_event.dart';
+import 'package:routiner/feature/profile/presentation/bloc/create_account_bloc/create_account_state.dart';
 import 'package:routiner/feature/profile/presentation/widgets/selectable_grid_item.dart';
 
 @RoutePage()
@@ -96,7 +96,7 @@ class _CreateAccountViewState extends State<_CreateAccountView> {
                 } else if (state is CreateAccountSuccess) {
                   // Navigate to dashboard with home screen
                   context.router.replaceAll(<PageRouteInfo<Object?>>[
-                    const DashboardRouter(
+                    DashboardRouter(
                       children: <PageRouteInfo<Object?>>[HomeRoute()],
                     ),
                   ]);
@@ -126,12 +126,10 @@ class _CreateAccountViewState extends State<_CreateAccountView> {
                     enabled: state.canProceed,
                     onPressed: () {
                       if (state.currentPage == 1) {
-                        // Save account data and navigate to home
                         context.read<CreateAccountBloc>().add(
                           const SaveAccountRequested(),
                         );
                       } else {
-                        // Go to next page
                         context.read<CreateAccountBloc>().add(
                           const NextPageRequested(),
                         );
@@ -161,6 +159,9 @@ class _GenderPage extends StatelessWidget {
   Widget build(final BuildContext context) {
     return BlocBuilder<CreateAccountBloc, CreateAccountState>(
       builder: (final BuildContext context, final CreateAccountState state) {
+        if (state is CreateAccountLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
         if (state is! CreateAccountData) {
           return const SizedBox.shrink();
         }

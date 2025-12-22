@@ -1,0 +1,40 @@
+// lib/feature/create_custom_habit/data/repository/custom_habit_local_repository_impl.dart
+
+import 'package:dartz/dartz.dart';
+import 'package:routiner/core/services/network/failure.dart';
+import 'package:routiner/feature/create_custom_habit/data/data_source/custom_habit_remote_data_source.dart';
+import 'package:routiner/feature/create_custom_habit/domain/entity/custom_habit_entity.dart';
+import 'package:routiner/feature/create_custom_habit/domain/repo/custom_habit_remote_repository.dart';
+
+class CustomHabitRemoteRepositoryImpl implements CustomHabitRemoteRepository {
+  CustomHabitRemoteRepositoryImpl(this._remoteDataSource);
+
+  final CustomHabitRemoteDataSource _remoteDataSource;
+
+  @override
+  Future<Either<Failure, String>> saveCustomHabit(
+    final CustomHabitEntity habit,
+  ) => _remoteDataSource.saveCustomHabit(habit: habit.toModel());
+
+  @override
+  Future<Either<Failure, List<CustomHabitEntity>>> getCustomHabits() =>
+      _remoteDataSource.getCustomHabits();
+
+  @override
+  Future<Either<Failure, CustomHabitEntity>> getCustomHabit(
+    final String habitId,
+  ) => _remoteDataSource.getCustomHabit(habitId: habitId);
+
+  @override
+  Future<Either<Failure, Unit>> updateCustomHabit(
+    final CustomHabitEntity habit,
+  ) => _remoteDataSource.updateCustomHabit(habit: habit.toModel());
+
+  @override
+  Future<Either<Failure, Unit>> deleteCustomHabit(final String habitId) =>
+      _remoteDataSource.deleteCustomHabit(habitId: habitId);
+
+  @override
+  Future<Either<Failure, bool>> habitExists(final String habitId) =>
+      _remoteDataSource.habitExists(habitId: habitId);
+}

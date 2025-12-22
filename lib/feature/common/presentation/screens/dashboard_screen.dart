@@ -21,6 +21,11 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final AddHabitOverlayController _overlayController =
       AddHabitOverlayController();
+  VoidCallback? _onHabitChanged;
+
+  void _registerHabitChangeCallback(VoidCallback callback) {
+    _onHabitChanged = callback;
+  }
 
   @override
   void dispose() {
@@ -33,7 +38,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return AutoTabsScaffold(
       extendBody: true,
       routes: <PageRouteInfo<Object?>>[
-        const HomeRoute(),
+        HomeRoute(onHabitChanged: _registerHabitChangeCallback),
         const ExploreRoute(),
         const ActivityRoute(),
         ProfileRoute(),
@@ -67,6 +72,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       overlayBuilder: () => AddHabitOverlay.create(
                         context,
                         onDismiss: _overlayController.close,
+                        onHabitAdded: () {
+                          // Notify the active tab that a habit was added
+                          _onHabitChanged?.call();
+                        },
                       ),
                     );
                   },

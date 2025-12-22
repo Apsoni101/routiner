@@ -14,6 +14,8 @@ void main() async {
 
   await Hive.initFlutter();
 
+  HiveService.registerAdapters();
+
   await AppInjector.setUp();
 
   await AppInjector.getIt<HiveService>().init(boxName: 'userBox');

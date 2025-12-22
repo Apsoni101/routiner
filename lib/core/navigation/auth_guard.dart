@@ -46,7 +46,7 @@ class AuthGuard extends AutoRouteGuard {
                   ]);
                 } else {
                   await router.replace(
-                    const DashboardRouter(children: [HomeRoute()]),
+                     DashboardRouter(children: [HomeRoute()]),
                   );
                 }
               },

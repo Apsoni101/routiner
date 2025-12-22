@@ -21,6 +21,10 @@ abstract class AppThemeColors {
 
   Color get cd7d9ff;
 
+  Color get c6B73FF;
+
+  Color get cFFF3DA;
+
   Color get c040415;
 
   Color get c9B9BA1;
@@ -39,6 +43,10 @@ abstract class AppThemeColors {
 
   Color get c686873;
 
+  Color get c000DFF;
+
+  Color get cFEA800;
+
   Color get softIndigo;
 
   Color get c8B5CF6;
@@ -50,6 +58,8 @@ abstract class AppThemeColors {
   Color get cFACC15;
 
   Color get cFB7185;
+
+  Color get cEBECFF;
 
   Color get c6366F1;
 
@@ -72,6 +82,8 @@ abstract class AppThemeColors {
   Color get c12AFA3;
 
   Color get cF58A1F;
+
+  Color get cF3F4F6;
 
   // Permanent colors
   Color get permanentBlack => Colors.black;
@@ -185,6 +197,24 @@ class AppColorsDark extends AppThemeColors {
 
   @override
   Color get cF58A1F => const Color(0xFFF58A1F);
+
+  @override
+  Color get cF3F4F6 => const Color(0xFFF3F4F6);
+
+  @override
+  Color get c000DFF => const Color(0xFF000DFF);
+
+  @override
+  Color get c6B73FF => const Color(0xFF6B73FF);
+
+  @override
+  Color get cEBECFF => const Color(0xFFEBECFF);
+
+  @override
+  Color get cFFF3DA => const Color(0xFFFFF3DA);
+
+  @override
+  Color get cFEA800 => const Color(0xFFFEA800);
 }
 
 class AppColorsLight extends AppThemeColors {
@@ -295,4 +325,22 @@ class AppColorsLight extends AppThemeColors {
 
   @override
   Color get cF58A1F => const Color(0xFFF58A1F);
+
+  @override
+  Color get cF3F4F6 => const Color(0xFFF3F4F6);
+
+  @override
+  Color get c000DFF => const Color(0xFF000DFF);
+
+  @override
+  Color get c6B73FF => const Color(0xFF6B73FF);
+
+  @override
+  Color get cEBECFF => const Color(0xFFEBECFF);
+
+  @override
+  Color get cFFF3DA => const Color(0xFFFFF3DA);
+
+  @override
+  Color get cFEA800 => const Color(0xFFFEA800);
 }

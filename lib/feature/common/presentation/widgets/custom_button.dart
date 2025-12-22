@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:routiner/core/constants/app_textstyles.dart';
 import 'package:routiner/core/extensions/color_extension.dart';
-import 'package:routiner/core/extensions/localization_extension.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
@@ -28,7 +27,7 @@ class CustomButton extends StatelessWidget {
       child: Text(
         label,
         style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
-          color: context.appColors.white.withOpacity(enabled ? 1 : 0.5),
+          color: context.appColors.white.withValues(alpha: enabled ? 1 : 0.5),
         ),
       ),
     );

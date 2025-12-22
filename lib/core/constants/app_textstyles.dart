@@ -45,6 +45,14 @@ class AppTextStyles {
     letterSpacing: 0,
     decoration: TextDecoration.none,
   );
+  static const TextStyle airbnbCerealW500S20Lh24Ls0 = TextStyle(
+    fontFamily: 'AirbnbCereal',
+    fontWeight: FontWeight.w500,
+    fontSize: 20,
+    height: 1.2,
+    letterSpacing: 0,
+    decoration: TextDecoration.none,
+  );
 
   static const TextStyle airbnbCerealW700S10Lh16Ls1Uppercase = TextStyle(
     fontFamily: 'AirbnbCereal',
@@ -82,17 +90,14 @@ class AppTextStyles {
     letterSpacing: 0,
   );
 
- static const TextStyle airbnbCerealW500S14Lh20 = TextStyle(
+  static const TextStyle airbnbCerealW500S14Lh20 = TextStyle(
     fontFamily: 'AirbnbCereal',
     fontWeight: FontWeight.w500,
     fontSize: 14,
     height: 20 / 14,
     letterSpacing: -0.4,
-   decoration: TextDecoration.none,
-
- );
-
-
+    decoration: TextDecoration.none,
+  );
 
   static const TextStyle hintTxtStyle = TextStyle(
     fontSize: 14,

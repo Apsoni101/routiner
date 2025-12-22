@@ -32,7 +32,7 @@ class ToastUtils {
             child: Text(
               message,
               style: AppTextStyles.airbnbCerealW500S14.copyWith(
-                color: context.appColors.c3843FF,
+                color: context.appColors.c040415,
               ),
             ),
           ),

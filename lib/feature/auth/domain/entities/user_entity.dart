@@ -1,23 +1,54 @@
 import 'package:equatable/equatable.dart';
 
-///entity of user for only showing or exposing required properties that's used
+/// Entity of user for only showing or exposing required properties that's used
 class UserEntity extends Equatable {
-  ///creates an instance of userEntity
+  /// Creates an instance of userEntity
   const UserEntity({
-    required this.uid,
-    required this.email,
-    required this.name,
+    this.uid,
+    this.email,
+    this.name,
+    this.birthdate,
+    this.surname,
   });
 
-  ///unique user id
-  final String uid;
+  /// Unique user id
+  final String? uid;
 
-  ///user name
-  final String name;
+  /// User name
+  final String? name;
 
-  ///user email
-  final String email;
+  /// User surname
+  final String? surname;
+
+  /// User email
+  final String? email;
+
+  /// User birthdate
+  final String? birthdate;
 
   @override
-  List<Object?> get props => <Object?>[uid, email];
+  List<Object?> get props => <Object?>[
+    uid,
+    email,
+    name,
+    surname,
+    birthdate,
+  ];
+
+  /// Copy with method for entity
+  UserEntity copyWith({
+    String? uid,
+    String? name,
+    String? surname,
+    String? email,
+    String? birthdate,
+  }) {
+    return UserEntity(
+      uid: uid ?? this.uid,
+      name: name ?? this.name,
+      surname: surname ?? this.surname,
+      email: email ?? this.email,
+      birthdate: birthdate ?? this.birthdate,
+    );
+  }
 }

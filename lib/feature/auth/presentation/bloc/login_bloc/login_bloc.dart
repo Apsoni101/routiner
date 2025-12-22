@@ -5,14 +5,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:routiner/core/extensions/string_extensions.dart';
 import 'package:routiner/core/services/network/failure.dart';
 import 'package:routiner/feature/auth/domain/entities/user_entity.dart';
-import 'package:routiner/feature/auth/domain/use_cases/auth_usecase.dart';
+import 'package:routiner/feature/auth/domain/use_cases/auth_local_usecase.dart';
+import 'package:routiner/feature/auth/domain/use_cases/auth_remote_usecase.dart';
 
 part 'login_event.dart';
-
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc({required this.authUseCase}) : super(LoginUser.initial()) {
+  LoginBloc({
+    required this.authRemoteUseCase,
+    required this.authLocalUseCase,
+  }) : super(LoginUser.initial()) {
     on<EmailChanged>(_emailChanged);
     on<PasswordChanged>(_passwordChanged);
     on<ResetValidationErrors>(_resetValidationErrors);
@@ -20,96 +23,129 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<OnGoogleLoginEvent>(_onGoogleLoginEvent);
   }
 
-  AuthUseCase authUseCase;
+  final AuthRemoteUseCase authRemoteUseCase;
+  final AuthLocalUseCase authLocalUseCase;
+
+  // -------------------- Field Updates --------------------
 
   Future<void> _emailChanged(
-    final EmailChanged event,
-    final Emitter<LoginState> emit,
-  ) async {
-    final LoginState currentState = state;
+      EmailChanged event,
+      Emitter<LoginState> emit,
+      ) async {
+    final currentState = state;
     if (currentState is LoginUser) {
-      final String newEmail = event.email.trim();
-      final bool isValid = newEmail.isNotEmpty;
-      final bool showError = !isValid && newEmail != currentState.email;
+      final email = event.email.trim();
 
-      emit(currentState.copyWith(emailValid: !showError, email: newEmail));
+      emit(
+        currentState.copyWith(
+          email: email,
+          emailValid: email.isValidEmail || email.isEmpty,
+        ),
+      );
     }
   }
 
   Future<void> _passwordChanged(
-    final PasswordChanged event,
-    final Emitter<LoginState> emit,
-  ) async {
-    final LoginState currentState = state;
+      PasswordChanged event,
+      Emitter<LoginState> emit,
+      ) async {
+    final currentState = state;
     if (currentState is LoginUser) {
-      final bool isValid = event.password.trim().isNotEmpty;
+      final password = event.password.trim();
+
       emit(
         currentState.copyWith(
-          passwordValid: isValid,
-          password: event.password.trim(),
+          password: password,
+          passwordValid: password.isNotEmpty,
         ),
       );
     }
   }
 
   Future<void> _resetValidationErrors(
-    final ResetValidationErrors event,
-    final Emitter<LoginState> emit,
-  ) async {
+      ResetValidationErrors event,
+      Emitter<LoginState> emit,
+      ) async {
     if (state is LoginUser) {
       emit(
-        (state as LoginUser).copyWith(emailValid: true, passwordValid: true),
+        (state as LoginUser).copyWith(
+          emailValid: true,
+          passwordValid: true,
+        ),
       );
     }
   }
 
-  Future<void> _onGoogleLoginEvent(
-    final OnGoogleLoginEvent event,
-    final Emitter<LoginState> emit,
-  ) async {
+  // -------------------- Email & Password Login --------------------
+
+  Future<void> _validateAndLogin(
+      ValidateAndLogin event,
+      Emitter<LoginState> emit,
+      ) async {
+    final currentState = state;
+    if (currentState is! LoginUser) return;
+
+    final email = event.email.trim();
+    final password = event.password.trim();
+
+    final emailValid = email.isValidEmail;
+    final passwordValid = password.isValidPassword;
+
+    if (!emailValid || !passwordValid) {
+      emit(
+        currentState.copyWith(
+          email: email,
+          password: password,
+          emailValid: emailValid,
+          passwordValid: passwordValid,
+        ),
+      );
+      return;
+    }
+
     emit(LoginLoading());
 
-    final Either<Failure, UserEntity> result = await authUseCase
-        .signInWithGoogle();
+    /// 1️⃣ Remote login
+    final Either<Failure, UserEntity> result =
+    await authRemoteUseCase.signInWithEmail(email, password);
 
-    result.fold(
-      (final Failure failure) => emit(LoginError(message: failure.message)),
-      (final UserEntity user) => emit(LoginSuccess()),
+    await result.fold(
+          (failure) async {
+        emit(LoginError(message: failure.message));
+      },
+          (user) async {
+        /// 2️⃣ Save user locally
+        await authLocalUseCase.saveUserCredentials(user);
+
+        /// 3️⃣ Success
+        emit(LoginSuccess());
+      },
     );
   }
 
-  Future<void> _validateAndLogin(
-    final ValidateAndLogin event,
-    final Emitter<LoginState> emit,
-  ) async {
-    final LoginState currentState = state;
-    if (currentState is LoginUser) {
-      final String email = event.email;
-      final String password = event.password;
-      final bool emailValid = email.isValidEmail;
-      final bool passwordValid = password.isValidPassword;
+  // -------------------- Google Login --------------------
 
-      if (!emailValid || !passwordValid) {
-        emit(
-          currentState.copyWith(
-            email: email,
-            password: password,
-            emailValid: emailValid,
-            passwordValid: passwordValid,
-          ),
-        );
-        return;
-      }
+  Future<void> _onGoogleLoginEvent(
+      OnGoogleLoginEvent event,
+      Emitter<LoginState> emit,
+      ) async {
+    emit(LoginLoading());
 
-      emit(LoginLoading());
+    /// 1️⃣ Remote Google login
+    final Either<Failure, UserEntity> result =
+    await authRemoteUseCase.signInWithGoogle();
 
-      final Either<Failure, UserEntity> result = await authUseCase
-          .signInWithEmail(email, password);
+    await result.fold(
+          (failure) async {
+        emit(LoginError(message: failure.message));
+      },
+          (user) async {
+        /// 2️⃣ Save user locally
+        await authLocalUseCase.saveUserCredentials(user);
 
-      result.fold(
-        (final Failure failure) => emit(LoginError(message: failure.message)),
-        (final _) => emit(LoginSuccess()),
-      );
-    }
+        /// 3️⃣ Success
+        emit(LoginSuccess());
+      },
+    );
   }
 }

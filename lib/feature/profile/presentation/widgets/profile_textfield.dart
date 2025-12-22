@@ -59,13 +59,13 @@ class _CustomTextFieldState extends State<ProfileTextField> {
             /// Underlines
             disabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(
-                color: context.appColors.royalBlue,
+                color: context.appColors.cCDCDD0,
                 width: 1.4,
               ),
             ),
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(
-                color: context.appColors.royalBlue,
+                color: context.appColors.cCDCDD0,
                 width: 1.4,
               ),
             ),

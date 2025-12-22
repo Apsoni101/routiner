@@ -137,4 +137,36 @@ class FirebaseAuthService {
       return Left<Failure, bool>(Failure(message: 'Unexpected error: $e'));
     }
   }
+
+  ///used to get currently signed-in user id
+  Future<Either<Failure, String>> getCurrentUserId() async {
+    try {
+      final User? user = auth.currentUser;
+
+      if (user == null) {
+        return const Left<Failure, String>(
+          Failure(message: 'No user is currently signed in'),
+        );
+      }
+
+      return Right<Failure, String>(user.uid);
+    } on FirebaseAuthException catch (e) {
+      return Left<Failure, String>(
+        Failure(
+          message: 'Firebase error: ${e.message} \n errorCode: ${e.code}',
+        ),
+      );
+    } on FirebaseException catch (e) {
+      return Left<Failure, String>(
+        Failure(
+          message: 'Firebase error: ${e.message} \n errorCode: ${e.code}',
+        ),
+      );
+    } on Exception catch (e) {
+      return Left<Failure, String>(
+        Failure(message: 'Unexpected error: $e'),
+      );
+    }
+  }
+
 }

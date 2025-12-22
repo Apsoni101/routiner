@@ -17,7 +17,9 @@ class AddHabitOverlay {
   static OverlayEntry create(
     final BuildContext context, {
     required final VoidCallback onDismiss,
-  }) {
+        final VoidCallback? onHabitAdded,
+
+      }) {
     return OverlayEntry(
       builder: (_) => BlocProvider<MoodBloc>(
         create: (_) => AppInjector.getIt<MoodBloc>(),
@@ -52,16 +54,20 @@ class AddHabitOverlay {
                           title: context.locale.quitBadHabit,
                           subtitle: context.locale.neverTooLate,
                           icon: AppAssets.badHabitIc,
-                          onPressed: () {
+                          onPressed: () async {
                             onDismiss();
-                            showModalBottomSheet<void>(
+                            final bool? result = await showModalBottomSheet<bool>(
                               context: context,
                               isScrollControlled: true,
                               backgroundColor: Colors.transparent,
                               builder: (_) => HabitBottomSheet(
-                                title: context.locale.quitBadHabit,
+                                title: context.locale.newGoodHabit,
+                                onHabitAdded: onHabitAdded,
                               ),
                             );
+                            if (result == true) {
+                              onHabitAdded?.call();
+                            }
                           },
                         ),
                       ),
@@ -70,16 +76,20 @@ class AddHabitOverlay {
                           title: context.locale.newGoodHabit,
                           subtitle: context.locale.forABetterLife,
                           icon: AppAssets.goodHabitIc,
-                          onPressed: () {
+                          onPressed: () async {
                             onDismiss();
-                            showModalBottomSheet<void>(
+                            final bool? result = await showModalBottomSheet<bool>(
                               context: context,
                               isScrollControlled: true,
                               backgroundColor: Colors.transparent,
                               builder: (_) => HabitBottomSheet(
-                                title: context.locale.newGoodHabit,
+                                title: context.locale.quitBadHabit,
+                                onHabitAdded: onHabitAdded,
                               ),
                             );
+                            if (result == true) {
+                              onHabitAdded?.call();
+                            }
                           },
                         ),
                       ),

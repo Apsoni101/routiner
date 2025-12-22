@@ -7,38 +7,67 @@ import 'package:routiner/feature/common/presentation/widgets/custom_back_button.
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     required this.title,
+    this.subtitle, // ✅ added
+    this.showBackButton = true,
+    this.showDivider = true,
+    this.actions,
     super.key,
   });
 
   final String title;
+  final String? subtitle; // ✅ added
+  final bool showBackButton;
+  final bool showDivider;
+  final List<Widget>? actions;
 
   @override
   Widget build(final BuildContext context) {
     return AppBar(
       backgroundColor: context.appColors.white,
-      leadingWidth: 92,
-      leading: Padding(
+      leadingWidth: showBackButton ? 92 : 24,
+      leading: showBackButton
+          ? Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18),
         child: CustomBackButton(
           onPressed: () {
             context.router.pop();
           },
         ),
-      ),
+      )
+          : const SizedBox.shrink(),
       titleSpacing: 0,
-      title: Text(
-        title,
-        style: AppTextStyles.airbnbCerealW700S24Lh32LsMinus1.copyWith(
-          color: context.appColors.c040415,
-        ),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            title,
+            style: AppTextStyles.airbnbCerealW700S24Lh32LsMinus1.copyWith(
+              color: context.appColors.c040415,
+            ),
+          ),
+          if (subtitle != null) ...[
+            const SizedBox(height: 2),
+            Text(
+              subtitle!,
+              style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
+                color: context.appColors.c686873,
+              ),
+            ),
+          ],
+        ],
       ),
-      bottom: PreferredSize(
+      actions: actions,
+      bottom: showDivider
+          ? PreferredSize(
         preferredSize: const Size.fromHeight(2),
         child: Divider(height: 2, color: context.appColors.cEAECF0),
-      ),
+      )
+          : null,
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 20);
+  Size get preferredSize =>
+      Size.fromHeight(kToolbarHeight + (showDivider ? 20 : 0));
 }

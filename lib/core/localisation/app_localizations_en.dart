@@ -24,7 +24,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get wallet => 'Wallet';
 
   @override
-  String get profile => 'Profile';
+  String get profile => 'Your Profile';
 
   @override
   String get createAccount => 'Create Account';
@@ -276,4 +276,574 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get location => 'Location';
+
+  @override
+  String get iconDefault => 'Icon';
+
+  @override
+  String get iconFitness => 'Fitness';
+
+  @override
+  String get iconReading => 'Reading';
+
+  @override
+  String get iconSleep => 'Sleep';
+
+  @override
+  String get iconWater => 'Water';
+
+  @override
+  String get iconFood => 'Food';
+
+  @override
+  String get iconRunning => 'Running';
+
+  @override
+  String get iconMeditation => 'Meditation';
+
+  @override
+  String get iconIdeas => 'Ideas';
+
+  @override
+  String get iconArt => 'Art';
+
+  @override
+  String get iconMusic => 'Music';
+
+  @override
+  String get iconMovies => 'Movies';
+
+  @override
+  String get iconShopping => 'Shopping';
+
+  @override
+  String get iconWork => 'Work';
+
+  @override
+  String get iconStudy => 'Study';
+
+  @override
+  String get iconFavorite => 'Favorite';
+
+  @override
+  String get iconHealth => 'Health';
+
+  @override
+  String get iconDrink => 'Drink';
+
+  @override
+  String get iconNoSmoking => 'No Smoking';
+
+  @override
+  String get iconCleaning => 'Cleaning';
+
+  @override
+  String get iconPets => 'Pets';
+
+  @override
+  String get iconGarden => 'Garden';
+
+  @override
+  String get iconSunny => 'Sunny';
+
+  @override
+  String get iconNight => 'Night';
+
+  @override
+  String get iconBeach => 'Beach';
+
+  @override
+  String get iconSwimming => 'Swimming';
+
+  @override
+  String get iconSoccer => 'Soccer';
+
+  @override
+  String get iconBasketball => 'Basketball';
+
+  @override
+  String get iconGaming => 'Gaming';
+
+  @override
+  String get iconComputer => 'Computer';
+
+  @override
+  String get iconPhotography => 'Photography';
+
+  @override
+  String get iconWriting => 'Writing';
+
+  @override
+  String get iconRecording => 'Recording';
+
+  @override
+  String get iconListening => 'Listening';
+
+  @override
+  String get iconPizza => 'Pizza';
+
+  @override
+  String get iconCoffee => 'Coffee';
+
+  @override
+  String get iconDessert => 'Dessert';
+
+  @override
+  String get iconFastFood => 'Fast Food';
+
+  @override
+  String get iconHospital => 'Hospital';
+
+  @override
+  String get iconMedical => 'Medical';
+
+  @override
+  String get iconMedicine => 'Medicine';
+
+  @override
+  String get iconMentalHealth => 'Mental Health';
+
+  @override
+  String get iconMood => 'Mood';
+
+  @override
+  String get iconStar => 'Star';
+
+  @override
+  String get iconAchievement => 'Achievement';
+
+  @override
+  String get iconTrophy => 'Trophy';
+
+  @override
+  String get iconCelebration => 'Celebration';
+
+  @override
+  String get iconSpa => 'Spa';
+
+  @override
+  String get iconHotTub => 'Hot Tub';
+
+  @override
+  String get iconBath => 'Bath';
+
+  @override
+  String get iconShower => 'Shower';
+
+  @override
+  String get colorRed => 'Red';
+
+  @override
+  String get colorPink => 'Pink';
+
+  @override
+  String get colorPurple => 'Purple';
+
+  @override
+  String get colorDeepPurple => 'Deep Purple';
+
+  @override
+  String get colorIndigo => 'Indigo';
+
+  @override
+  String get colorBlue => 'Blue';
+
+  @override
+  String get colorLightBlue => 'Light Blue';
+
+  @override
+  String get colorGreen => 'Green';
+
+  @override
+  String get colorYellow => 'Yellow';
+
+  @override
+  String get colorOrange => 'Orange';
+
+  @override
+  String get colorGrey => 'Grey';
+
+  @override
+  String get times => 'Times';
+
+  @override
+  String get orMorePerDay => 'or more per day';
+
+  @override
+  String get colorBlueGrey => 'Blue Grey';
+
+  @override
+  String get selectDays => 'Select Days';
+
+  @override
+  String get everyday => 'Everyday';
+
+  @override
+  String get sunday => 'Sunday';
+
+  @override
+  String get monday => 'Monday';
+
+  @override
+  String get tuesday => 'Tuesday';
+
+  @override
+  String get wednesday => 'Wednesday';
+
+  @override
+  String get thursday => 'Thursday';
+
+  @override
+  String get friday => 'Friday';
+
+  @override
+  String get saturday => 'Saturday';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get days => 'Days';
+
+  @override
+  String get selectTimes => 'Select Times';
+
+  @override
+  String get selectFrequency => 'Select Frequency';
+
+  @override
+  String get weekly => 'Weekly';
+
+  @override
+  String get monthly => 'Monthly';
+
+  @override
+  String get hi => 'Hi ,';
+
+  @override
+  String get selectIconTitle => 'Select Icon';
+
+  @override
+  String get tabPreset => 'Preset';
+
+  @override
+  String get tabIcons => 'Icons';
+
+  @override
+  String get selectButton => 'Select';
+
+  @override
+  String get errorEitherIconOrHabitRequired =>
+      'Either an icon or a habit must be selected.';
+
+  @override
+  String get selectColorTitle => 'Select Color';
+
+  @override
+  String get colorPreview => 'Preview';
+
+  @override
+  String get reminderWorkoutMessage =>
+      'Remember to set off time for a workout today.';
+
+  @override
+  String get letsMakeHabitsTogether => 'Let’s make habits together!';
+
+  @override
+  String get handshakeEmoji => '👋🏻';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get clubs => 'Clubs';
+
+  @override
+  String get steps => 'Steps';
+
+  @override
+  String get minutes => 'Minutes';
+
+  @override
+  String get hours => 'Hours';
+
+  @override
+  String get pages => 'Pages';
+
+  @override
+  String get selectGoal => 'Select Goal';
+
+  @override
+  String get unit => 'Unit';
+
+  @override
+  String get value => 'Value';
+
+  @override
+  String get ml => 'Value';
+
+  @override
+  String get drinkGoalPerDay => 'Drink Goal per Day';
+
+  @override
+  String get walkingGoalPerDay => 'Walking Goal per Day';
+
+  @override
+  String get durationGoalPerDay => 'Duration Goal per Day';
+
+  @override
+  String get readingGoalPerDay => 'Reading Goal per Day';
+
+  @override
+  String get calories => 'Calories';
+
+  @override
+  String get kilometers => 'Kilometers';
+
+  @override
+  String get meters => 'Meters';
+
+  @override
+  String get seconds => 'Seconds';
+
+  @override
+  String get repetitions => 'Repetitions';
+
+  @override
+  String get glasses => 'Glasses';
+
+  @override
+  String get sessions => 'Sessions';
+
+  @override
+  String get words => 'Words';
+
+  @override
+  String get chapters => 'Chapters';
+
+  @override
+  String get items => 'Items';
+
+  @override
+  String get calorieGoalPerDay => 'calorie goal per day';
+
+  @override
+  String get weekdaySun => 'SUN';
+
+  @override
+  String get weekdayMon => 'MON';
+
+  @override
+  String get weekdayTue => 'TUE';
+
+  @override
+  String get weekdayWed => 'WED';
+
+  @override
+  String get weekdayThu => 'THU';
+
+  @override
+  String get weekdayFri => 'FRI';
+
+  @override
+  String get weekdaySat => 'SAT';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get habits => 'Habits';
+
+  @override
+  String get viewAll => 'View All';
+
+  @override
+  String get noHabitsForDay => 'No habits for this day';
+
+  @override
+  String get unnamedHabit => 'Unnamed Habit';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get view => 'View';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get fail => 'Fail';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get points => 'Points';
+
+  @override
+  String get friends => 'Friends';
+
+  @override
+  String get achievements => 'Achievements';
+
+  @override
+  String get habitCreatedSuccessfully => 'Habit created successfully!';
+
+  @override
+  String get challenges => 'Challenges';
+
+  @override
+  String habitLoadError(Object message) {
+    return 'Something went wrong: $message';
+  }
+
+  @override
+  String get updateProgress => 'Update Progress';
+
+  @override
+  String get enterValue => 'Enter value';
+
+  @override
+  String maxValueHelper(Object max, Object unit) {
+    return 'Max: $max $unit';
+  }
+
+  @override
+  String get dailyGoalsStart => 'Your daily goals need a start';
+
+  @override
+  String get dailyGoalsCompleted => 'Hurray! You have completed your goals';
+
+  @override
+  String get dailyGoalsAlmostDone => 'Your daily goals almost done!';
+
+  @override
+  String habitsCompletedCount(Object completed, Object total) {
+    return '$completed of $total completed';
+  }
+
+  @override
+  String get friendRemovedSuccess => 'Friend removed successfully';
+
+  @override
+  String get noFriendsYet => 'No friends yet.';
+
+  @override
+  String get addFriendTitle => 'Add Friend';
+
+  @override
+  String get searchHint => 'Search by name or email';
+
+  @override
+  String get noUsersFound => 'No users found';
+
+  @override
+  String get searchPrompt => 'Search for users to add as friends';
+
+  @override
+  String get friendAddedSuccess => 'Friend added successfully!';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get members => 'members';
+
+  @override
+  String get member => 'member';
+
+  @override
+  String get createClub => 'Create Club';
+
+  @override
+  String get allClubs => 'All Clubs';
+
+  @override
+  String get myClubs => 'My Clubs';
+
+  @override
+  String get learning => 'Learning';
+
+  @override
+  String get habitClubs => 'Habit Clubs';
+
+  @override
+  String get noEmail => 'No email';
+
+  @override
+  String get errorPrefix => 'Error:';
+
+  @override
+  String get suggestedForYou => 'Suggested for You';
+
+  @override
+  String get leaveClubTitle => 'Leave Club';
+
+  @override
+  String get leaveClubMessage => 'Are you sure you want to leave this club?';
+
+  @override
+  String get leave => 'Leave';
+
+  @override
+  String get noMessagesYet => 'No messages yet.';
+
+  @override
+  String get typeMessageHint => 'Type a message...';
+
+  @override
+  String get clubMembersTitle => 'Club Members';
+
+  @override
+  String get membersTab => 'Members';
+
+  @override
+  String get requestsTab => 'Requests';
+
+  @override
+  String membersCount(Object count) {
+    return 'Members ($count)';
+  }
+
+  @override
+  String get noMembersFound => 'No members found';
+
+  @override
+  String get rejectRequestTitle => 'Reject Request';
+
+  @override
+  String rejectRequestMessage(String userName) {
+    return 'Are you sure you want to reject $userName\'s request to join?';
+  }
+
+  @override
+  String get reject => 'Reject';
+
+  @override
+  String get noPendingRequests => 'No pending requests';
+
+  @override
+  String get unableToLoadRequests => 'Unable to load requests';
+
+  @override
+  String get noClubsAvailable => 'No clubs available';
+
+  @override
+  String get createFirstClubMessage => 'Create your first club to get started';
+
+  @override
+  String get noClubsAvailableYet => 'No clubs available yet';
+
+  @override
+  String get noMyClubsYet => 'You haven\'t joined or created any clubs yet';
+
+  @override
+  String get whyDrinkWater => 'Why should we drink water often?';
+
+  @override
+  String get benefitsOfWalking => 'Benefits of regular walking';
 }
