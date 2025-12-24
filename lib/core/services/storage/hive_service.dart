@@ -1,5 +1,9 @@
 import 'package:hive/hive.dart';
+import 'package:routiner/feature/add_habit/data/model/mood_log_hive_model.dart';
+
 import 'package:routiner/feature/auth/data/models/user_model.dart';
+import 'package:routiner/feature/challenge/data/model/challenge_hive_model.dart';
+import 'package:routiner/feature/create_custom_habit/data/model/activity_hive_model.dart';
 import 'package:routiner/feature/create_custom_habit/data/model/custom_habit_hive_model.dart';
 import 'package:routiner/feature/home/data/model/habit_log_hive_model.dart';
 
@@ -17,6 +21,15 @@ class HiveService {
     }
     if (!Hive.isAdapterRegistered(2)) {
       Hive.registerAdapter(HabitLogHiveModelAdapter());
+    }
+    if (!Hive.isAdapterRegistered(3)) {
+      Hive.registerAdapter(ChallengeHiveModelAdapter());
+    }
+    if (!Hive.isAdapterRegistered(4)) {
+      Hive.registerAdapter(MoodLogHiveModelAdapter());
+    }
+    if (!Hive.isAdapterRegistered(6)) {
+      Hive.registerAdapter(ActivityHiveModelAdapter());
     }
     print('[HiveService] Adapters registered');
   }
@@ -126,7 +139,8 @@ class HiveService {
     print('[HiveService] getObjectList -> Key: $key, Objects: $objects');
     return objects;
   }
-// Delete object by key
+
+  // Delete object by key
   Future<void> deleteObject(String key) async {
     await _box.delete(key);
     print('[HiveService] deleteObject -> Key: $key');

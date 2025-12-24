@@ -6,9 +6,22 @@ class AppAssets {
   static const String plusIc = 'assets/icons/plus_ic.svg';
   static const String closeIc = 'assets/icons/close_ic.svg';
   static const String eyeIc = 'assets/icons/eye_ic.svg';
+  static const String leftIc = 'assets/icons/left_ic.svg';
+  static const String bottomArrowIc = 'assets/icons/bottom_arrow.svg';
+  static const String icRight = 'assets/icons/ic_right.svg';
+  static const String completedIc = 'assets/icons/completed_ic.svg';
+  static const String leaderboardIc = 'assets/icons/leaderboard_ic.svg';
   static const String joinIc = 'assets/icons/join_ic.png';
+  static const String timeBlueIc = 'assets/icons/time_blue_ic.svg';
+  static const String timeWhiteIc = 'assets/icons/time_white_ic.svg';
   static const String appLogoIc = 'assets/icons/app_logo.png';
   static const String pendingIc = 'assets/icons/pending_ic.png';
+  static const String chartingIc = 'assets/icons/chart_ic.png';
+  static const String filterIc = 'assets/icons/filter.svg';
+  static const String redDownArrowIc = 'assets/icons/red_down_arrow.svg';
+  static const String challengeIc = 'assets/icons/challenge_ic.svg';
+  static const String greenArrowUpIc = 'assets/icons/green_up_arrow.svg';
+  static const String smileIc = 'assets/icons/smile_ic.png';
   static const String searchIc = 'assets/icons/search_ic.svg';
   static const String folderIc = 'assets/images/foder_ic.svg';
   static const String deleteIc = 'assets/icons/delete_ic.svg';
@@ -42,6 +55,9 @@ class AppAssets {
   static const String authBgPng = 'assets/images/auth_bg.png';
   static const String avatar1Png = 'assets/images/avatar1.png';
   static const String avatar2Png = 'assets/images/avatar2.png';
+  static const String avatar3Png = 'assets/images/avatar3.png';
+  static const String avatar4Png = 'assets/images/avatar4.png';
+  static const String avatar5Png = 'assets/images/avatar5.png';
   static const String learningImgPng = 'assets/images/learning_img.png';
   static const String learningImgPng2 = 'assets/images/learning_img1.jpg';
   static const String routiner = 'assets/images/routiner.gif';
@@ -59,6 +75,7 @@ class AppAssets {
 
   // Sleep
   static const String sleepIc = 'assets/images/sleep_ic.png';
+  static const String challengeDetailBg = 'assets/images/challenge_detail_bg.png';
 
   // Water plant
   static const String waterPlantIc = 'assets/images/water_plant.png';
@@ -68,6 +85,7 @@ class AppAssets {
 
   // Study
   static const String studyIc = 'assets/images/study_ic.png';
+  static const String lookingEyeIc = 'assets/images/looking_eye_ic.png';
 
   // Meditate
   static const String meditateIc = 'assets/images/meditate_ic.png';

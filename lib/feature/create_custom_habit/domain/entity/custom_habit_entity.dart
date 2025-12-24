@@ -73,6 +73,48 @@ class CustomHabitEntity extends Equatable {
     );
   }
 
+  CustomHabitEntity copyWith({
+    final String? id,
+    final String? name,
+    final IconData? icon,
+    final String? habitIconPath,
+    final Habit? habitIcon,
+    final Color? color,
+    final String? goal,
+    final List<TimeOfDay>? reminders,
+    final HabitType? type,
+    final String? location,
+    final DateTime? createdAt,
+    final int? goalValue,
+    final GoalUnit? goalUnit,
+    final RepeatInterval? goalFrequency,
+    final List<Day>? goalDays,
+    final bool? isAlarmEnabled,
+    final TimeOfDay? alarmTime,
+    final List<Day>? alarmDays,
+  }) {
+    return CustomHabitEntity(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      icon: icon ?? this.icon,
+      habitIconPath: habitIconPath ?? this.habitIconPath,
+      habitIcon: habitIcon ?? this.habitIcon,
+      color: color ?? this.color,
+      goal: goal ?? this.goal,
+      reminders: reminders ?? this.reminders,
+      type: type ?? this.type,
+      location: location ?? this.location,
+      createdAt: createdAt ?? this.createdAt,
+      goalValue: goalValue ?? this.goalValue,
+      goalUnit: goalUnit ?? this.goalUnit,
+      goalFrequency: goalFrequency ?? this.goalFrequency,
+      goalDays: goalDays ?? this.goalDays,
+      isAlarmEnabled: isAlarmEnabled ?? this.isAlarmEnabled,
+      alarmTime: alarmTime ?? this.alarmTime,
+      alarmDays: alarmDays ?? this.alarmDays,
+    );
+  }
+
   @override
   List<Object?> get props => <Object?>[
     id,

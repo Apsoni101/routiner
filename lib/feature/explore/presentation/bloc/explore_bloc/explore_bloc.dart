@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:routiner/core/services/network/failure.dart';
+import 'package:routiner/feature/challenge/domain/entity/challenge_entity.dart';
 import 'package:routiner/feature/explore/domain/usecase/explore_remote_usecase.dart';
 import 'package:routiner/feature/home/domain/entity/club_entity.dart';
 
@@ -11,7 +13,7 @@ part 'explore_state.dart';
 
 class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
   ExploreBloc({required this.exploreUseCase}) : super(ExploreInitial()) {
-    on<LoadExploreClubsEvent>(_onLoadExploreClubs);
+    on<LoadExploreDataEvent>(_onLoadExploreData);
     on<RequestToJoinClubFromExploreEvent>(_onRequestToJoinClub);
     on<RemoveMemberFromExploreEvent>(_onRemoveMember);
     on<LeaveClubFromExploreEvent>(_onLeaveClub);
@@ -19,41 +21,54 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
 
   final ExploreRemoteUseCase exploreUseCase;
 
-  Future<void> _onLoadExploreClubs(
-      final LoadExploreClubsEvent event,
+  Future<void> _onLoadExploreData(
+      final LoadExploreDataEvent event,
       final Emitter<ExploreState> emit,
       ) async {
-    emit(ExploreClubsLoading());
+    emit(ExploreLoading());
 
-    // Get current user ID
-    final Either<Failure, String> userIdResult = await exploreUseCase
-        .getCurrentUserId();
+    final Either<Failure, String> userIdResult =
+    await exploreUseCase.getCurrentUserId();
 
     await userIdResult.fold(
           (final Failure failure) async {
-        emit(ExploreClubsError(failure.message));
+        emit(ExploreLoaded(
+          clubsError: failure.message,
+        ));
       },
           (final String currentUserId) async {
-        // Fetch all clubs
-        final Either<Failure, List<ClubEntity>> allClubsResult =
-        await exploreUseCase.getAllClubs();
+        final clubsResult = await exploreUseCase.getAllClubs();
+        final challengesResult = await exploreUseCase.getAllChallenges();
 
-        allClubsResult.fold(
+        List<ClubEntity>? clubs;
+        String? clubsError;
+        clubsResult.fold(
               (final Failure failure) {
-            emit(ExploreClubsError(failure.message));
+            clubsError = failure.message;
           },
               (final List<ClubEntity> allClubs) {
-            // Limit to 5 clubs for explore screen
-            final List<ClubEntity> limitedClubs = allClubs.take(5).toList();
-
-            emit(
-              ExploreClubsLoaded(
-                clubs: limitedClubs,
-                currentUserId: currentUserId,
-              ),
-            );
+            clubs = allClubs.take(5).toList();
           },
         );
+
+        List<ChallengeEntity>? challenges;
+        String? challengesError;
+        challengesResult.fold(
+              (final Failure failure) {
+            challengesError = failure.message;
+          },
+              (final List<ChallengeEntity> allChallenges) {
+            challenges = allChallenges.take(5).toList();
+          },
+        );
+
+        emit(ExploreLoaded(
+          clubs: clubs,
+          currentUserId: currentUserId,
+          challenges: challenges,
+          clubsError: clubsError,
+          challengesError: challengesError,
+        ));
       },
     );
   }
@@ -64,38 +79,36 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       ) async {
     final ExploreState currentState = state;
 
-    if (currentState is! ExploreClubsLoaded) {
+    if (currentState is! ExploreLoaded || currentState.clubs == null) {
       return;
     }
 
-    // Show loader on that club
     emit(currentState.copyWith(actionLoadingClubId: event.clubId));
 
-    final Either<Failure, Unit> result = await exploreUseCase.requestToJoinClub(
-      event.clubId,
-    );
+    final Either<Failure, Unit> result =
+    await exploreUseCase.requestToJoinClub(event.clubId);
 
     result.fold(
           (final Failure failure) {
-        emit(ExploreClubsError(failure.message));
+        emit(currentState.copyWith(
+          clubsError: failure.message,
+          actionLoadingClubId: null,
+        ));
       },
           (_) {
-        // Update ONLY that club
-        final List<ClubEntity> updatedClubs = currentState.clubs.map((
-            final ClubEntity club,
-            ) {
+        final List<ClubEntity> updatedClubs =
+        currentState.clubs!.map((club) {
           if (club.id == event.clubId) {
             return club.copyWith(
-              pendingRequestIds: <String>[
+              pendingRequestIds: [
                 ...club.pendingRequestIds,
-                currentState.currentUserId,
+                currentState.currentUserId!,
               ],
             );
           }
           return club;
         }).toList();
 
-        // ✅ Keep the state as ExploreClubsLoaded with success message
         emit(
           currentState.copyWith(
             clubs: updatedClubs,
@@ -111,23 +124,24 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       final RemoveMemberFromExploreEvent event,
       final Emitter<ExploreState> emit,
       ) async {
-    final Either<Failure, Unit> result = await exploreUseCase.removeMember(
-      event.clubId,
-      event.userId,
-    );
+    final Either<Failure, Unit> result =
+    await exploreUseCase.removeMember(event.clubId, event.userId);
 
     result.fold(
           (final Failure failure) {
-        emit(ExploreClubsError(failure.message));
+        if (state is ExploreLoaded) {
+          emit((state as ExploreLoaded).copyWith(
+            clubsError: failure.message,
+          ));
+        }
       },
           (_) {
-        // ✅ Keep current state if needed, then reload
-        if (state is ExploreClubsLoaded) {
-          emit((state as ExploreClubsLoaded).copyWith(
+        if (state is ExploreLoaded) {
+          emit((state as ExploreLoaded).copyWith(
             successMessage: 'Member removed',
           ));
         }
-        add(LoadExploreClubsEvent());
+        add(LoadExploreDataEvent());
       },
     );
   }
@@ -136,22 +150,24 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       final LeaveClubFromExploreEvent event,
       final Emitter<ExploreState> emit,
       ) async {
-    final Either<Failure, Unit> result = await exploreUseCase.leaveClub(
-      event.clubId,
-    );
+    final Either<Failure, Unit> result =
+    await exploreUseCase.leaveClub(event.clubId);
 
     result.fold(
           (final Failure failure) {
-        emit(ExploreClubsError(failure.message));
+        if (state is ExploreLoaded) {
+          emit((state as ExploreLoaded).copyWith(
+            clubsError: failure.message,
+          ));
+        }
       },
           (_) {
-        // ✅ Keep current state if needed, then reload
-        if (state is ExploreClubsLoaded) {
-          emit((state as ExploreClubsLoaded).copyWith(
+        if (state is ExploreLoaded) {
+          emit((state as ExploreLoaded).copyWith(
             successMessage: 'Left club successfully',
           ));
         }
-        add(LoadExploreClubsEvent());
+        add(LoadExploreDataEvent());
       },
     );
   }

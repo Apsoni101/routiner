@@ -10,18 +10,24 @@ abstract class ExploreState extends Equatable {
 
 class ExploreInitial extends ExploreState {}
 
-class ExploreClubsLoading extends ExploreState {}
+class ExploreLoading extends ExploreState {}
 
-class ExploreClubsLoaded extends ExploreState {
-  const ExploreClubsLoaded({
-    required this.clubs,
-    required this.currentUserId,
+class ExploreLoaded extends ExploreState {
+  const ExploreLoaded({
+    this.clubs,
+    this.currentUserId,
+    this.challenges,
+    this.clubsError,
+    this.challengesError,
     this.actionLoadingClubId,
     this.successMessage,
   });
 
-  final List<ClubEntity> clubs;
-  final String currentUserId;
+  final List<ClubEntity>? clubs;
+  final String? currentUserId;
+  final List<ChallengeEntity>? challenges;
+  final String? clubsError;
+  final String? challengesError;
   final String? actionLoadingClubId;
   final String? successMessage;
 
@@ -29,40 +35,30 @@ class ExploreClubsLoaded extends ExploreState {
   List<Object?> get props => [
     clubs,
     currentUserId,
+    challenges,
+    clubsError,
+    challengesError,
     actionLoadingClubId,
     successMessage,
   ];
 
-  ExploreClubsLoaded copyWith({
+  ExploreLoaded copyWith({
     List<ClubEntity>? clubs,
     String? currentUserId,
+    List<ChallengeEntity>? challenges,
+    String? clubsError,
+    String? challengesError,
     String? actionLoadingClubId,
     String? successMessage,
   }) {
-    return ExploreClubsLoaded(
+    return ExploreLoaded(
       clubs: clubs ?? this.clubs,
       currentUserId: currentUserId ?? this.currentUserId,
+      challenges: challenges ?? this.challenges,
+      clubsError: clubsError ?? this.clubsError,
+      challengesError: challengesError ?? this.challengesError,
       actionLoadingClubId: actionLoadingClubId,
       successMessage: successMessage,
     );
   }
-}
-
-class ExploreClubsError extends ExploreState {
-  const ExploreClubsError(this.message);
-
-  final String message;
-
-  @override
-  List<Object?> get props => [message];
-}
-
-// ❌ Remove this state - no longer needed
-class ExploreClubActionSuccess extends ExploreState {
-  const ExploreClubActionSuccess(this.message);
-
-  final String message;
-
-  @override
-  List<Object?> get props => [message];
 }

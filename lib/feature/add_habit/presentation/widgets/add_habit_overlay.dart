@@ -1,3 +1,5 @@
+// lib/feature/add_habit/presentation/widgets/add_habit_overlay.dart
+
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,9 +19,8 @@ class AddHabitOverlay {
   static OverlayEntry create(
     final BuildContext context, {
     required final VoidCallback onDismiss,
-        final VoidCallback? onHabitAdded,
-
-      }) {
+    final VoidCallback? onHabitAdded,
+  }) {
     return OverlayEntry(
       builder: (_) => BlocProvider<MoodBloc>(
         create: (_) => AppInjector.getIt<MoodBloc>(),
@@ -56,16 +57,17 @@ class AddHabitOverlay {
                           icon: AppAssets.badHabitIc,
                           onPressed: () async {
                             onDismiss();
-                            final bool? result = await showModalBottomSheet<bool>(
-                              context: context,
-                              isScrollControlled: true,
-                              backgroundColor: Colors.transparent,
-                              builder: (_) => HabitBottomSheet(
-                                title: context.locale.newGoodHabit,
-                                onHabitAdded: onHabitAdded,
-                              ),
-                            );
-                            if (result == true) {
+                            final bool? result =
+                                await showModalBottomSheet<bool>(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (_) => HabitBottomSheet(
+                                    title: context.locale.quitBadHabit,
+                                    onHabitAdded: onHabitAdded,
+                                  ),
+                                );
+                            if (result ?? false) {
                               onHabitAdded?.call();
                             }
                           },
@@ -78,16 +80,17 @@ class AddHabitOverlay {
                           icon: AppAssets.goodHabitIc,
                           onPressed: () async {
                             onDismiss();
-                            final bool? result = await showModalBottomSheet<bool>(
-                              context: context,
-                              isScrollControlled: true,
-                              backgroundColor: Colors.transparent,
-                              builder: (_) => HabitBottomSheet(
-                                title: context.locale.quitBadHabit,
-                                onHabitAdded: onHabitAdded,
-                              ),
-                            );
-                            if (result == true) {
+                            final bool? result =
+                                await showModalBottomSheet<bool>(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (_) => HabitBottomSheet(
+                                    title: context.locale.newGoodHabit,
+                                    onHabitAdded: onHabitAdded,
+                                  ),
+                                );
+                            if (result ?? false) {
                               onHabitAdded?.call();
                             }
                           },
@@ -131,6 +134,7 @@ class AddHabitOverlay {
                     ),
                   ),
 
+                  /// CLOSE BUTTON
                   IconButton(
                     onPressed: onDismiss,
                     style: IconButton.styleFrom(padding: EdgeInsets.zero),

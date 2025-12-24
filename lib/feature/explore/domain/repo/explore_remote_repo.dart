@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:routiner/core/services/network/failure.dart';
+import 'package:routiner/feature/challenge/domain/entity/challenge_entity.dart';
 import 'package:routiner/feature/home/domain/entity/club_entity.dart';
 
 /// Abstract club repository
@@ -52,4 +53,7 @@ abstract class ExploreRemoteRepository {
 
   /// Leave club
   Future<Either<Failure, Unit>> leaveClub(final String clubId);
+
+  Future<Either<Failure, List<ChallengeEntity>>> getAllChallenges();
+
 }

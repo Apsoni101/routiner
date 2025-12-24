@@ -73,7 +73,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         context,
                         onDismiss: _overlayController.close,
                         onHabitAdded: () {
-                          // Notify the active tab that a habit was added
                           _onHabitChanged?.call();
                         },
                       ),

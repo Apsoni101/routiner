@@ -84,7 +84,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get password => 'PASSWORD';
 
   @override
+  String get avgMood => 'Avg. Mood';
+
+  @override
   String get name => 'NAME';
+
+  @override
+  String get yesterday => 'Yesterday';
+
+  @override
+  String get showingLastMonthActivity => 'Showing last month activity';
 
   @override
   String get enterName => 'Enter your name';
@@ -221,6 +230,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get walk => 'Walk';
+
+  @override
+  String get happy => 'Happy';
 
   @override
   String get icon => 'Icon';
@@ -500,9 +512,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get saturday => 'Saturday';
 
   @override
-  String get cancel => 'Cancel';
-
-  @override
   String get confirm => 'Confirm';
 
   @override
@@ -531,6 +540,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tabIcons => 'Icons';
+
+  @override
+  String get pleaseWaitWhileCreating => 'Please wait while creating';
 
   @override
   String get selectButton => 'Select';
@@ -664,16 +676,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noHabitsForDay => 'No habits for this day';
 
   @override
-  String get unnamedHabit => 'Unnamed Habit';
-
-  @override
   String get status => 'Status';
 
   @override
   String get view => 'View';
-
-  @override
-  String get done => 'Done';
 
   @override
   String get fail => 'Fail';
@@ -769,6 +775,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get learning => 'Learning';
 
   @override
+  String get noHabitsInChallenge => 'No Habits in challenge';
+
+  @override
+  String get alreadyJoined => 'Already Joined';
+
+  @override
+  String get joinChallenge => 'Join the Challenge';
+
+  @override
   String get habitClubs => 'Habit Clubs';
 
   @override
@@ -790,6 +805,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get leave => 'Leave';
 
   @override
+  String get tasks => 'Tasks';
+
+  @override
   String get noMessagesYet => 'No messages yet.';
 
   @override
@@ -802,7 +820,109 @@ class AppLocalizationsEn extends AppLocalizations {
   String get membersTab => 'Members';
 
   @override
+  String get thisWeek => 'This week';
+
+  @override
+  String get thisMonth => 'This month';
+
+  @override
+  String get jan => 'Jan';
+
+  @override
+  String get feb => 'Feb';
+
+  @override
+  String get mar => 'Mar';
+
+  @override
+  String get apr => 'Apr';
+
+  @override
+  String get may => 'May';
+
+  @override
+  String get jun => 'Jun';
+
+  @override
+  String get jul => 'Jul';
+
+  @override
+  String get aug => 'Aug';
+
+  @override
+  String get sep => 'Sep';
+
+  @override
+  String get oct => 'Oct';
+
+  @override
+  String get nov => 'Nov';
+
+  @override
+  String get dec => 'Dec';
+
+  @override
+  String get january => 'January';
+
+  @override
+  String get february => 'February';
+
+  @override
+  String get march => 'March';
+
+  @override
+  String get april => 'April';
+
+  @override
+  String get june => 'June';
+
+  @override
+  String get july => 'July';
+
+  @override
+  String get august => 'August';
+
+  @override
+  String get september => 'September';
+
+  @override
+  String get october => 'October';
+
+  @override
+  String get november => 'November';
+
+  @override
+  String get december => 'December';
+
+  @override
   String get requestsTab => 'Requests';
+
+  @override
+  String get summary => 'Summary';
+
+  @override
+  String get successRate => 'Success Rate';
+
+  @override
+  String get completed => 'Completed';
+
+  @override
+  String get pointsEarned => 'Points Earned';
+
+  @override
+  String get pointsEarnedWithExclamation => 'points earned!';
+
+  @override
+  String get bestStreakDay => 'Best Streak Day';
+
+  @override
+  String get skipped => 'Skipped';
+
+  @override
+  String get failed => 'Failed';
+
+  @override
+  String get allHabits => 'All Habits';
 
   @override
   String membersCount(Object count) {
@@ -816,12 +936,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rejectRequestTitle => 'Reject Request';
 
   @override
+  String get habitStatusAlreadySet =>
+      'This habit has already been marked. Cannot change status.';
+
+  @override
   String rejectRequestMessage(String userName) {
     return 'Are you sure you want to reject $userName\'s request to join?';
   }
 
   @override
+  String get comparisonByWeek => 'Comparison by Week';
+
+  @override
+  String get comparisonByDay => 'Comparison by Day';
+
+  @override
+  String get comparisonByMonth => 'Comparison by Month';
+
+  @override
   String get reject => 'Reject';
+
+  @override
+  String get burn => '🔥 Burn!';
 
   @override
   String get noPendingRequests => 'No pending requests';
@@ -846,4 +982,87 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get benefitsOfWalking => 'Benefits of regular walking';
+
+  @override
+  String get noChallengesYet => 'No challenges yet';
+
+  @override
+  String get createFirstChallenge => 'Create your first challenge!';
+
+  @override
+  String get untitledChallenge => 'Untitled Challenge';
+
+  @override
+  String get noDescription => 'No description';
+
+  @override
+  String get habit => 'habit';
+
+  @override
+  String get friendsJoined => 'friends joined';
+
+  @override
+  String get left => 'left';
+
+  @override
+  String get noHabitsAvailable => 'No Habits Available';
+
+  @override
+  String get selectEndDate => 'Select end date';
+
+  @override
+  String get createChallenge => 'Create Challenge';
+
+  @override
+  String get challengeCreatedSuccessfully => 'Challenge created successfully!';
+
+  @override
+  String get title => 'Title';
+
+  @override
+  String get challengeNameHint => 'Challenge name';
+
+  @override
+  String get emojiIcon => 'Emoji Icon';
+
+  @override
+  String get duration => 'Duration';
+
+  @override
+  String get durationHint => 'Duration';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get descriptionHint => 'Describe your challenge...';
+
+  @override
+  String habitsCount(int count) {
+    return 'Habits ($count)';
+  }
+
+  @override
+  String get addHabitsToChallenge => 'Add habits to challenge';
+
+  @override
+  String get addMoreHabits => 'Add more habits';
+
+  @override
+  String get unnamedHabit => 'Unnamed Habit';
+
+  @override
+  String get selectEmoji => 'Select Emoji';
+
+  @override
+  String get selectHabits => 'Select Habits';
+
+  @override
+  String get unnamed => 'Unnamed';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get done => 'Done';
 }

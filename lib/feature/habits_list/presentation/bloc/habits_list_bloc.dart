@@ -2,8 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:routiner/core/constants/points_constants.dart';
+import 'package:routiner/core/enums/activity_type.dart';
 import 'package:routiner/core/enums/log_status.dart';
 import 'package:routiner/core/services/network/failure.dart';
+import 'package:routiner/feature/create_custom_habit/domain/entity/activity_entity.dart';
 import 'package:routiner/feature/create_custom_habit/domain/entity/custom_habit_entity.dart';
 import 'package:routiner/feature/habits_list/domain/use_case/habits_list_local_usecase.dart';
 import 'package:routiner/feature/habits_list/domain/use_case/habits_list_remote_usecase.dart';
@@ -12,6 +15,7 @@ import 'package:routiner/feature/home/domain/entity/habit_with_log.dart';
 import 'package:uuid/uuid.dart';
 
 part 'habits_list_event.dart';
+
 part 'habits_list_state.dart';
 
 class HabitsListBloc extends Bloc<HabitsListEvent, HabitsListState> {
@@ -19,8 +23,8 @@ class HabitsListBloc extends Bloc<HabitsListEvent, HabitsListState> {
     required final HabitsListLocalUsecase localUsecase,
     required final HabitsListRemoteUsecase remoteUsecase,
   }) : _local = localUsecase,
-        _remote = remoteUsecase,
-        super(HabitsListInitial()) {
+       _remote = remoteUsecase,
+       super(HabitsListInitial()) {
     on<LoadHabitsForDate>(_loadHabits);
     on<UpdateHabitLogStatus>(_updateHabitLog);
     on<RefreshHabits>(_refreshHabits);
@@ -37,9 +41,9 @@ class HabitsListBloc extends Bloc<HabitsListEvent, HabitsListState> {
   /// --------------------------------------------------
 
   Future<void> _loadHabits(
-      final LoadHabitsForDate event,
-      final Emitter<HabitsListState> emit,
-      ) async {
+    final LoadHabitsForDate event,
+    final Emitter<HabitsListState> emit,
+  ) async {
     _currentDate = event.date;
     emit(HabitsListLoading());
 
@@ -70,10 +74,10 @@ class HabitsListBloc extends Bloc<HabitsListEvent, HabitsListState> {
   /// --------------------------------------------------
 
   Future<void> _syncInBackground(
-      final List<HabitWithLog> habits,
-      final Map<String, int> cachedCounts,
-      final Emitter<HabitsListState> emit,
-      ) async {
+    final List<HabitWithLog> habits,
+    final Map<String, int> cachedCounts,
+    final Emitter<HabitsListState> emit,
+  ) async {
     // Run both tasks in parallel
     await Future.wait([
       _fetchAndCompareFriendsCount(habits, cachedCounts, emit),
@@ -105,24 +109,20 @@ class HabitsListBloc extends Bloc<HabitsListEvent, HabitsListState> {
   /// --------------------------------------------------
 
   Future<void> _fetchAndCompareFriendsCount(
-      final List<HabitWithLog> habits,
-      final Map<String, int> cachedCounts,
-      final Emitter<HabitsListState> emit,
-      ) async {
+    final List<HabitWithLog> habits,
+    final Map<String, int> cachedCounts,
+    final Emitter<HabitsListState> emit,
+  ) async {
     // Create futures for all habits at once (parallel execution)
     final List<Future<void>> fetchTasks = habits.map((habitWithLog) {
-      return _fetchSingleHabitFriendsCount(
-        habitWithLog,
-        cachedCounts,
-      );
+      return _fetchSingleHabitFriendsCount(habitWithLog, cachedCounts);
     }).toList();
 
     // Wait for all to complete
     await Future.wait(fetchTasks);
 
     // Get updated counts after all fetches
-    final Map<String, int> updatedCounts = await _local
-        .getAllFriendsCounts();
+    final Map<String, int> updatedCounts = await _local.getAllFriendsCounts();
 
     // Check if any count actually changed
     bool hasChanges = false;
@@ -159,9 +159,9 @@ class HabitsListBloc extends Bloc<HabitsListEvent, HabitsListState> {
   /// --------------------------------------------------
 
   Future<void> _fetchSingleHabitFriendsCount(
-      final HabitWithLog habitWithLog,
-      final Map<String, int> cachedCounts,
-      ) async {
+    final HabitWithLog habitWithLog,
+    final Map<String, int> cachedCounts,
+  ) async {
     final String? habitName = habitWithLog.habit.name;
     final String? habitId = habitWithLog.habit.id;
 
@@ -174,13 +174,13 @@ class HabitsListBloc extends Bloc<HabitsListEvent, HabitsListState> {
           .getFriendsWithSameGoalCount(habitName: habitName);
 
       await result.fold(
-            (final Failure failure) async {
+        (final Failure failure) async {
           // On failure, ensure we have a value (either cached or 0)
           if (!cachedCounts.containsKey(habitId)) {
             await _local.saveFriendsCount(habitId, 0);
           }
         },
-            (final int remoteCount) async {
+        (final int remoteCount) async {
           // Always save the remote count
           await _local.saveFriendsCount(habitId, remoteCount);
         },
@@ -198,9 +198,22 @@ class HabitsListBloc extends Bloc<HabitsListEvent, HabitsListState> {
   /// --------------------------------------------------
 
   Future<void> _updateHabitLog(
-      final UpdateHabitLogStatus event,
-      final Emitter<HabitsListState> emit,
-      ) async {
+    final UpdateHabitLogStatus event,
+    final Emitter<HabitsListState> emit,
+  ) async {
+    // PREVENT CHANGING STATUS IF ALREADY SET (not pending)
+    if (event.log.status != LogStatus.pending) {
+      if (state is HabitsListLoaded) {
+        emit(
+          (state as HabitsListLoaded).copyWith(
+            errorMessage:
+                'habitStatusAlreadySet_${DateTime.now().millisecondsSinceEpoch}',
+          ),
+        );
+      }
+      return;
+    }
+
     final String logId = (event.log.id == null || event.log.id!.isEmpty)
         ? _uuid.v4()
         : event.log.id!;
@@ -212,10 +225,9 @@ class HabitsListBloc extends Bloc<HabitsListEvent, HabitsListState> {
       completedAt: event.status == LogStatus.completed ? DateTime.now() : null,
     );
 
+    // Save log locally
     final List<HabitLogEntity> logs = await _local.getAllLogs();
-    final int index = logs.indexWhere(
-          (final HabitLogEntity l) => l.id == logId,
-    );
+    final int index = logs.indexWhere((l) => l.id == logId);
 
     if (index != -1) {
       logs[index] = updatedLog;
@@ -226,14 +238,50 @@ class HabitsListBloc extends Bloc<HabitsListEvent, HabitsListState> {
     await _local.updateLogsList(logs);
     await _local.saveLogById(logId, updatedLog);
 
-    // Emit updated state immediately with current friends counts
+    // ✨ AWARD POINTS IF STATUS IS COMPLETED ✨
+    int? pointsEarned;
+
+    if (event.status == LogStatus.completed) {
+      // Get habit details for the activity description
+      final List<CustomHabitEntity> habits = await _local.getCustomHabits();
+      final CustomHabitEntity? habit = habits.firstWhere(
+        (h) => h.id == event.log.habitId,
+        orElse: () => CustomHabitEntity(id: event.log.habitId, name: 'Habit'),
+      );
+
+      // Create activity entity
+      final ActivityEntity activity = ActivityEntity(
+        id: _uuid.v4(),
+        userId: '',
+        // Will be populated by data source
+        activityType: ActivityType.habitCompleted,
+        points: PointsConstants.habitCompleted,
+        description: 'Completed habit: ${habit?.name ?? "Unknown"}',
+        timestamp: DateTime.now(),
+        relatedHabitId: event.log.habitId,
+        relatedHabitName: habit?.name,
+      );
+
+      // Save activity locally (updates total points automatically)
+      await _local.saveActivity(activity);
+
+      // Save activity to remote in background
+      _remote.saveActivity(activity);
+
+      pointsEarned = PointsConstants.habitCompleted;
+    }
+
+    // Emit updated state immediately
     final Map<String, int> friendsCounts = await _local.getAllFriendsCounts();
+    final int totalPoints = await _local.getTotalPoints();
 
     emit(
       HabitsListLoaded(
         habitsWithLogs: await _fetchHabitsWithLogs(_currentDate),
         selectedDate: _currentDate,
         friendsCountMap: Map<String, int>.from(friendsCounts),
+        pointsEarned: pointsEarned,
+        totalPoints: totalPoints,
       ),
     );
 
@@ -246,9 +294,9 @@ class HabitsListBloc extends Bloc<HabitsListEvent, HabitsListState> {
   /// --------------------------------------------------
 
   Future<void> _refreshHabits(
-      final RefreshHabits event,
-      final Emitter<HabitsListState> emit,
-      ) async {
+    final RefreshHabits event,
+    final Emitter<HabitsListState> emit,
+  ) async {
     final List<HabitWithLog> local = await _fetchHabitsWithLogs(_currentDate);
     final Map<String, int> friendsCounts = await _local.getAllFriendsCounts();
 
@@ -270,30 +318,31 @@ class HabitsListBloc extends Bloc<HabitsListEvent, HabitsListState> {
   Future<void> _syncWithRemote() async {
     final List<CustomHabitEntity> habits = await _local.getCustomHabits();
     final Map<String, List<HabitLogEntity>> remoteLogsByHabit =
-    <String, List<HabitLogEntity>>{};
+        <String, List<HabitLogEntity>>{};
     final List<HabitLogEntity> allRemoteLogs = <HabitLogEntity>[];
 
     // Fetch remote logs for all habits in parallel
     final List<Future<void>> fetchTasks = habits
         .where((habit) => habit.id != null && habit.id!.isNotEmpty)
         .map((habit) async {
-      try {
-        final Either<Failure, List<HabitLogEntity>> remoteResult =
-        await _remote.getLogsForHabit(habitId: habit.id!);
+          try {
+            final Either<Failure, List<HabitLogEntity>> remoteResult =
+                await _remote.getLogsForHabit(habitId: habit.id!);
 
-        await remoteResult.fold(
+            await remoteResult.fold(
               (final Failure _) async {
-            // Handle failure silently
-          },
+                // Handle failure silently
+              },
               (final List<HabitLogEntity> logs) async {
-            remoteLogsByHabit[habit.id!] = logs;
-            allRemoteLogs.addAll(logs);
-          },
-        );
-      } catch (e) {
-        // Handle any exceptions
-      }
-    }).toList();
+                remoteLogsByHabit[habit.id!] = logs;
+                allRemoteLogs.addAll(logs);
+              },
+            );
+          } catch (e) {
+            // Handle any exceptions
+          }
+        })
+        .toList();
 
     await Future.wait(fetchTasks);
 
@@ -323,8 +372,8 @@ class HabitsListBloc extends Bloc<HabitsListEvent, HabitsListState> {
       final String habitId = habit.id ?? _uuid.v4();
 
       final HabitLogEntity log = logs.firstWhere(
-            (final HabitLogEntity l) =>
-        l.habitId == habitId && _isSameDay(l.date, date),
+        (final HabitLogEntity l) =>
+            l.habitId == habitId && _isSameDay(l.date, date),
         orElse: () => HabitLogEntity(
           id: '',
           habitId: habitId,
@@ -342,10 +391,10 @@ class HabitsListBloc extends Bloc<HabitsListEvent, HabitsListState> {
   /// --------------------------------------------------
 
   Future<void> _syncLocalLogsToRemote(
-      final List<HabitLogEntity> localLogs,
-      ) async {
+    final List<HabitLogEntity> localLogs,
+  ) async {
     final Map<String, List<HabitLogEntity>> logsByHabit =
-    <String, List<HabitLogEntity>>{};
+        <String, List<HabitLogEntity>>{};
 
     for (final HabitLogEntity log in localLogs) {
       if (!logsByHabit.containsKey(log.habitId)) {
@@ -355,7 +404,9 @@ class HabitsListBloc extends Bloc<HabitsListEvent, HabitsListState> {
     }
 
     // Upload logs in parallel (batch by habit)
-    final List<Future<void>> uploadTasks = logsByHabit.entries.map((entry) async {
+    final List<Future<void>> uploadTasks = logsByHabit.entries.map((
+      entry,
+    ) async {
       final String habitId = entry.key;
       final List<HabitLogEntity> logs = entry.value;
 

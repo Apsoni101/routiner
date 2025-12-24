@@ -9,13 +9,12 @@ import 'package:routiner/feature/auth/domain/use_cases/auth_local_usecase.dart';
 import 'package:routiner/feature/auth/domain/use_cases/auth_remote_usecase.dart';
 
 part 'login_event.dart';
+
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc({
-    required this.authRemoteUseCase,
-    required this.authLocalUseCase,
-  }) : super(LoginUser.initial()) {
+  LoginBloc({required this.authRemoteUseCase, required this.authLocalUseCase})
+    : super(LoginUser.initial()) {
     on<EmailChanged>(_emailChanged);
     on<PasswordChanged>(_passwordChanged);
     on<ResetValidationErrors>(_resetValidationErrors);
@@ -29,9 +28,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   // -------------------- Field Updates --------------------
 
   Future<void> _emailChanged(
-      EmailChanged event,
-      Emitter<LoginState> emit,
-      ) async {
+    EmailChanged event,
+    Emitter<LoginState> emit,
+  ) async {
     final currentState = state;
     if (currentState is LoginUser) {
       final email = event.email.trim();
@@ -46,9 +45,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Future<void> _passwordChanged(
-      PasswordChanged event,
-      Emitter<LoginState> emit,
-      ) async {
+    PasswordChanged event,
+    Emitter<LoginState> emit,
+  ) async {
     final currentState = state;
     if (currentState is LoginUser) {
       final password = event.password.trim();
@@ -63,15 +62,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Future<void> _resetValidationErrors(
-      ResetValidationErrors event,
-      Emitter<LoginState> emit,
-      ) async {
+    ResetValidationErrors event,
+    Emitter<LoginState> emit,
+  ) async {
     if (state is LoginUser) {
       emit(
-        (state as LoginUser).copyWith(
-          emailValid: true,
-          passwordValid: true,
-        ),
+        (state as LoginUser).copyWith(emailValid: true, passwordValid: true),
       );
     }
   }
@@ -79,9 +75,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   // -------------------- Email & Password Login --------------------
 
   Future<void> _validateAndLogin(
-      ValidateAndLogin event,
-      Emitter<LoginState> emit,
-      ) async {
+    ValidateAndLogin event,
+    Emitter<LoginState> emit,
+  ) async {
     final currentState = state;
     if (currentState is! LoginUser) return;
 
@@ -106,18 +102,28 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(LoginLoading());
 
     /// 1️⃣ Remote login
-    final Either<Failure, UserEntity> result =
-    await authRemoteUseCase.signInWithEmail(email, password);
+    final Either<Failure, UserEntity> result = await authRemoteUseCase
+        .signInWithEmail(email, password);
 
     await result.fold(
-          (failure) async {
+      (failure) async {
+        // Emit error first for BlocListener to show SnackBar
         emit(LoginError(message: failure.message));
+
+        // Then immediately transition back to LoginUser state
+        // This keeps the form data and re-enables the login button
+        emit(
+          LoginUser(
+            email: email,
+            password: password,
+            emailValid: true,
+            passwordValid: true,
+          ),
+        );
       },
-          (user) async {
-        /// 2️⃣ Save user locally
+      (user) async {
         await authLocalUseCase.saveUserCredentials(user);
 
-        /// 3️⃣ Success
         emit(LoginSuccess());
       },
     );
@@ -126,20 +132,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   // -------------------- Google Login --------------------
 
   Future<void> _onGoogleLoginEvent(
-      OnGoogleLoginEvent event,
-      Emitter<LoginState> emit,
-      ) async {
+    OnGoogleLoginEvent event,
+    Emitter<LoginState> emit,
+  ) async {
     emit(LoginLoading());
 
     /// 1️⃣ Remote Google login
-    final Either<Failure, UserEntity> result =
-    await authRemoteUseCase.signInWithGoogle();
+    final Either<Failure, UserEntity> result = await authRemoteUseCase
+        .signInWithGoogle();
 
     await result.fold(
-          (failure) async {
+      (failure) async {
+        // Emit error first
         emit(LoginError(message: failure.message));
+
+        // Then transition back to initial state
+        emit(LoginUser.initial());
       },
-          (user) async {
+      (user) async {
         /// 2️⃣ Save user locally
         await authLocalUseCase.saveUserCredentials(user);
 

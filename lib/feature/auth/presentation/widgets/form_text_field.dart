@@ -18,6 +18,7 @@ class FormTextField extends StatefulWidget {
     this.maxLines = 1,
     this.maxLength,
     this.hintStyle,
+    this.keyboardType,
     super.key,
   });
 
@@ -32,6 +33,7 @@ class FormTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final int maxLines;
   final int? maxLength;
+  final TextInputType? keyboardType;
 
   @override
   State<FormTextField> createState() => _FormTextFieldState();
@@ -45,15 +47,23 @@ class _FormTextFieldState extends State<FormTextField> {
   void initState() {
     super.initState();
     obscureNotifier = ValueNotifier<bool>(widget.obscureText);
-    showClear = ValueNotifier<bool>(false);
+    showClear = ValueNotifier<bool>(widget.controller.text.isNotEmpty);
 
-    widget.controller.addListener(() {
+    // Add listener to controller
+    widget.controller.addListener(_onTextChanged);
+  }
+
+  void _onTextChanged() {
+    // Check if widget is still mounted before updating
+    if (mounted) {
       showClear.value = widget.controller.text.isNotEmpty;
-    });
+    }
   }
 
   @override
   void dispose() {
+    // Remove listener BEFORE disposing
+    widget.controller.removeListener(_onTextChanged);
     obscureNotifier.dispose();
     showClear.dispose();
     super.dispose();
@@ -75,6 +85,7 @@ class _FormTextFieldState extends State<FormTextField> {
                 return TextField(
                   controller: widget.controller,
                   obscureText: isObscured,
+                  keyboardType: widget.keyboardType,
                   onChanged: widget.onChanged,
                   onSubmitted: widget.onSubmitted,
                   enabled: widget.enabled,

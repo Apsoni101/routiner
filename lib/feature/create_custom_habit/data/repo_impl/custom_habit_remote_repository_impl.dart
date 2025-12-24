@@ -3,6 +3,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:routiner/core/services/network/failure.dart';
 import 'package:routiner/feature/create_custom_habit/data/data_source/custom_habit_remote_data_source.dart';
+import 'package:routiner/feature/create_custom_habit/data/model/activity_model.dart';
+import 'package:routiner/feature/create_custom_habit/domain/entity/activity_entity.dart';
 import 'package:routiner/feature/create_custom_habit/domain/entity/custom_habit_entity.dart';
 import 'package:routiner/feature/create_custom_habit/domain/repo/custom_habit_remote_repository.dart';
 
@@ -37,4 +39,27 @@ class CustomHabitRemoteRepositoryImpl implements CustomHabitRemoteRepository {
   @override
   Future<Either<Failure, bool>> habitExists(final String habitId) =>
       _remoteDataSource.habitExists(habitId: habitId);
+
+  @override
+  Future<Either<Failure, Unit>> saveActivity(final ActivityEntity activity) {
+    final ActivityModel model = ActivityModel.fromEntity(activity);
+    return _remoteDataSource.saveActivity(activity: model);
+  }
+
+  @override
+  Future<Either<Failure, int>> getTotalPoints() =>
+      _remoteDataSource.getTotalPoints();
+
+  @override
+  Future<Either<Failure, List<ActivityEntity>>> getActivities({
+    int? limit,
+  }) async {
+    final Either<Failure, List<ActivityModel>> result = await _remoteDataSource
+        .getActivities(limit: limit);
+
+    return result.fold(
+      Left.new,
+      (models) => Right(models.map((m) => m.toEntity()).toList()),
+    );
+  }
 }

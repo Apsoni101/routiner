@@ -244,11 +244,29 @@ abstract class AppLocalizations {
   /// **'PASSWORD'**
   String get password;
 
+  /// No description provided for @avgMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg. Mood'**
+  String get avgMood;
+
   /// No description provided for @name.
   ///
   /// In en, this message translates to:
   /// **'NAME'**
   String get name;
+
+  /// No description provided for @yesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get yesterday;
+
+  /// No description provided for @showingLastMonthActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing last month activity'**
+  String get showingLastMonthActivity;
 
   /// No description provided for @enterName.
   ///
@@ -513,6 +531,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Walk'**
   String get walk;
+
+  /// No description provided for @happy.
+  ///
+  /// In en, this message translates to:
+  /// **'Happy'**
+  String get happy;
 
   /// No description provided for @icon.
   ///
@@ -1066,12 +1090,6 @@ abstract class AppLocalizations {
   /// **'Saturday'**
   String get saturday;
 
-  /// No description provided for @cancel.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get cancel;
-
   /// No description provided for @confirm.
   ///
   /// In en, this message translates to:
@@ -1131,6 +1149,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Icons'**
   String get tabIcons;
+
+  /// No description provided for @pleaseWaitWhileCreating.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait while creating'**
+  String get pleaseWaitWhileCreating;
 
   /// No description provided for @selectButton.
   ///
@@ -1390,12 +1414,6 @@ abstract class AppLocalizations {
   /// **'No habits for this day'**
   String get noHabitsForDay;
 
-  /// No description provided for @unnamedHabit.
-  ///
-  /// In en, this message translates to:
-  /// **'Unnamed Habit'**
-  String get unnamedHabit;
-
   /// No description provided for @status.
   ///
   /// In en, this message translates to:
@@ -1407,12 +1425,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View'**
   String get view;
-
-  /// No description provided for @done.
-  ///
-  /// In en, this message translates to:
-  /// **'Done'**
-  String get done;
 
   /// No description provided for @fail.
   ///
@@ -1588,6 +1600,24 @@ abstract class AppLocalizations {
   /// **'Learning'**
   String get learning;
 
+  /// No description provided for @noHabitsInChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'No Habits in challenge'**
+  String get noHabitsInChallenge;
+
+  /// No description provided for @alreadyJoined.
+  ///
+  /// In en, this message translates to:
+  /// **'Already Joined'**
+  String get alreadyJoined;
+
+  /// No description provided for @joinChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Join the Challenge'**
+  String get joinChallenge;
+
   /// No description provided for @habitClubs.
   ///
   /// In en, this message translates to:
@@ -1630,6 +1660,12 @@ abstract class AppLocalizations {
   /// **'Leave'**
   String get leave;
 
+  /// No description provided for @tasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get tasks;
+
   /// No description provided for @noMessagesYet.
   ///
   /// In en, this message translates to:
@@ -1654,11 +1690,215 @@ abstract class AppLocalizations {
   /// **'Members'**
   String get membersTab;
 
+  /// No description provided for @thisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get thisWeek;
+
+  /// No description provided for @thisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get thisMonth;
+
+  /// No description provided for @jan.
+  ///
+  /// In en, this message translates to:
+  /// **'Jan'**
+  String get jan;
+
+  /// No description provided for @feb.
+  ///
+  /// In en, this message translates to:
+  /// **'Feb'**
+  String get feb;
+
+  /// No description provided for @mar.
+  ///
+  /// In en, this message translates to:
+  /// **'Mar'**
+  String get mar;
+
+  /// No description provided for @apr.
+  ///
+  /// In en, this message translates to:
+  /// **'Apr'**
+  String get apr;
+
+  /// No description provided for @may.
+  ///
+  /// In en, this message translates to:
+  /// **'May'**
+  String get may;
+
+  /// No description provided for @jun.
+  ///
+  /// In en, this message translates to:
+  /// **'Jun'**
+  String get jun;
+
+  /// No description provided for @jul.
+  ///
+  /// In en, this message translates to:
+  /// **'Jul'**
+  String get jul;
+
+  /// No description provided for @aug.
+  ///
+  /// In en, this message translates to:
+  /// **'Aug'**
+  String get aug;
+
+  /// No description provided for @sep.
+  ///
+  /// In en, this message translates to:
+  /// **'Sep'**
+  String get sep;
+
+  /// No description provided for @oct.
+  ///
+  /// In en, this message translates to:
+  /// **'Oct'**
+  String get oct;
+
+  /// No description provided for @nov.
+  ///
+  /// In en, this message translates to:
+  /// **'Nov'**
+  String get nov;
+
+  /// No description provided for @dec.
+  ///
+  /// In en, this message translates to:
+  /// **'Dec'**
+  String get dec;
+
+  /// No description provided for @january.
+  ///
+  /// In en, this message translates to:
+  /// **'January'**
+  String get january;
+
+  /// No description provided for @february.
+  ///
+  /// In en, this message translates to:
+  /// **'February'**
+  String get february;
+
+  /// No description provided for @march.
+  ///
+  /// In en, this message translates to:
+  /// **'March'**
+  String get march;
+
+  /// No description provided for @april.
+  ///
+  /// In en, this message translates to:
+  /// **'April'**
+  String get april;
+
+  /// No description provided for @june.
+  ///
+  /// In en, this message translates to:
+  /// **'June'**
+  String get june;
+
+  /// No description provided for @july.
+  ///
+  /// In en, this message translates to:
+  /// **'July'**
+  String get july;
+
+  /// No description provided for @august.
+  ///
+  /// In en, this message translates to:
+  /// **'August'**
+  String get august;
+
+  /// No description provided for @september.
+  ///
+  /// In en, this message translates to:
+  /// **'September'**
+  String get september;
+
+  /// No description provided for @october.
+  ///
+  /// In en, this message translates to:
+  /// **'October'**
+  String get october;
+
+  /// No description provided for @november.
+  ///
+  /// In en, this message translates to:
+  /// **'November'**
+  String get november;
+
+  /// No description provided for @december.
+  ///
+  /// In en, this message translates to:
+  /// **'December'**
+  String get december;
+
   /// No description provided for @requestsTab.
   ///
   /// In en, this message translates to:
   /// **'Requests'**
   String get requestsTab;
+
+  /// No description provided for @summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get summary;
+
+  /// No description provided for @successRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Success Rate'**
+  String get successRate;
+
+  /// No description provided for @completed.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completed;
+
+  /// No description provided for @pointsEarned.
+  ///
+  /// In en, this message translates to:
+  /// **'Points Earned'**
+  String get pointsEarned;
+
+  /// No description provided for @pointsEarnedWithExclamation.
+  ///
+  /// In en, this message translates to:
+  /// **'points earned!'**
+  String get pointsEarnedWithExclamation;
+
+  /// No description provided for @bestStreakDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Best Streak Day'**
+  String get bestStreakDay;
+
+  /// No description provided for @skipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped'**
+  String get skipped;
+
+  /// No description provided for @failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get failed;
+
+  /// No description provided for @allHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'All Habits'**
+  String get allHabits;
 
   /// No description provided for @membersCount.
   ///
@@ -1678,17 +1918,47 @@ abstract class AppLocalizations {
   /// **'Reject Request'**
   String get rejectRequestTitle;
 
+  /// No description provided for @habitStatusAlreadySet.
+  ///
+  /// In en, this message translates to:
+  /// **'This habit has already been marked. Cannot change status.'**
+  String get habitStatusAlreadySet;
+
   /// Confirmation message for rejecting a join request
   ///
   /// In en, this message translates to:
   /// **'Are you sure you want to reject {userName}\'s request to join?'**
   String rejectRequestMessage(String userName);
 
+  /// No description provided for @comparisonByWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparison by Week'**
+  String get comparisonByWeek;
+
+  /// No description provided for @comparisonByDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparison by Day'**
+  String get comparisonByDay;
+
+  /// No description provided for @comparisonByMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparison by Month'**
+  String get comparisonByMonth;
+
   /// Reject button text
   ///
   /// In en, this message translates to:
   /// **'Reject'**
   String get reject;
+
+  /// No description provided for @burn.
+  ///
+  /// In en, this message translates to:
+  /// **'🔥 Burn!'**
+  String get burn;
 
   /// Message shown when there are no pending join requests
   ///
@@ -1737,6 +2007,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Benefits of regular walking'**
   String get benefitsOfWalking;
+
+  /// No description provided for @noChallengesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No challenges yet'**
+  String get noChallengesYet;
+
+  /// No description provided for @createFirstChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your first challenge!'**
+  String get createFirstChallenge;
+
+  /// No description provided for @untitledChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Untitled Challenge'**
+  String get untitledChallenge;
+
+  /// No description provided for @noDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'No description'**
+  String get noDescription;
+
+  /// No description provided for @habit.
+  ///
+  /// In en, this message translates to:
+  /// **'habit'**
+  String get habit;
+
+  /// No description provided for @friendsJoined.
+  ///
+  /// In en, this message translates to:
+  /// **'friends joined'**
+  String get friendsJoined;
+
+  /// No description provided for @left.
+  ///
+  /// In en, this message translates to:
+  /// **'left'**
+  String get left;
+
+  /// No description provided for @noHabitsAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No Habits Available'**
+  String get noHabitsAvailable;
+
+  /// No description provided for @selectEndDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Select end date'**
+  String get selectEndDate;
+
+  /// Title for create challenge screen and button
+  ///
+  /// In en, this message translates to:
+  /// **'Create Challenge'**
+  String get createChallenge;
+
+  /// Success message when challenge is created
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge created successfully!'**
+  String get challengeCreatedSuccessfully;
+
+  /// Label for title section
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get title;
+
+  /// Hint text for challenge name input
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge name'**
+  String get challengeNameHint;
+
+  /// Label for emoji selection section
+  ///
+  /// In en, this message translates to:
+  /// **'Emoji Icon'**
+  String get emojiIcon;
+
+  /// Label for duration section
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get duration;
+
+  /// Hint text for duration input
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get durationHint;
+
+  /// Label for description section
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// Hint text for challenge description
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your challenge...'**
+  String get descriptionHint;
+
+  /// Label showing number of selected habits
+  ///
+  /// In en, this message translates to:
+  /// **'Habits ({count})'**
+  String habitsCount(int count);
+
+  /// Text shown when no habits are selected
+  ///
+  /// In en, this message translates to:
+  /// **'Add habits to challenge'**
+  String get addHabitsToChallenge;
+
+  /// Button text to add more habits
+  ///
+  /// In en, this message translates to:
+  /// **'Add more habits'**
+  String get addMoreHabits;
+
+  /// Default text for habit with no name
+  ///
+  /// In en, this message translates to:
+  /// **'Unnamed Habit'**
+  String get unnamedHabit;
+
+  /// Title for emoji picker dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Select Emoji'**
+  String get selectEmoji;
+
+  /// Title for habit selector dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Select Habits'**
+  String get selectHabits;
+
+  /// Default text for items with no name
+  ///
+  /// In en, this message translates to:
+  /// **'Unnamed'**
+  String get unnamed;
+
+  /// Cancel button text
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Done button text
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
 }
 
 class _AppLocalizationsDelegate

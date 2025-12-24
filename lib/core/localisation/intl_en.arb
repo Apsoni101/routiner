@@ -25,7 +25,10 @@
   "birthdateEmptyError": "Birthdate can't be empty",
   "forgotPassword": "I forgot my password",
   "password": "PASSWORD",
+  "avgMood": "Avg. Mood",
   "name": "NAME",
+  "yesterday": "Yesterday",
+  "showingLastMonthActivity": "Showing last month activity",
   "enterName": "Enter your name",
   "surname": "SURNAME",
   "enterSurname": "Enter your surname",
@@ -70,6 +73,7 @@
   "moodLove": "😍",
   "howAreYouFeeling": "How’re you feeling?",
   "walk": "Walk",
+  "happy": "Happy",
   "icon": "Icon",
   "color": "Color",
   "iconAndColor": "Icon and Color",
@@ -162,7 +166,6 @@
   "thursday": "Thursday",
   "friday": "Friday",
   "saturday": "Saturday",
-  "cancel": "Cancel",
   "confirm": "Confirm",
   "days": "Days",
   "selectTimes": "Select Times",
@@ -173,6 +176,7 @@
   "selectIconTitle": "Select Icon",
   "tabPreset": "Preset",
   "tabIcons": "Icons",
+  "pleaseWaitWhileCreating": "Please wait while creating",
   "selectButton": "Select",
   "errorEitherIconOrHabitRequired": "Either an icon or a habit must be selected.",
   "selectColorTitle": "Select Color",
@@ -216,10 +220,8 @@
   "habits": "Habits",
   "viewAll": "View All",
   "noHabitsForDay": "No habits for this day",
-  "unnamedHabit": "Unnamed Habit",
   "status": "Status",
   "view": "View",
-  "done": "Done",
   "fail": "Fail",
   "skip": "Skip",
   "points": "Points",
@@ -249,6 +251,9 @@
   "allClubs": "All Clubs",
   "myClubs": "My Clubs",
   "learning": "Learning",
+  "noHabitsInChallenge": "No Habits in challenge",
+  "alreadyJoined": "Already Joined",
+  "joinChallenge": "Join the Challenge",
   "habitClubs": "Habit Clubs",
   "noEmail": "No email",
   "errorPrefix": "Error:",
@@ -256,22 +261,56 @@
   "leaveClubTitle": "Leave Club",
   "leaveClubMessage": "Are you sure you want to leave this club?",
   "leave": "Leave",
+  "tasks": "Tasks",
   "noMessagesYet": "No messages yet.",
   "typeMessageHint": "Type a message...",
   "clubMembersTitle": "Club Members",
   "membersTab": "Members",
+  "thisWeek": "This week",
+  "thisMonth": "This month",
+  "jan": "Jan",
+  "feb": "Feb",
+  "mar": "Mar",
+  "apr": "Apr",
+  "may": "May",
+  "jun": "Jun",
+  "jul": "Jul",
+  "aug": "Aug",
+  "sep": "Sep",
+  "oct": "Oct",
+  "nov": "Nov",
+  "dec": "Dec",
+  "january": "January",
+  "february": "February",
+  "march": "March",
+  "april": "April",
+  "june": "June",
+  "july": "July",
+  "august": "August",
+  "september": "September",
+  "october": "October",
+  "november": "November",
+  "december": "December",
   "requestsTab": "Requests",
+  "summary": "Summary",
+  "successRate": "Success Rate",
+  "completed": "Completed",
+  "pointsEarned": "Points Earned",
+  "pointsEarnedWithExclamation": "points earned!",
+  "bestStreakDay": "Best Streak Day",
+  "skipped": "Skipped",
+  "failed": "Failed",
+  "allHabits": "All Habits",
   "membersCount": "Members ({count})",
   "noMembersFound": "No members found",
   "@noMembersFound": {
     "description": "Message shown when there are no members in the list"
   },
-
   "rejectRequestTitle": "Reject Request",
   "@rejectRequestTitle": {
     "description": "Title for reject request dialog"
   },
-
+  "habitStatusAlreadySet": "This habit has already been marked. Cannot change status.",
   "rejectRequestMessage": "Are you sure you want to reject {userName}'s request to join?",
   "@rejectRequestMessage": {
     "description": "Confirmation message for rejecting a join request",
@@ -282,16 +321,18 @@
       }
     }
   },
+  "comparisonByWeek": "Comparison by Week",
+  "comparisonByDay": "Comparison by Day",
+  "comparisonByMonth": "Comparison by Month",
   "reject": "Reject",
+  "burn": "\uD83D\uDD25 Burn!",
   "@reject": {
     "description": "Reject button text"
   },
-
   "noPendingRequests": "No pending requests",
   "@noPendingRequests": {
     "description": "Message shown when there are no pending join requests"
   },
-
   "unableToLoadRequests": "Unable to load requests",
   "@unableToLoadRequests": {
     "description": "Error message when requests cannot be loaded"
@@ -301,5 +342,92 @@
   "noClubsAvailableYet": "No clubs available yet",
   "noMyClubsYet": "You haven't joined or created any clubs yet",
   "whyDrinkWater": "Why should we drink water often?",
-  "benefitsOfWalking": "Benefits of regular walking"
+  "benefitsOfWalking": "Benefits of regular walking",
+  "noChallengesYet": "No challenges yet",
+  "createFirstChallenge": "Create your first challenge!",
+  "untitledChallenge": "Untitled Challenge",
+  "noDescription": "No description",
+  "habit": "habit",
+  "friendsJoined": "friends joined",
+  "left": "left",
+  "noHabitsAvailable": "No Habits Available",
+  "selectEndDate": "Select end date",
+  "createChallenge": "Create Challenge",
+  "@createChallenge": {
+    "description": "Title for create challenge screen and button"
+  },
+  "challengeCreatedSuccessfully": "Challenge created successfully!",
+  "@challengeCreatedSuccessfully": {
+    "description": "Success message when challenge is created"
+  },
+  "title": "Title",
+  "@title": {
+    "description": "Label for title section"
+  },
+  "challengeNameHint": "Challenge name",
+  "@challengeNameHint": {
+    "description": "Hint text for challenge name input"
+  },
+  "emojiIcon": "Emoji Icon",
+  "@emojiIcon": {
+    "description": "Label for emoji selection section"
+  },
+  "duration": "Duration",
+  "@duration": {
+    "description": "Label for duration section"
+  },
+  "durationHint": "Duration",
+  "@durationHint": {
+    "description": "Hint text for duration input"
+  },
+  "description": "Description",
+  "@description": {
+    "description": "Label for description section"
+  },
+  "descriptionHint": "Describe your challenge...",
+  "@descriptionHint": {
+    "description": "Hint text for challenge description"
+  },
+  "habitsCount": "Habits ({count})",
+  "@habitsCount": {
+    "description": "Label showing number of selected habits",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "addHabitsToChallenge": "Add habits to challenge",
+  "@addHabitsToChallenge": {
+    "description": "Text shown when no habits are selected"
+  },
+  "addMoreHabits": "Add more habits",
+  "@addMoreHabits": {
+    "description": "Button text to add more habits"
+  },
+  "unnamedHabit": "Unnamed Habit",
+  "@unnamedHabit": {
+    "description": "Default text for habit with no name"
+  },
+  "selectEmoji": "Select Emoji",
+  "@selectEmoji": {
+    "description": "Title for emoji picker dialog"
+  },
+  "selectHabits": "Select Habits",
+  "@selectHabits": {
+    "description": "Title for habit selector dialog"
+  },
+  "unnamed": "Unnamed",
+  "@unnamed": {
+    "description": "Default text for items with no name"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  "done": "Done",
+  "@done": {
+    "description": "Done button text"
+  }
 }

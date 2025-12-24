@@ -3,6 +3,9 @@ import 'package:routiner/core/services/firebase/firebase_auth_service.dart';
 import 'package:routiner/core/services/firebase/firebase_firestore_service.dart';
 import 'package:routiner/core/services/firebase/firestore_method.dart';
 import 'package:routiner/core/services/network/failure.dart';
+import 'package:routiner/core/services/storage/hive_key_constants.dart';
+import 'package:routiner/feature/challenge/data/model/challenge_model.dart';
+import 'package:routiner/feature/create_custom_habit/data/model/activity_model.dart';
 import 'package:routiner/feature/home/data/model/habit_log_hive_model.dart';
 
 /// Abstract habits list remote data source
@@ -33,6 +36,18 @@ abstract class HabitsDisplayRemoteDataSource {
   /// Get count of friends with the same goal name
   Future<Either<Failure, int>> getFriendsWithSameGoalCount({
     required final String habitName,
+  });
+
+  Future<Either<Failure, List<ChallengeModel>>> getAllChallenges();
+
+  Future<Either<Failure, Unit>> saveActivity({
+    required final ActivityModel activity,
+  });
+
+  Future<Either<Failure, int>> getTotalPoints();
+
+  Future<Either<Failure, List<ActivityModel>>> getActivities({
+    final int? limit,
   });
 }
 
@@ -237,6 +252,113 @@ class HabitsDisplayRemoteDataSourceImpl
           .map((final Map<String, dynamic> json) => json['uid'] as String)
           .toList();
       return Right(friendIds);
+    });
+  }
+
+  @override
+  Future<Either<Failure, List<ChallengeModel>>> getAllChallenges() async {
+    final Either<Failure, List<Map<String, dynamic>>> result =
+        await firestoreService.request<List<Map<String, dynamic>>>(
+          collectionPath: HiveKeyConstants.challengesCollection,
+          method: FirestoreMethod.getAll,
+          responseParser: (final data) => data as List<Map<String, dynamic>>,
+        );
+
+    return result.fold(Left.new, (final List<Map<String, dynamic>> data) {
+      final List<ChallengeModel> challenges = data
+          .map(ChallengeModel.fromJson)
+          .where((final ChallengeModel c) => c.isActive ?? false)
+          .toList();
+      return Right(challenges);
+    });
+  }
+
+  Future<Either<Failure, Unit>> saveActivity({
+    required final ActivityModel activity,
+  }) async {
+    final Either<Failure, String> userIdResult = await authService
+        .getCurrentUserId();
+
+    return userIdResult.fold(Left.new, (final String userId) async {
+      // 1. Add activity record
+      final Either<Failure, Unit> activityResult = await firestoreService
+          .request<Unit>(
+            collectionPath: 'users/$userId/activities',
+            method: FirestoreMethod.add,
+            responseParser: (_) => unit,
+            data: activity.toJson(),
+          );
+
+      return activityResult.fold(Left.new, (_) async {
+        // 2. Get current points
+        final Either<Failure, int> currentPointsResult = await getTotalPoints();
+
+        return currentPointsResult.fold(Left.new, (
+          final int currentPoints,
+        ) async {
+          // 3. Update total points
+          return firestoreService.request<Unit>(
+            collectionPath: 'users',
+            method: FirestoreMethod.update,
+            responseParser: (_) => unit,
+            docId: userId,
+            data: <String, dynamic>{
+              'totalPoints': currentPoints + activity.points,
+              'lastActivityTimestamp': activity.timestamp.toIso8601String(),
+            },
+          );
+        });
+      });
+    });
+  }
+
+  @override
+  Future<Either<Failure, int>> getTotalPoints() async {
+    final Either<Failure, String> userIdResult = await authService
+        .getCurrentUserId();
+
+    return userIdResult.fold(Left.new, (final String userId) async {
+      final Either<Failure, Map<String, dynamic>> result =
+          await firestoreService.request<Map<String, dynamic>>(
+            collectionPath: 'users',
+            method: FirestoreMethod.get,
+            responseParser: (final data) => data as Map<String, dynamic>,
+            docId: userId,
+          );
+
+      return result.fold(Left.new, (final Map<String, dynamic> data) {
+        final int points = data['totalPoints'] as int? ?? 0;
+        return Right(points);
+      });
+    });
+  }
+
+  @override
+  Future<Either<Failure, List<ActivityModel>>> getActivities({
+    final int? limit,
+  }) async {
+    final Either<Failure, String> userIdResult = await authService
+        .getCurrentUserId();
+
+    return userIdResult.fold(Left.new, (final String userId) async {
+      final Either<Failure, List<Map<String, dynamic>>> result =
+          await firestoreService.request<List<Map<String, dynamic>>>(
+            collectionPath: 'users/$userId/activities',
+            method: FirestoreMethod.getAll,
+            responseParser: (final data) => data as List<Map<String, dynamic>>,
+          );
+
+      return result.fold(Left.new, (final List<Map<String, dynamic>> data) {
+        List<ActivityModel> activities =
+            data.map(ActivityModel.fromJson).toList()..sort(
+              (final ActivityModel a, final ActivityModel b) =>
+                  b.timestamp.compareTo(a.timestamp),
+            );
+        if (limit != null && activities.length > limit) {
+          activities = activities.sublist(0, limit);
+        }
+        return Right(activities);
+      });
     });
   }
 }

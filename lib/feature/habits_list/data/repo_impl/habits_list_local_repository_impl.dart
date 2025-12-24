@@ -1,4 +1,6 @@
+import 'package:routiner/feature/create_custom_habit/data/model/activity_hive_model.dart';
 import 'package:routiner/feature/create_custom_habit/data/model/custom_habit_hive_model.dart';
+import 'package:routiner/feature/create_custom_habit/domain/entity/activity_entity.dart';
 import 'package:routiner/feature/create_custom_habit/domain/entity/custom_habit_entity.dart';
 import 'package:routiner/feature/habits_list/data/data_source/local_data_source/habits_list_local_data_source.dart';
 import 'package:routiner/feature/habits_list/domain/repo/habits_list_repository.dart';
@@ -62,4 +64,23 @@ class HabitsListLocalRepositoryImpl implements HabitsListLocalRepository {
   Future<void> clearFriendsCount(final String habitId) {
     return _localDataSource.clearFriendsCount(habitId);
   }
+
+  @override
+  Future<void> saveActivity(final ActivityEntity activity) async {
+    final ActivityHiveModel hiveModel = ActivityHiveModel.fromEntity(activity);
+    await _localDataSource.saveActivity(hiveModel);
+  }
+
+  @override
+  Future<List<ActivityEntity>> getActivities({int? limit}) async {
+    final List<ActivityHiveModel> models =
+    await _localDataSource.getActivities(limit: limit);
+    return models.map((m) => m.toEntity()).toList();
+  }
+
+  @override
+  Future<int> getTotalPoints() {
+    return _localDataSource.getTotalPoints();
+  }
+
 }

@@ -8,7 +8,8 @@ abstract class ExploreEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoadExploreClubsEvent extends ExploreEvent {}
+// Single event to load both clubs and challenges
+class LoadExploreDataEvent extends ExploreEvent {}
 
 class RequestToJoinClubFromExploreEvent extends ExploreEvent {
   const RequestToJoinClubFromExploreEvent(this.clubId);

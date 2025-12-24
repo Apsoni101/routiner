@@ -136,6 +136,52 @@ class CustomHabitModel extends CustomHabitEntity {
       'alarmDays': alarmDays?.map((final Day d) => d.toString()).toList(),
     };
   }
+  /// Entity → Model
+  factory CustomHabitModel.fromEntity(CustomHabitEntity entity) {
+    return CustomHabitModel(
+      id: entity.id,
+      name: entity.name,
+      icon: entity.icon,
+      habitIcon: entity.habitIcon,
+      habitIconPath: entity.habitIconPath,
+      color: entity.color,
+      goal: entity.goal,
+      reminders: entity.reminders,
+      type: entity.type,
+      location: entity.location,
+      createdAt: entity.createdAt,
+      goalValue: entity.goalValue,
+      goalUnit: entity.goalUnit,
+      goalFrequency: entity.goalFrequency,
+      goalDays: entity.goalDays,
+      isAlarmEnabled: entity.isAlarmEnabled,
+      alarmTime: entity.alarmTime,
+      alarmDays: entity.alarmDays,
+    );
+  }
+  /// Model → Entity
+  CustomHabitEntity toEntity() {
+    return CustomHabitEntity(
+      id: id,
+      name: name,
+      icon: icon,
+      habitIcon: habitIcon,
+      habitIconPath: habitIconPath,
+      color: color,
+      goal: goal,
+      reminders: reminders,
+      type: type,
+      location: location,
+      createdAt: createdAt,
+      goalValue: goalValue,
+      goalUnit: goalUnit,
+      goalFrequency: goalFrequency,
+      goalDays: goalDays,
+      isAlarmEnabled: isAlarmEnabled,
+      alarmTime: alarmTime,
+      alarmDays: alarmDays,
+    );
+  }
 
 
 }

@@ -5,4 +5,7 @@ final List<AutoRoute> standaloneDashboardRoutes = <AutoRoute>[
   AutoRoute(page: CreateCustomHabitRoute.page),
   AutoRoute(page: HabitsListRoute.page),
   AutoRoute(page: ClubChatRoute.page),
+  AutoRoute(page: ChallengesListRoute.page),
+  AutoRoute(page: ChallengeDetailRoute.page),
+  AutoRoute(page: CreateChallengeRoute.page),
 ];

@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:routiner/core/services/network/failure.dart';
+import 'package:routiner/feature/create_custom_habit/data/model/activity_model.dart';
+import 'package:routiner/feature/create_custom_habit/domain/entity/activity_entity.dart';
 import 'package:routiner/feature/habits_list/data/data_source/remote_data_source/habits_list_remote_data_source.dart';
 import 'package:routiner/feature/habits_list/domain/repo/habits_list_remote_repository.dart';
 import 'package:routiner/feature/home/data/model/habit_log_hive_model.dart';
@@ -77,5 +79,26 @@ class HabitsListRemoteRepositoryImpl
     required final String habitName,
   }) {
     return _remoteDataSource.getFriendsWithSameGoalCount(habitName: habitName);
+  }
+
+  @override
+  Future<Either<Failure, Unit>> saveActivity(final ActivityEntity activity) {
+    final ActivityModel model = ActivityModel.fromEntity(activity);
+    return _remoteDataSource.saveActivity(activity: model);
+  }
+
+  @override
+  Future<Either<Failure, int>> getTotalPoints() {
+    return _remoteDataSource.getTotalPoints();
+  }
+
+  @override
+  Future<Either<Failure, List<ActivityEntity>>> getActivities({int? limit}) async {
+    final Either<Failure, List<ActivityModel>> result =
+    await _remoteDataSource.getActivities(limit: limit);
+    return result.fold(
+      Left.new,
+          (models) => Right(models.map((m) => m.toEntity()).toList()),
+    );
   }
 }

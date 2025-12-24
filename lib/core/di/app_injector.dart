@@ -7,10 +7,26 @@ import 'package:routiner/core/services/firebase/firebase_auth_service.dart';
 import 'package:routiner/core/services/firebase/firebase_firestore_service.dart';
 import 'package:routiner/core/services/storage/hive_service.dart';
 import 'package:routiner/core/services/storage/shared_prefs_service.dart';
+import 'package:routiner/feature/activity/data/data_source/local/activity_local_data_source.dart';
+import 'package:routiner/feature/activity/data/data_source/remote/activity_remote_data_source.dart';
+import 'package:routiner/feature/activity/data/repo_impl/activity_local_repo_impl.dart';
+import 'package:routiner/feature/activity/data/repo_impl/activity_remote_repository_impl.dart';
+import 'package:routiner/feature/activity/domain/repo/activity_local_repo.dart';
+import 'package:routiner/feature/activity/domain/repo/activity_remote_repository.dart';
+import 'package:routiner/feature/activity/domain/usecase/activity_local_use_case.dart';
+import 'package:routiner/feature/activity/domain/usecase/activity_remote_usecase.dart';
+import 'package:routiner/feature/activity/presentation/bloc/activity_bloc/activity_bloc.dart';
+import 'package:routiner/feature/activity/presentation/bloc/daily_activity_bloc/daily_activity_bloc.dart';
+import 'package:routiner/feature/activity/presentation/bloc/monthly_activity_bloc/monthly_activity_bloc.dart';
+import 'package:routiner/feature/activity/presentation/bloc/weekly_activity_bloc/weekly_activity_bloc.dart';
 import 'package:routiner/feature/add_habit/data/data_source/mood_local_data_source.dart';
-import 'package:routiner/feature/add_habit/data/repo_impl/mood_repository_impl.dart';
-import 'package:routiner/feature/add_habit/domain/repo/mood_repository.dart';
-import 'package:routiner/feature/add_habit/domain/usecase/mood_usecase.dart';
+import 'package:routiner/feature/add_habit/data/data_source/mood_remote_data_source.dart';
+import 'package:routiner/feature/add_habit/data/repo_impl/mood_local_repository_impl.dart';
+import 'package:routiner/feature/add_habit/data/repo_impl/mood_remote_repository_impl.dart';
+import 'package:routiner/feature/add_habit/domain/repo/mood_local_repository.dart';
+import 'package:routiner/feature/add_habit/domain/repo/mood_remote_repository.dart';
+import 'package:routiner/feature/add_habit/domain/usecase/mood_local_usecase.dart';
+import 'package:routiner/feature/add_habit/domain/usecase/mood_remote_usecase.dart';
 import 'package:routiner/feature/add_habit/presentation/bloc%20/mood_bloc.dart';
 import 'package:routiner/feature/auth/data/data_sources/auth_local_data_source.dart';
 import 'package:routiner/feature/auth/data/data_sources/auth_remote_datasource.dart';
@@ -22,6 +38,17 @@ import 'package:routiner/feature/auth/domain/use_cases/auth_local_usecase.dart';
 import 'package:routiner/feature/auth/domain/use_cases/auth_remote_usecase.dart';
 import 'package:routiner/feature/auth/presentation/bloc/login_bloc/login_bloc.dart';
 import 'package:routiner/feature/auth/presentation/bloc/signup_bloc/signup_bloc.dart';
+import 'package:routiner/feature/challenge/data/data_source/local/challenge_local_data_source.dart';
+import 'package:routiner/feature/challenge/data/data_source/remote/challenge_remote_data_source.dart';
+import 'package:routiner/feature/challenge/data/repo_impl/challenge_local_repository_impl.dart';
+import 'package:routiner/feature/challenge/data/repo_impl/challenge_remote_repository_impl.dart';
+import 'package:routiner/feature/challenge/domain/repo/challenge_local_repository.dart';
+import 'package:routiner/feature/challenge/domain/repo/challenge_remote_repository.dart';
+import 'package:routiner/feature/challenge/domain/usecase/challenge_local_usecase.dart';
+import 'package:routiner/feature/challenge/domain/usecase/challenge_remote_usecase.dart';
+import 'package:routiner/feature/challenge/presentation/bloc/challenge_detail_bloc/challenge_detail_bloc.dart';
+import 'package:routiner/feature/challenge/presentation/bloc/challenge_list_bloc/challenge_list_bloc.dart';
+import 'package:routiner/feature/challenge/presentation/bloc/create_challenge_bloc/create_challenge_bloc.dart';
 import 'package:routiner/feature/club_chat/data/data_source/remote/club_chat_remote_data_source.dart';
 import 'package:routiner/feature/club_chat/data/repo_impl/club_chat_remote_repo_impl.dart';
 import 'package:routiner/feature/club_chat/domain/repo/club_chat_remote_repo.dart';
@@ -74,19 +101,29 @@ import 'package:routiner/feature/home/presentation/bloc/habit_display_bloc/habit
 import 'package:routiner/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:routiner/feature/home/presentation/bloc/update_value_dialog_bloc/update_value_dialog_bloc.dart';
 import 'package:routiner/feature/profile/data/data_source/local_data_sources/create_account_local_data_source.dart';
+import 'package:routiner/feature/profile/data/data_source/local_data_sources/profile_display_local_data_source.dart';
 import 'package:routiner/feature/profile/data/data_source/remote_data_sources/create_account_remote_data_source.dart';
 import 'package:routiner/feature/profile/data/data_source/remote_data_sources/friend_remote_data_source.dart';
+import 'package:routiner/feature/profile/data/data_source/remote_data_sources/profile_remote_data_source.dart';
 import 'package:routiner/feature/profile/data/repo_impl/create_account_local_repository_impl.dart';
 import 'package:routiner/feature/profile/data/repo_impl/create_account_remote_repository_impl.dart';
 import 'package:routiner/feature/profile/data/repo_impl/friend_remote_repo_impl.dart';
+import 'package:routiner/feature/profile/data/repo_impl/profile_local_repo_impl.dart';
+import 'package:routiner/feature/profile/data/repo_impl/profile_remote_repo_impl.dart';
 import 'package:routiner/feature/profile/domain/repo/create_account_local_repository.dart';
 import 'package:routiner/feature/profile/domain/repo/create_account_remote_repository.dart';
 import 'package:routiner/feature/profile/domain/repo/friend_remote_repo.dart';
+import 'package:routiner/feature/profile/domain/repo/profile_local_repo.dart';
+import 'package:routiner/feature/profile/domain/repo/profile_remote_repo.dart';
 import 'package:routiner/feature/profile/domain/usecase/create_account_local_usecase.dart';
 import 'package:routiner/feature/profile/domain/usecase/create_account_remote_usecase.dart';
 import 'package:routiner/feature/profile/domain/usecase/friends_remote_usecase.dart';
+import 'package:routiner/feature/profile/domain/usecase/profile_local_usecase.dart';
+import 'package:routiner/feature/profile/domain/usecase/profile_remote_usecase.dart';
+import 'package:routiner/feature/profile/presentation/bloc/activity_tab_bloc/activity_tab_bloc.dart';
 import 'package:routiner/feature/profile/presentation/bloc/create_account_bloc/create_account_bloc.dart';
 import 'package:routiner/feature/profile/presentation/bloc/friend_remote_bloc/friend_remote_bloc.dart';
+import 'package:routiner/feature/profile/presentation/bloc/profile_display_bloc/profile_bloc.dart';
 
 class AppInjector {
   AppInjector._();
@@ -132,11 +169,29 @@ class AppInjector {
       ..registerLazySingleton<MoodLocalDataSource>(
         () => MoodLocalDataSourceImpl(getIt<HiveService>()),
       )
+      ..registerLazySingleton<MoodRemoteDataSource>(
+        () => MoodRemoteDataSourceImpl(
+          firestoreService: getIt<FirebaseFirestoreService>(),
+          authService: getIt<FirebaseAuthService>(),
+        ),
+      )
+      ..registerLazySingleton<ActivityRemoteDataSource>(
+        () => ActivityRemoteDataSourceImpl(
+          firestoreService: getIt<FirebaseFirestoreService>(),
+          authService: getIt<FirebaseAuthService>(),
+        ),
+      )
+      ..registerLazySingleton<ActivityLocalDataSource>(
+        () => ActivityLocalDataSourceImpl(getIt<HiveService>()),
+      )
       ..registerLazySingleton<HomeLocalDataSource>(
         () => HomeLocalDataSourceImpl(getIt<HiveService>()),
       )
       ..registerLazySingleton<CustomHabitLocalDataSource>(
         () => CustomHabitLocalDataSourceImpl(getIt<HiveService>()),
+      )
+      ..registerLazySingleton<ChallengeLocalDataSource>(
+        () => ChallengeLocalDataSourceImpl(getIt<HiveService>()),
       )
       ..registerLazySingleton<CustomHabitRemoteDataSource>(
         () => CustomHabitRemoteDataSourceImpl(
@@ -186,6 +241,21 @@ class AppInjector {
           firestoreService: getIt<FirebaseFirestoreService>(),
         ),
       )
+      ..registerLazySingleton<ChallengeRemoteDataSource>(
+        () => ChallengeRemoteDataSourceImpl(
+          authService: getIt<FirebaseAuthService>(),
+          firestoreService: getIt<FirebaseFirestoreService>(),
+        ),
+      )
+      ..registerLazySingleton<ProfileLocalDataSource>(
+        () => ProfileLocalDataSourceImpl(getIt<HiveService>()),
+      )
+      ..registerLazySingleton<ProfileRemoteDataSource>(
+        () => ProfileRemoteDataSourceImpl(
+          firestoreService: getIt<FirebaseFirestoreService>(),
+          authService: getIt<FirebaseAuthService>(),
+        ),
+      )
       ///Repo
       ..registerLazySingleton<AuthRemoteRepo>(
         () => AuthRemoteRepoImpl(
@@ -197,6 +267,14 @@ class AppInjector {
           authLocalDataSource: getIt<AuthLocalDataSource>(),
         ),
       )
+      ..registerLazySingleton<ActivityRemoteRepository>(
+        () => ActivityRemoteRepositoryImpl(
+          remoteDataSource: getIt<ActivityRemoteDataSource>(),
+        ),
+      )
+      ..registerLazySingleton<ActivityLocalRepository>(
+        () => ActivityLocalRepositoryImpl(getIt<ActivityLocalDataSource>()),
+      )
       ..registerLazySingleton<CreateAccountLocalRepository>(
         () => CreateAccountLocalRepositoryImpl(
           getIt<CreateAccountLocalDataSource>(),
@@ -207,8 +285,11 @@ class AppInjector {
           getIt<CreateAccountRemoteDataSource>(),
         ),
       )
-      ..registerLazySingleton<MoodRepository>(
-        () => MoodRepositoryImpl(getIt<MoodLocalDataSource>()),
+      ..registerLazySingleton<MoodLocalRepository>(
+        () => MoodLocalRepositoryImpl(getIt<MoodLocalDataSource>()),
+      )
+      ..registerLazySingleton<MoodRemoteRepository>(
+        () => MoodRemoteRepositoryImpl(getIt<MoodRemoteDataSource>()),
       )
       ..registerLazySingleton<HomeLocalRepo>(
         () => HomeLocalRepoImpl(getIt<HomeLocalDataSource>()),
@@ -229,6 +310,9 @@ class AppInjector {
       )
       ..registerLazySingleton<HabitsListLocalRepository>(
         () => HabitsListLocalRepositoryImpl(getIt<HabitsListLocalDataSource>()),
+      )
+      ..registerLazySingleton<ChallengeLocalRepository>(
+        () => ChallengeLocalRepositoryImpl(getIt<ChallengeLocalDataSource>()),
       )
       ..registerLazySingleton<HabitsListRemoteRepository>(
         () =>
@@ -254,12 +338,34 @@ class AppInjector {
             ClubRepositoryImpl(remoteDataSource: getIt<ClubRemoteDataSource>()),
       )
       ..registerLazySingleton<ExploreRemoteRepository>(
-        () =>
-            ExploreRemoteRepositoryImpl(remoteDataSource: getIt<ExploreRemoteDataSource>()),
+        () => ExploreRemoteRepositoryImpl(
+          remoteDataSource: getIt<ExploreRemoteDataSource>(),
+        ),
+      )
+      ..registerLazySingleton<ChallengeRemoteRepository>(
+        () => ChallengeRemoteRepositoryImpl(getIt<ChallengeRemoteDataSource>()),
+      )
+      ..registerLazySingleton<ProfileLocalRepo>(
+        () => ProfileLocalRepoImpl(
+          profileLocalDataSource: getIt<ProfileLocalDataSource>(),
+        ),
+      )
+      ..registerLazySingleton<ProfileRemoteRepo>(
+        () => ProfileRemoteRepoImpl(
+          profileRemoteDataSource: getIt<ProfileRemoteDataSource>(),
+        ),
       )
       ///USE CASES
       ..registerLazySingleton<AuthRemoteUseCase>(
         () => AuthRemoteUseCase(authRemoteRepo: getIt<AuthRemoteRepo>()),
+      )
+      ..registerLazySingleton<ActivityRemoteUseCase>(
+        () => ActivityRemoteUseCase(
+          repository: getIt<ActivityRemoteRepository>(),
+        ),
+      )
+      ..registerLazySingleton<ActivityLocalUseCase>(
+        () => ActivityLocalUseCase(getIt<ActivityLocalRepository>()),
       )
       ..registerLazySingleton<AuthLocalUseCase>(
         () => AuthLocalUseCase(authLocalRepo: getIt<AuthLocalRepo>()),
@@ -268,10 +374,18 @@ class AppInjector {
         () => CreateAccountLocalUsecase(getIt<CreateAccountLocalRepository>()),
       )
       ..registerLazySingleton(
+        () => ChallengeLocalUsecase(getIt<ChallengeLocalRepository>()),
+      )
+      ..registerLazySingleton(
         () =>
             CreateAccountRemoteUsecase(getIt<CreateAccountRemoteRepository>()),
       )
-      ..registerLazySingleton(() => MoodUsecase(getIt<MoodRepository>()))
+      ..registerLazySingleton(
+        () => MoodLocalUsecase(getIt<MoodLocalRepository>()),
+      )
+      ..registerLazySingleton(
+        () => MoodRemoteUsecase(getIt<MoodRemoteRepository>()),
+      )
       ..registerLazySingleton(() => HomeLocalUsecase(getIt<HomeLocalRepo>()))
       ..registerLazySingleton<HabitDisplayLocalUsecase>(
         () => HabitDisplayLocalUsecase(getIt<HabitDisplayLocalRepository>()),
@@ -307,8 +421,23 @@ class AppInjector {
       ..registerLazySingleton(
         () => ExploreRemoteUseCase(getIt<ExploreRemoteRepository>()),
       )
+      ..registerLazySingleton(
+        () => ChallengeRemoteUsecase(getIt<ChallengeRemoteRepository>()),
+      )
+      ..registerLazySingleton<ProfileLocalUseCase>(
+        () => ProfileLocalUseCase(profileLocalRepo: getIt<ProfileLocalRepo>()),
+      )
+      ..registerLazySingleton<ProfileRemoteUseCase>(
+        () =>
+            ProfileRemoteUseCase(profileRemoteRepo: getIt<ProfileRemoteRepo>()),
+      )
       ///BLOCS
-      ..registerFactory(() => MoodBloc(moodUsecase: getIt<MoodUsecase>()))
+      ..registerFactory(
+        () => MoodBloc(
+          moodLocalUsecase: getIt<MoodLocalUsecase>(),
+          moodRemoteUsecase: getIt<MoodRemoteUsecase>(),
+        ),
+      )
       ..registerFactory(() => HomeBloc(getIt<HomeLocalUsecase>()))
       ..registerFactory(
         () => LoginBloc(
@@ -342,6 +471,7 @@ class AppInjector {
       ..registerFactory(
         () => FriendsRemoteBloc(friendUseCase: getIt<FriendsRemoteUsecase>()),
       )
+      ..registerFactory(ActivityBloc.new)
       ..registerFactory(
         () => ClubListBloc(clubUseCase: getIt<ClubRemoteUseCase>()),
       )
@@ -365,6 +495,54 @@ class AppInjector {
           createCustomHabitLocalUsecase: getIt<CreateCustomHabitLocalUsecase>(),
           createCustomHabitRemoteUsecase:
               getIt<CreateCustomHabitRemoteUsecase>(),
+        ),
+      )
+      ..registerFactory<ProfileBloc>(
+        () => ProfileBloc(
+          profileRemoteUseCase: getIt<ProfileRemoteUseCase>(),
+          profileLocalUseCase: getIt<ProfileLocalUseCase>(),
+        ),
+      )
+      ..registerFactory(
+        () => ChallengeDetailBloc(
+          remoteUsecase: getIt<ChallengeRemoteUsecase>(),
+          localUsecase: getIt<ChallengeLocalUsecase>(),
+        ),
+      )
+      ..registerFactory(
+        () => DailyActivityBloc(
+          activityRemoteUseCase: getIt<ActivityRemoteUseCase>(),
+          activityLocalUseCase: getIt<ActivityLocalUseCase>(),
+        ),
+      )
+      ..registerFactory(
+        () => ActivityTabBloc(
+          profileLocalUseCase: getIt<ProfileLocalUseCase>(),
+          profileRemoteUseCase: getIt<ProfileRemoteUseCase>(),
+        ),
+      )
+      ..registerFactory(
+        () => MonthlyActivityBloc(
+          activityRemoteUseCase: getIt<ActivityRemoteUseCase>(),
+          activityLocalUseCase: getIt<ActivityLocalUseCase>(),
+        ),
+      )
+      ..registerFactory(
+        () => WeeklyActivityBloc(
+          activityRemoteUseCase: getIt<ActivityRemoteUseCase>(),
+          activityLocalUseCase: getIt<ActivityLocalUseCase>(),
+        ),
+      )
+      ..registerFactory(
+        () => ChallengesListBloc(
+          remoteUsecase: getIt<ChallengeRemoteUsecase>(),
+          localUsecase: getIt<ChallengeLocalUsecase>(),
+        ),
+      )
+      ..registerFactory(
+        () => CreateChallengeBloc(
+          remoteUsecase: getIt<ChallengeRemoteUsecase>(),
+          localUsecase: getIt<ChallengeLocalUsecase>(),
         ),
       )
       ..registerFactory(

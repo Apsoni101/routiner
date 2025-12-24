@@ -4,6 +4,8 @@ import 'package:routiner/core/services/firebase/firebase_auth_service.dart';
 import 'package:routiner/core/services/firebase/firebase_firestore_service.dart';
 import 'package:routiner/core/services/firebase/firestore_method.dart';
 import 'package:routiner/core/services/network/failure.dart';
+import 'package:routiner/core/services/storage/hive_key_constants.dart';
+import 'package:routiner/feature/challenge/data/model/challenge_model.dart';
 import 'package:routiner/feature/home/data/model/club_model.dart';
 
 /// Abstract club remote data source
@@ -56,6 +58,9 @@ abstract class ExploreRemoteDataSource {
 
   /// Leave club
   Future<Either<Failure, Unit>> leaveClub(final String clubId);
+
+  Future<Either<Failure, List<ChallengeModel>>> getAllChallenges();
+
 }
 
 /// Implementation of club remote data source
@@ -476,6 +481,23 @@ class ExploreRemoteDataSourceImpl implements ExploreRemoteDataSource {
           merge: true,
         );
       });
+    });
+  }
+  @override
+  Future<Either<Failure, List<ChallengeModel>>> getAllChallenges() async {
+    final Either<Failure, List<Map<String, dynamic>>> result =
+    await firestoreService.request<List<Map<String, dynamic>>>(
+      collectionPath: HiveKeyConstants.challengesCollection,
+      method: FirestoreMethod.getAll,
+      responseParser: (final data) => data as List<Map<String, dynamic>>,
+    );
+
+    return result.fold(Left.new, (final List<Map<String, dynamic>> data) {
+      final List<ChallengeModel> challenges = data
+          .map(ChallengeModel.fromJson)
+          .where((final ChallengeModel c) => c.isActive ?? false)
+          .toList();
+      return Right(challenges);
     });
   }
 }

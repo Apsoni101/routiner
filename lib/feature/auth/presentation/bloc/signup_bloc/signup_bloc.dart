@@ -169,6 +169,11 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
     await result.fold(
       (final Failure failure) async {
+        // Emit error first for the BlocListener to show the SnackBar
+        emit(SignupError(message: failure.message));
+
+        // Then immediately transition back to SignupUser state
+        // This keeps the form data and enables the Next button
         emit(
           SignupUser(
             name: name,
@@ -183,8 +188,6 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
             passwordValid: true,
           ),
         );
-
-        emit(SignupError(message: failure.message));
       },
       (final UserEntity user) async {
         await authLocalUseCase.saveUserCredentials(user);
@@ -206,7 +209,11 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
     await result.fold(
       (final Failure failure) async {
+        // Emit error first
         emit(SignupError(message: failure.message));
+
+        // Then transition back to initial state
+        emit(SignupUser.initial());
       },
       (final UserEntity user) async {
         await authLocalUseCase.saveUserCredentials(user);

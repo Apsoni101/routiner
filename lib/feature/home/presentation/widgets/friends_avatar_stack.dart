@@ -13,28 +13,32 @@ class FriendsAvatarStack extends StatelessWidget {
   final List<ImageProvider> avatarImages;
 
   @override
-  Widget build(final BuildContext context) {
-    if (friendsCount <= 0) {
+  Widget build(BuildContext context) {
+    if (friendsCount <= 0 || avatarImages.isEmpty) {
       return const SizedBox.shrink();
     }
 
-    final int visibleAvatars = friendsCount == 1 ? 1 : 2;
+    final int visibleAvatars = avatarImages.length.clamp(0, friendsCount);
+
     final int extraCount = friendsCount - visibleAvatars;
 
+    final int totalItems = visibleAvatars + (extraCount > 0 ? 1 : 0);
+
+    final double width = 28 + (totalItems - 1) * 18;
+
     return SizedBox(
-      width: 70,
       height: 28,
+      width: width,
       child: Stack(
-        children: <Widget>[
+        children: [
           for (int i = 0; i < visibleAvatars; i++)
             Positioned(
-              left: i * 18.0,
+              left: i * 18,
               child: CircleAvatar(radius: 14, backgroundImage: avatarImages[i]),
             ),
-
           if (extraCount > 0)
             Positioned(
-              left: visibleAvatars * 18.0,
+              left: visibleAvatars * 18,
               child: CircleAvatar(
                 radius: 14,
                 backgroundColor: context.appColors.cEBECFF,

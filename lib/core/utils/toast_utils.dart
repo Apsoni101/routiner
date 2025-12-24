@@ -24,7 +24,7 @@ class ToastUtils {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           if (success)
-            SvgPicture.asset(AppAssets.appleIc, width: 24, height: 24)
+            Image.asset(AppAssets.appLogoIc, width: 24, height: 24)
           else
             Icon(Icons.error_outline, color: context.appColors.red),
           const SizedBox(width: 10),

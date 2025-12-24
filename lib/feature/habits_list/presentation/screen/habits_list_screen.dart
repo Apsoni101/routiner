@@ -5,6 +5,7 @@ import 'package:routiner/core/di/app_injector.dart';
 import 'package:routiner/core/enums/log_status.dart';
 import 'package:routiner/core/extensions/color_extension.dart';
 import 'package:routiner/core/extensions/localization_extension.dart';
+import 'package:routiner/core/utils/toast_utils.dart';
 import 'package:routiner/feature/common/presentation/widgets/custom_app_bar.dart';
 import 'package:routiner/feature/habits_list/presentation/bloc/habits_list_bloc.dart';
 import 'package:routiner/feature/home/domain/entity/habit_with_log.dart';
@@ -35,31 +36,49 @@ class _HabitsListStateView extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    return BlocBuilder<HabitsListBloc, HabitsListState>(
-      builder: (final BuildContext context, final HabitsListState state) {
-        if (state is HabitsListLoading) {
-          return const Center(child: CircularProgressIndicator());
+    return BlocListener<HabitsListBloc, HabitsListState>(
+      listenWhen: (previous, current) {
+        if (previous is HabitsListLoaded && current is HabitsListLoaded) {
+          return previous.errorMessage != current.errorMessage &&
+              current.errorMessage != null;
         }
-
-        if (state is HabitsListLoaded) {
-          if (state.habitsWithLogs.isEmpty) {
-            return const _EmptyView();
+        return current is HabitsListLoaded && current.errorMessage != null;
+      },
+      listener: (context, state) {
+        if (state is HabitsListLoaded && state.errorMessage != null) {
+          ToastUtils.showToast(
+            context,
+            context.locale.habitStatusAlreadySet,
+            success: false,
+          );
+        }
+      },
+      child: BlocBuilder<HabitsListBloc, HabitsListState>(
+        builder: (final BuildContext context, final HabitsListState state) {
+          if (state is HabitsListLoading) {
+            return const Center(child: CircularProgressIndicator());
           }
 
-          return _HabitsList(
-            habits: state.habitsWithLogs.reversed.toList(),
-            friendsCountMap: state.friendsCountMap,
-          );
-        }
+          if (state is HabitsListLoaded) {
+            if (state.habitsWithLogs.isEmpty) {
+              return const _EmptyView();
+            }
 
-        if (state is HabitsListError) {
-          return _ErrorView(
-            message: context.locale.habitLoadError(state.message),
-          );
-        }
+            return _HabitsList(
+              habits: state.habitsWithLogs.reversed.toList(),
+              friendsCountMap: state.friendsCountMap,
+            );
+          }
 
-        return const SizedBox.shrink();
-      },
+          if (state is HabitsListError) {
+            return _ErrorView(
+              message: context.locale.habitLoadError(state.message),
+            );
+          }
+
+          return const SizedBox.shrink();
+        },
+      ),
     );
   }
 }

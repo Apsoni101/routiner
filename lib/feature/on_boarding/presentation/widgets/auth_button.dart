@@ -10,22 +10,39 @@ class AuthButton extends StatelessWidget {
     required this.assetName,
     super.key,
     this.verticalPadding = 8,
+    this.isLoading = false,
   });
 
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String text;
   final String assetName;
   final double verticalPadding;
+  final bool isLoading;
 
   @override
   Widget build(final BuildContext context) {
+    final bool isDisabled = onPressed == null || isLoading;
+
     return TextButton.icon(
-      onPressed: onPressed,
-      icon: SvgPicture.asset(assetName, width: 20, height: 20),
+      onPressed: isDisabled ? null : onPressed,
+      icon: isLoading
+          ? SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  context.appColors.c040415.withValues(alpha: 0.5),
+                ),
+              ),
+            )
+          : SvgPicture.asset(assetName, width: 20, height: 20),
       label: Text(
         text,
         style: AppTextStyles.airbnbCerealW500S14.copyWith(
-          color: context.appColors.c040415,
+          color: isDisabled
+              ? context.appColors.c040415.withValues(alpha: 0.5)
+              : context.appColors.c040415,
         ),
       ),
       style: TextButton.styleFrom(
@@ -33,7 +50,9 @@ class AuthButton extends StatelessWidget {
           vertical: verticalPadding,
           horizontal: 16,
         ),
-        backgroundColor: context.appColors.white,
+        backgroundColor: isDisabled
+            ? context.appColors.white.withValues(alpha: 0.7)
+            : context.appColors.white,
       ),
     );
   }

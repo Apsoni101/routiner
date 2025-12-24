@@ -4,6 +4,7 @@ import 'package:routiner/core/constants/app_textstyles.dart';
 import 'package:routiner/core/constants/asset_constants.dart';
 import 'package:routiner/core/extensions/color_extension.dart';
 import 'package:routiner/core/extensions/localization_extension.dart';
+import 'package:routiner/feature/common/presentation/widgets/profile_points_badge.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({
@@ -39,25 +40,7 @@ class ProfileHeader extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 4),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: context.appColors.cFFF3DA,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(AppAssets.medalIc, width: 16, height: 16),
-                    Text(
-                      '$subtitle ${context.locale.points}',
-                      style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
-                        color: context.appColors.cFEA800,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              ProfilePointsBadge(points: subtitle),
             ],
           ),
         ],

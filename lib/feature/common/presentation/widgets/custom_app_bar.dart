@@ -7,7 +7,7 @@ import 'package:routiner/feature/common/presentation/widgets/custom_back_button.
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     required this.title,
-    this.subtitle, // ✅ added
+    this.subtitle,
     this.showBackButton = true,
     this.showDivider = true,
     this.actions,
@@ -15,7 +15,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   final String title;
-  final String? subtitle; // ✅ added
+  final String? subtitle;
   final bool showBackButton;
   final bool showDivider;
   final List<Widget>? actions;

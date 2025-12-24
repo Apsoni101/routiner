@@ -1,11 +1,10 @@
 part of 'custom_habit_bloc.dart';
 
-@immutable
-sealed class CreateCustomHabitEvent extends Equatable {
+abstract class CreateCustomHabitEvent extends Equatable {
   const CreateCustomHabitEvent();
 
   @override
-  List<Object?> get props => <Object?>[];
+  List<Object?> get props => [];
 }
 
 class NameChanged extends CreateCustomHabitEvent {
@@ -14,7 +13,7 @@ class NameChanged extends CreateCustomHabitEvent {
   final String name;
 
   @override
-  List<Object?> get props => <Object?>[name];
+  List<Object> get props => [name];
 }
 
 class IconSelected extends CreateCustomHabitEvent {
@@ -23,7 +22,7 @@ class IconSelected extends CreateCustomHabitEvent {
   final IconData icon;
 
   @override
-  List<Object?> get props => <Object?>[icon];
+  List<Object> get props => [icon];
 }
 
 class HabitIconSelected extends CreateCustomHabitEvent {
@@ -32,7 +31,7 @@ class HabitIconSelected extends CreateCustomHabitEvent {
   final Habit habit;
 
   @override
-  List<Object?> get props => <Object?>[habit];
+  List<Object> get props => [habit];
 }
 
 class ColorSelected extends CreateCustomHabitEvent {
@@ -41,7 +40,7 @@ class ColorSelected extends CreateCustomHabitEvent {
   final Color color;
 
   @override
-  List<Object?> get props => <Object?>[color];
+  List<Object> get props => [color];
 }
 
 class GoalValueChanged extends CreateCustomHabitEvent {
@@ -50,7 +49,7 @@ class GoalValueChanged extends CreateCustomHabitEvent {
   final GoalValue goalValue;
 
   @override
-  List<Object?> get props => <Object?>[goalValue];
+  List<Object> get props => [goalValue];
 }
 
 class ReminderAdded extends CreateCustomHabitEvent {
@@ -59,7 +58,7 @@ class ReminderAdded extends CreateCustomHabitEvent {
   final TimeOfDay reminder;
 
   @override
-  List<Object?> get props => <Object?>[reminder];
+  List<Object> get props => [reminder];
 }
 
 class ReminderRemoved extends CreateCustomHabitEvent {
@@ -68,7 +67,7 @@ class ReminderRemoved extends CreateCustomHabitEvent {
   final int index;
 
   @override
-  List<Object?> get props => <Object?>[index];
+  List<Object> get props => [index];
 }
 
 class TypeSelected extends CreateCustomHabitEvent {
@@ -77,16 +76,16 @@ class TypeSelected extends CreateCustomHabitEvent {
   final HabitType type;
 
   @override
-  List<Object?> get props => <Object?>[type];
+  List<Object> get props => [type];
 }
 
 class LocationChanged extends CreateCustomHabitEvent {
   const LocationChanged(this.location);
 
-  final String? location;
+  final String location;
 
   @override
-  List<Object?> get props => <Object?>[location];
+  List<Object> get props => [location];
 }
 
 class GoalFrequencyChanged extends CreateCustomHabitEvent {
@@ -95,7 +94,7 @@ class GoalFrequencyChanged extends CreateCustomHabitEvent {
   final RepeatInterval frequency;
 
   @override
-  List<Object?> get props => <Object?>[frequency];
+  List<Object> get props => [frequency];
 }
 
 class GoalDaysChanged extends CreateCustomHabitEvent {
@@ -104,20 +103,46 @@ class GoalDaysChanged extends CreateCustomHabitEvent {
   final List<Day> days;
 
   @override
-  List<Object> get props => <Object>[days];
+  List<Object> get props => [days];
 }
 
 class SaveHabitPressed extends CreateCustomHabitEvent {
-  const SaveHabitPressed({
-    this.isAlarmEnabled = false,
-    this.alarmTime,
-    this.alarmDays = const <Day>[],
-  });
+  const SaveHabitPressed({this.isAlarmEnabled, this.alarmTime, this.alarmDays});
 
-  final bool isAlarmEnabled;
+  final bool? isAlarmEnabled;
   final TimeOfDay? alarmTime;
-  final List<Day> alarmDays;
+  final List<Day>? alarmDays;
 
   @override
-  List<Object?> get props => <Object?>[isAlarmEnabled, alarmTime, alarmDays];
+  List<Object?> get props => [isAlarmEnabled, alarmTime, alarmDays];
+}
+
+// ✨ NEW EVENTS FOR LOADING DATA ✨
+
+class LoadActivities extends CreateCustomHabitEvent {
+  const LoadActivities({
+    this.limit,
+    this.forceRefresh = false,
+    this.syncFromRemote = true,
+  });
+
+  final int? limit;
+  final bool forceRefresh;
+  final bool syncFromRemote;
+
+  @override
+  List<Object?> get props => [limit, forceRefresh, syncFromRemote];
+}
+
+class LoadTotalPoints extends CreateCustomHabitEvent {
+  const LoadTotalPoints({
+    this.forceRefresh = false,
+    this.syncFromRemote = true,
+  });
+
+  final bool forceRefresh;
+  final bool syncFromRemote;
+
+  @override
+  List<Object?> get props => [forceRefresh, syncFromRemote];
 }

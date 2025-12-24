@@ -4,6 +4,7 @@ import 'package:routiner/core/services/firebase/firebase_firestore_service.dart'
 import 'package:routiner/core/services/firebase/firestore_method.dart';
 
 import 'package:routiner/core/services/network/failure.dart';
+import 'package:routiner/feature/create_custom_habit/data/model/activity_model.dart';
 import 'package:routiner/feature/create_custom_habit/data/model/custom_habit_model.dart';
 
 /// Abstract custom habit remote data source
@@ -33,6 +34,14 @@ abstract class CustomHabitRemoteDataSource {
 
   /// Check if a custom habit exists
   Future<Either<Failure, bool>> habitExists({required final String habitId});
+
+  Future<Either<Failure, Unit>> saveActivity({
+    required final ActivityModel activity,
+  });
+
+  Future<Either<Failure, int>> getTotalPoints();
+
+  Future<Either<Failure, List<ActivityModel>>> getActivities({final int? limit});
 }
 
 /// Implementation of custom habit remote data source using Firestore
@@ -210,6 +219,101 @@ class CustomHabitRemoteDataSourceImpl implements CustomHabitRemoteDataSource {
         responseParser: (final dynamic exists) => exists as bool,
         docId: habitId,
       );
+    });
+  }
+
+  @override
+  Future<Either<Failure, Unit>> saveActivity({
+    required final ActivityModel activity,
+  }) async {
+    final Either<Failure, String> userIdResult = await authService
+        .getCurrentUserId();
+
+    return userIdResult.fold(Left.new, (final String userId) async {
+      // 1. Add activity record to activities collection
+      final Either<Failure, Unit> activityResult = await firestoreService
+          .request<Unit>(
+            collectionPath: 'users/$userId/activities',
+            method: FirestoreMethod.add,
+            responseParser: (_) => unit,
+            data: activity.toJson(),
+          );
+
+      return activityResult.fold(Left.new, (_) async {
+        // 2. Get current total points
+        final Either<Failure, int> currentPointsResult = await getTotalPoints();
+
+        return currentPointsResult.fold(Left.new, (final int currentPoints) async {
+          // 3. Update user's total points
+          final Either<Failure, Unit> pointsResult = await firestoreService
+              .request<Unit>(
+                collectionPath: 'users',
+                method: FirestoreMethod.update,
+                responseParser: (_) => unit,
+                docId: userId,
+                data: <String, dynamic>{
+                  'totalPoints': currentPoints + activity.points,
+                  'lastActivityTimestamp': activity.timestamp.toIso8601String(),
+                },
+              );
+
+          return pointsResult;
+        });
+      });
+    });
+  }
+
+  @override
+  Future<Either<Failure, int>> getTotalPoints() async {
+    final Either<Failure, String> userIdResult = await authService
+        .getCurrentUserId();
+
+    return userIdResult.fold(Left.new, (final String userId) async {
+      final Either<Failure, Map<String, dynamic>> result =
+          await firestoreService.request<Map<String, dynamic>>(
+            collectionPath: 'users',
+            method: FirestoreMethod.get,
+            responseParser: (final data) => data as Map<String, dynamic>,
+            docId: userId,
+          );
+
+      return result.fold(Left.new, (final Map<String, dynamic> data) {
+        final int points = data['totalPoints'] as int? ?? 0;
+        return Right(points);
+      });
+    });
+  }
+
+  @override
+  Future<Either<Failure, List<ActivityModel>>> getActivities({
+    final int? limit,
+  }) async {
+    final Either<Failure, String> userIdResult = await authService
+        .getCurrentUserId();
+
+    return userIdResult.fold(Left.new, (final String userId) async {
+      final Either<Failure, List<Map<String, dynamic>>> result =
+          await firestoreService.request<List<Map<String, dynamic>>>(
+            collectionPath: 'users/$userId/activities',
+            method: FirestoreMethod.getAll,
+            responseParser: (final data) => data as List<Map<String, dynamic>>,
+          );
+
+      return result.fold(Left.new, (final List<Map<String, dynamic>> data) {
+        List<ActivityModel> activities = data
+            .map(ActivityModel.fromJson)
+            .toList()
+
+        // Sort by timestamp descending
+        ..sort((final ActivityModel a, final ActivityModel b) => b.timestamp.compareTo(a.timestamp));
+
+        // Apply limit if specified
+        if (limit != null && activities.length > limit) {
+          activities = activities.sublist(0, limit);
+        }
+
+        return Right(activities);
+      });
     });
   }
 }

@@ -9,6 +9,9 @@ import 'package:routiner/core/enums/log_status.dart';
 import 'package:routiner/core/extensions/color_extension.dart';
 import 'package:routiner/core/extensions/localization_extension.dart';
 import 'package:routiner/core/navigation/app_router.gr.dart';
+import 'package:routiner/core/utils/toast_utils.dart';
+import 'package:routiner/feature/challenge/domain/entity/challenge_entity.dart';
+import 'package:routiner/feature/challenge/presentation/widgets/challenge_card.dart';
 import 'package:routiner/feature/home/domain/entity/habit_with_log.dart';
 import 'package:routiner/feature/home/presentation/bloc/habit_display_bloc/habit_display_bloc.dart';
 import 'package:routiner/feature/home/presentation/widgets/date_selector.dart';
@@ -26,9 +29,9 @@ class TodayTabView extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return BlocProvider<HabitDisplayBloc>(
-      create: (_) =>
-          AppInjector.getIt<HabitDisplayBloc>()
-            ..add(LoadHabitsForDate(DateTime.now())),
+      create: (_) => AppInjector.getIt<HabitDisplayBloc>()
+        ..add(LoadHabitsForDate(DateTime.now()))
+        ..add(const LoadChallenges()),
       child: _TodayTabContent(onHabitChanged: onHabitChanged),
     );
   }
@@ -62,6 +65,7 @@ class _TodayTabContentState extends State<_TodayTabContent> {
     context.read<HabitDisplayBloc>().add(
       LoadHabitsForDate(_selectedDate.value),
     );
+    // LoadChallenges will be triggered automatically by LoadHabitsForDate
   }
 
   @override
@@ -82,8 +86,19 @@ class _TodayTabContentState extends State<_TodayTabContent> {
         SectionHeader(
           title: context.locale.challenges,
           actionText: context.locale.viewAll,
-          onActionPressed: () {},
+          onActionPressed: () async {
+            await context.router.push(const ChallengesListRoute());
+
+            if (!context.mounted) return;
+
+            context.read<HabitDisplayBloc>().add(
+              LoadHabitsForDate(_selectedDate.value),
+            );
+          },
         ),
+        const _ChallengesSection(),
+
+        // Habits Section
         SectionHeader(
           title: context.locale.habits,
           actionText: context.locale.viewAll,
@@ -102,6 +117,143 @@ class _TodayTabContentState extends State<_TodayTabContent> {
 
         const _HabitStateView(),
       ],
+    );
+  }
+}
+
+/// ------------------------------------------------------------
+/// CHALLENGES SECTION
+/// ------------------------------------------------------------
+class _ChallengesSection extends StatelessWidget {
+  const _ChallengesSection();
+
+  @override
+  Widget build(final BuildContext context) {
+    return BlocBuilder<HabitDisplayBloc, HabitDisplayState>(
+      builder: (final BuildContext context, final HabitDisplayState state) {
+        if (state is! HabitDisplayLoaded) {
+          return const SizedBox.shrink();
+        }
+
+        // Show loading indicator
+        if (state.challengesLoading) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        // Show empty state with create challenge button
+        if (state.challenges.isEmpty) {
+          return _EmptyChallengesView();
+        }
+
+        // Show challenges list (limited to 3 items)
+        return _ChallengesList(challenges: state.challenges);
+      },
+    );
+  }
+}
+
+/// ------------------------------------------------------------
+/// EMPTY CHALLENGES VIEW
+/// ------------------------------------------------------------
+class _EmptyChallengesView extends StatelessWidget {
+  const _EmptyChallengesView();
+
+  @override
+  Widget build(final BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: context.appColors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: context.appColors.cCDCDD0, width: 1),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Icon(
+            Icons.emoji_events_outlined,
+            size: 48,
+            color: context.appColors.slate,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            context.locale.noChallengesYet,
+            style: AppTextStyles.airbnbCerealW400S14Lh20Ls0.copyWith(
+              color: context.appColors.cCDCDD0,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            context.locale.createFirstChallenge,
+            style: AppTextStyles.airbnbCerealW400S14Lh20Ls0.copyWith(
+              color: context.appColors.slate,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: () async {
+                await context.router.push(const CreateChallengeRoute());
+
+                if (!context.mounted) return;
+
+                context.read<HabitDisplayBloc>().add(const LoadChallenges());
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: context.appColors.c3843FF,
+                foregroundColor: context.appColors.white,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              icon: Icon(Icons.add, color: context.appColors.white),
+              label: Text(
+                context.locale.createChallenge,
+                style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
+                  color: context.appColors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// ------------------------------------------------------------
+/// CHALLENGES LIST
+/// ------------------------------------------------------------
+class _ChallengesList extends StatelessWidget {
+  const _ChallengesList({required this.challenges});
+
+  final List<ChallengeEntity> challenges;
+
+  @override
+  Widget build(final BuildContext context) {
+    final int itemCount = challenges.length > 3 ? 3 : challenges.length;
+
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      itemCount: itemCount,
+      itemBuilder: (final BuildContext context, final int index) {
+        return ChallengeCard(
+          challenge: challenges[index],
+          onRefresh: () {
+            context.read<HabitDisplayBloc>().add(const LoadChallenges());
+          },
+        );
+      },
     );
   }
 }
@@ -229,31 +381,50 @@ class _HabitStateView extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    return BlocBuilder<HabitDisplayBloc, HabitDisplayState>(
-      builder: (final BuildContext context, final HabitDisplayState state) {
-        if (state is HabitDisplayLoading) {
-          return const Center(child: CircularProgressIndicator());
+    return BlocListener<HabitDisplayBloc, HabitDisplayState>(
+      listenWhen: (previous, current) {
+        // Always listen when errorMessage changes (including when it appears again)
+        if (previous is HabitDisplayLoaded && current is HabitDisplayLoaded) {
+          return previous.errorMessage != current.errorMessage &&
+              current.errorMessage != null;
         }
-
-        if (state is HabitDisplayError) {
-          return _ErrorView(
-            message: context.locale.habitLoadError(state.message),
+        return current is HabitDisplayLoaded && current.errorMessage != null;
+      },
+      listener: (context, state) {
+        if (state is HabitDisplayLoaded && state.errorMessage != null) {
+          ToastUtils.showToast(
+            context,
+            context.locale.habitStatusAlreadySet,
+            success: false,
           );
         }
-
-        if (state is HabitDisplayLoaded) {
-          if (state.habitsWithLogs.isEmpty) {
-            return const _EmptyView();
+      },
+      child: BlocBuilder<HabitDisplayBloc, HabitDisplayState>(
+        builder: (final BuildContext context, final HabitDisplayState state) {
+          if (state is HabitDisplayLoading) {
+            return const Center(child: CircularProgressIndicator());
           }
 
-          return _HabitList(
-            habits: state.habitsWithLogs.reversed.toList(),
-            friendsCountMap: state.friendsCountMap,
-          );
-        }
+          if (state is HabitDisplayError) {
+            return _ErrorView(
+              message: context.locale.habitLoadError(state.message),
+            );
+          }
 
-        return const SizedBox.shrink();
-      },
+          if (state is HabitDisplayLoaded) {
+            if (state.habitsWithLogs.isEmpty) {
+              return const _EmptyView();
+            }
+
+            return _HabitList(
+              habits: state.habitsWithLogs.reversed.toList(),
+              friendsCountMap: state.friendsCountMap,
+            );
+          }
+
+          return const SizedBox.shrink();
+        },
+      ),
     );
   }
 }
@@ -316,6 +487,7 @@ class _HabitList extends StatelessWidget {
   Widget build(final BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 24),
       itemCount: habits.length > 5 ? 5 : habits.length,
       itemBuilder: (_, final int index) {
@@ -329,16 +501,15 @@ class _HabitList extends StatelessWidget {
           onValueUpdated: () {
             context.read<HabitDisplayBloc>().add(const RefreshHabits());
           },
-          onStatusChange:
-              (final LogStatus status, final int? completedValue) {
-                context.read<HabitDisplayBloc>().add(
-                  UpdateHabitLogStatus(
-                    log: habitWithLog.log,
-                    status: status,
-                    completedValue: completedValue,
-                  ),
-                );
-              },
+          onStatusChange: (final LogStatus status, final int? completedValue) {
+            context.read<HabitDisplayBloc>().add(
+              UpdateHabitLogStatus(
+                log: habitWithLog.log,
+                status: status,
+                completedValue: completedValue,
+              ),
+            );
+          },
         );
       },
     );

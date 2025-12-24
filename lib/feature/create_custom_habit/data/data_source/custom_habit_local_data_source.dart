@@ -9,6 +9,8 @@ import 'package:routiner/core/enums/habits.dart';
 import 'package:routiner/core/enums/repeat_interval.dart';
 import 'package:routiner/core/services/storage/hive_key_constants.dart';
 import 'package:routiner/core/services/storage/hive_service.dart';
+import 'package:routiner/feature/create_custom_habit/data/model/activity_hive_model.dart';
+import 'package:routiner/feature/create_custom_habit/data/model/activity_model.dart';
 import 'package:routiner/feature/create_custom_habit/data/model/custom_habit_hive_model.dart';
 import 'package:routiner/feature/create_custom_habit/data/model/custom_habit_model.dart';
 
@@ -20,6 +22,11 @@ abstract class CustomHabitLocalDataSource {
   Future<void> deleteCustomHabit(final String id);
 
   Future<void> updateCustomHabit(final CustomHabitModel habit);
+
+  Future<void> saveActivity(final ActivityModel activity);
+  Future<List<ActivityModel>> getActivities({int? limit});
+  Future<int> getTotalPoints();
+  Future<void> updateTotalPoints(int points);
 }
 
 class CustomHabitLocalDataSourceImpl implements CustomHabitLocalDataSource {
@@ -211,6 +218,77 @@ class CustomHabitLocalDataSourceImpl implements CustomHabitLocalDataSource {
           orElse: () => Day.monday,
         );
       }).toList(),
+    );
+  }
+  @override
+  Future<void> saveActivity(final ActivityModel activity) async {
+    final ActivityHiveModel hiveModel = ActivityHiveModel.fromEntity(
+      activity.toEntity(),
+    );
+
+    final List<ActivityHiveModel> existingActivities =
+        _hiveService.getObjectList<ActivityHiveModel>(
+          HiveKeyConstants.activitiesListKey,
+        ) ??
+            <ActivityHiveModel>[]
+              ..add(hiveModel);
+
+    await _hiveService.setObjectList(
+      HiveKeyConstants.activitiesListKey,
+      existingActivities,
+    );
+
+    // Also save individual activity
+    await _hiveService.setObject(
+      '${HiveKeyConstants.activityKey}_${activity.id}',
+      hiveModel,
+    );
+
+    // Update total points
+    final currentPoints = await getTotalPoints();
+    await updateTotalPoints(currentPoints + activity.points);
+  }
+
+  @override
+  Future<List<ActivityModel>> getActivities({int? limit}) async {
+    final List<ActivityHiveModel>? hiveModels =
+    _hiveService.getObjectList<ActivityHiveModel>(
+      HiveKeyConstants.activitiesListKey,
+    );
+
+    if (hiveModels == null || hiveModels.isEmpty) {
+      return <ActivityModel>[];
+    }
+
+    // Convert to entities then to models
+    var activities = hiveModels
+        .map((hive) => ActivityModel.fromEntity(hive.toEntity()))
+        .toList();
+
+    // Sort by timestamp descending (newest first)
+    activities.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+
+    // Apply limit if specified
+    if (limit != null && activities.length > limit) {
+      activities = activities.sublist(0, limit);
+    }
+
+    return activities;
+  }
+
+  @override
+  Future<int> getTotalPoints() async {
+    final int? points = _hiveService.getInt(
+      HiveKeyConstants.totalPointsKey,
+    );
+    return points ?? 0;
+  }
+
+  @override
+  Future<void> updateTotalPoints(int points) async {
+    await _hiveService.setInt(
+      HiveKeyConstants.totalPointsKey,
+      points,
     );
   }
 }

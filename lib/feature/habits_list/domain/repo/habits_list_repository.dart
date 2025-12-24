@@ -1,3 +1,4 @@
+import 'package:routiner/feature/create_custom_habit/domain/entity/activity_entity.dart';
 import 'package:routiner/feature/create_custom_habit/domain/entity/custom_habit_entity.dart';
 import 'package:routiner/feature/home/domain/entity/habit_log_entity.dart';
 
@@ -20,5 +21,9 @@ abstract class HabitsListLocalRepository {
 
   Future<void> clearFriendsCount(final String habitId);
 
+  Future<void> saveActivity(final ActivityEntity activity);
 
+  Future<List<ActivityEntity>> getActivities({int? limit});
+
+  Future<int> getTotalPoints();
 }

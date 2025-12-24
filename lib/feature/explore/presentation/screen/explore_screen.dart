@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:routiner/core/constants/app_constants.dart';
 import 'package:routiner/core/constants/app_textstyles.dart';
 import 'package:routiner/core/constants/asset_constants.dart';
@@ -13,7 +12,9 @@ import 'package:routiner/core/navigation/app_router.gr.dart';
 import 'package:routiner/feature/common/presentation/widgets/custom_app_bar.dart';
 import 'package:routiner/feature/common/presentation/widgets/habit_horizontal_item_card.dart';
 import 'package:routiner/feature/common/presentation/widgets/svg_button.dart';
+import 'package:routiner/feature/explore/domain/entity/learning_entity.dart';
 import 'package:routiner/feature/explore/presentation/bloc/explore_bloc/explore_bloc.dart';
+import 'package:routiner/feature/explore/presentation/widgets/challenge_horizontal_card.dart';
 import 'package:routiner/feature/explore/presentation/widgets/explore_club_card.dart';
 import 'package:routiner/feature/explore/presentation/widgets/learning_card.dart';
 import 'package:routiner/feature/home/domain/entity/club_entity.dart';
@@ -27,7 +28,7 @@ class ExploreScreen extends StatelessWidget {
   Widget build(final BuildContext context) {
     return BlocProvider<ExploreBloc>(
       create: (_) =>
-          AppInjector.getIt<ExploreBloc>()..add(LoadExploreClubsEvent()),
+          AppInjector.getIt<ExploreBloc>()..add(LoadExploreDataEvent()),
       child: const _ExploreBody(),
     );
   }
@@ -56,15 +57,13 @@ class _ExploreBody extends StatelessWidget {
         showBackButton: false,
       ),
       body: BlocListener<ExploreBloc, ExploreState>(
+        listenWhen: (final ExploreState previous, final ExploreState current) =>
+            current is ExploreLoaded && current.successMessage != null,
         listener: (final BuildContext context, final ExploreState state) {
-          if (state is ExploreClubsError || state is ExploreClubActionSuccess) {
-            final String message = state is ExploreClubsError
-                ? state.message
-                : (state as ExploreClubActionSuccess).message;
-
+          if (state is ExploreLoaded && state.successMessage != null) {
             ScaffoldMessenger.of(
               context,
-            ).showSnackBar(SnackBar(content: Text(message)));
+            ).showSnackBar(SnackBar(content: Text(state.successMessage!)));
           }
         },
         child: ListView(
@@ -119,15 +118,19 @@ class _ExploreBody extends StatelessWidget {
             SectionHeader(
               title: context.locale.challenges,
               actionText: context.locale.viewAll,
-              onActionPressed: () {},
+              onActionPressed: () {
+                context.router.push(const ChallengesListRoute());
+              },
             ),
+            // Challenges section
+            const _ExploreChallengesSection(),
             SectionHeader(
               title: context.locale.learning,
               actionText: context.locale.viewAll,
               onActionPressed: () {},
             ),
-
             const _LearningSection(),
+            const SizedBox(height: 120),
           ],
         ),
       ),
@@ -149,8 +152,8 @@ class _LearningSection extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 24),
         itemCount: AppConstants.learnings.length,
-        itemBuilder: (final context, final index) {
-          final item = AppConstants.learnings[index];
+        itemBuilder: (final BuildContext context, final int index) {
+          final LearningItemEntity item = AppConstants.learnings[index];
           return LearningCard(
             imagePath: item.assetImage,
             iconPath: AppAssets.folderIc,
@@ -160,7 +163,7 @@ class _LearningSection extends StatelessWidget {
           );
         },
         separatorBuilder: (final BuildContext context, final int index) {
-          return SizedBox(width: 12);
+          return const SizedBox(width: 12);
         },
       ),
     );
@@ -175,15 +178,31 @@ class _ExploreClubsSection extends StatelessWidget {
   Widget build(final BuildContext context) {
     return BlocBuilder<ExploreBloc, ExploreState>(
       builder: (final BuildContext context, final ExploreState state) {
-        if (state is ExploreClubsLoading) {
+        if (state is ExploreLoading) {
           return SizedBox(
             height: MediaQuery.heightOf(context) * 0.14,
             child: const Center(child: CircularProgressIndicator()),
           );
         }
 
-        if (state is ExploreClubsLoaded) {
-          if (state.clubs.isEmpty) {
+        if (state is ExploreLoaded) {
+          // Show error if clubs failed to load
+          if (state.clubsError != null) {
+            return SizedBox(
+              height: MediaQuery.heightOf(context) * 0.14,
+              child: Center(
+                child: Text(
+                  state.clubsError!,
+                  style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
+                    color: context.appColors.red,
+                  ),
+                ),
+              ),
+            );
+          }
+
+          // Show empty state if no clubs
+          if (state.clubs == null || state.clubs!.isEmpty) {
             return SizedBox(
               height: MediaQuery.heightOf(context) * 0.14,
               child: Center(
@@ -202,22 +221,96 @@ class _ExploreClubsSection extends StatelessWidget {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              itemCount: state.clubs.length,
+              itemCount: state.clubs!.length,
               itemBuilder: (final BuildContext context, final int index) {
-                final ClubEntity club = state.clubs[index];
-                final bool isMember = club.isMember(state.currentUserId);
+                final ClubEntity club = state.clubs![index];
+                final bool isMember = club.isMember(state.currentUserId ?? '');
                 final bool isPending = club.hasPendingRequest(
-                  state.currentUserId,
+                  state.currentUserId ?? '',
                 );
 
                 final bool isLoading = state.actionLoadingClubId == club.id;
 
                 return ExploreClubCard(
                   club: club,
-                  currentUserId: state.currentUserId,
+                  currentUserId: state.currentUserId ?? '',
                   isMember: isMember,
                   isPending: isPending,
                   isLoading: isLoading,
+                );
+              },
+            ),
+          );
+        }
+
+        return const SizedBox.shrink();
+      },
+    );
+  }
+}
+
+/// Challenges section widget
+/// Challenges section widget
+class _ExploreChallengesSection extends StatelessWidget {
+  const _ExploreChallengesSection();
+
+  @override
+  Widget build(final BuildContext context) {
+    return BlocBuilder<ExploreBloc, ExploreState>(
+      builder: (final BuildContext context, final ExploreState state) {
+        if (state is ExploreLoading) {
+          return const Padding(
+            padding: EdgeInsets.all(24),
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        if (state is ExploreLoaded) {
+          if (state.challengesError != null) {
+            return Padding(
+              padding: const EdgeInsets.all(24),
+              child: Center(
+                child: Text(
+                  state.challengesError!,
+                  style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
+                    color: context.appColors.red,
+                  ),
+                ),
+              ),
+            );
+          }
+
+          if (state.challenges == null || state.challenges!.isEmpty) {
+            return Padding(
+              padding: const EdgeInsets.all(24),
+              child: Center(
+                child: Text(
+                  context.locale.noChallengesYet,
+                  style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
+                    color: context.appColors.c686873,
+                  ),
+                ),
+              ),
+            );
+          }
+          final double sectionHeight = MediaQuery.heightOf(context) * 0.18;
+          final double cardWidth = MediaQuery.widthOf(context) * 0.5;
+
+          return SizedBox(
+            height: sectionHeight,
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              itemCount: state.challenges!.length,
+              itemBuilder: (final BuildContext context, final int index) {
+                return ChallengeHorizontalCard(
+                  challenge: state.challenges![index],
+                  cardWidth: cardWidth,
+                  sectionHeight: sectionHeight,
+                  onRefresh: () {
+                    context.read<ExploreBloc>().add(LoadExploreDataEvent());
+                  },
                 );
               },
             ),

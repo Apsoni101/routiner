@@ -2,6 +2,7 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:routiner/core/services/network/failure.dart';
+import 'package:routiner/feature/create_custom_habit/domain/entity/activity_entity.dart';
 import 'package:routiner/feature/create_custom_habit/domain/entity/custom_habit_entity.dart';
 import 'package:routiner/feature/create_custom_habit/domain/repo/custom_habit_remote_repository.dart';
 
@@ -42,5 +43,19 @@ class CreateCustomHabitRemoteUsecase {
   /// Check if a habit exists
   Future<Either<Failure, bool>> habitExists(final String habitId) {
     return _repository.habitExists(habitId);
+  }
+
+  Future<Either<Failure, Unit>> saveActivity(final ActivityEntity activity) {
+    return _repository.saveActivity(activity);
+  }
+
+  Future<Either<Failure, int>> getTotalPoints() {
+    return _repository.getTotalPoints();
+  }
+
+  Future<Either<Failure, List<ActivityEntity>>> getActivities({
+    int? limit,
+  }) {
+    return _repository.getActivities(limit: limit);
   }
 }

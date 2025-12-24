@@ -31,10 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "221689759358-enl0ieicimli1u5c9qs0kgnsluebf8n3.apps.googleusercontent.com",
+              "client_id": "221689759358-e1h9p2nkod91a045bjhmbbaf33eqbb29.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.voipProject"
+                "bundle_id": "com.coditas.routiner"
               }
             }
           ]
@@ -83,10 +83,10 @@
               "client_type": 3
             },
             {
-              "client_id": "221689759358-enl0ieicimli1u5c9qs0kgnsluebf8n3.apps.googleusercontent.com",
+              "client_id": "221689759358-e1h9p2nkod91a045bjhmbbaf33eqbb29.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.voipProject"
+                "bundle_id": "com.coditas.routiner"
               }
             }
           ]
@@ -119,10 +119,10 @@
               "client_type": 3
             },
             {
-              "client_id": "221689759358-enl0ieicimli1u5c9qs0kgnsluebf8n3.apps.googleusercontent.com",
+              "client_id": "221689759358-e1h9p2nkod91a045bjhmbbaf33eqbb29.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.voipProject"
+                "bundle_id": "com.coditas.routiner"
               }
             }
           ]

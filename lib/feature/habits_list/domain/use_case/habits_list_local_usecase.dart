@@ -1,3 +1,4 @@
+import 'package:routiner/feature/create_custom_habit/domain/entity/activity_entity.dart';
 import 'package:routiner/feature/create_custom_habit/domain/entity/custom_habit_entity.dart';
 import 'package:routiner/feature/habits_list/domain/repo/habits_list_repository.dart';
 import 'package:routiner/feature/home/domain/entity/habit_log_entity.dart';
@@ -41,4 +42,9 @@ class HabitsListLocalUsecase {
   Future<void> clearFriendsCount(final String habitId) {
     return _repository.clearFriendsCount(habitId);
   }
+  Future<void> saveActivity(final ActivityEntity activity) =>
+      _repository.saveActivity(activity);
+  Future<List<ActivityEntity>> getActivities({int? limit}) =>
+      _repository.getActivities(limit: limit);
+  Future<int> getTotalPoints() => _repository.getTotalPoints();
 }

@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:routiner/core/services/network/failure.dart';
+import 'package:routiner/feature/challenge/data/model/challenge_model.dart';
+import 'package:routiner/feature/challenge/domain/entity/challenge_entity.dart';
 import 'package:routiner/feature/explore/data/data_source/remote/explore_remote_data_source.dart';
 import 'package:routiner/feature/explore/domain/repo/explore_remote_repo.dart';
 import 'package:routiner/feature/home/domain/entity/club_entity.dart';
@@ -69,4 +71,16 @@ class ExploreRemoteRepositoryImpl implements ExploreRemoteRepository {
   @override
   Future<Either<Failure, Unit>> leaveClub(final String clubId) =>
       remoteDataSource.leaveClub(clubId);
+
+  @override
+  Future<Either<Failure, List<ChallengeEntity>>> getAllChallenges() async {
+    final Either<Failure, List<ChallengeModel>> result =
+    await remoteDataSource.getAllChallenges();
+
+    return result.fold(
+      Left.new,
+          (final List<ChallengeModel> models) =>
+          Right(models.map((final ChallengeModel m) => m.toEntity()).toList()),
+    );
+  }
 }

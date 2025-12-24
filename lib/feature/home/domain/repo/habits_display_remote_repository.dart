@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:routiner/core/services/network/failure.dart';
+import 'package:routiner/feature/challenge/domain/entity/challenge_entity.dart';
+import 'package:routiner/feature/create_custom_habit/domain/entity/activity_entity.dart';
 import 'package:routiner/feature/home/domain/entity/habit_log_entity.dart';
 
 abstract class HabitsDisplayRemoteRepository {
@@ -30,5 +32,8 @@ abstract class HabitsDisplayRemoteRepository {
   Future<Either<Failure, int>> getFriendsWithSameGoalCount({
     required final String habitName,
   });
-
+  Future<Either<Failure, List<ChallengeEntity>>> getAllChallenges();
+  Future<Either<Failure, Unit>> saveActivity(final ActivityEntity activity);
+  Future<Either<Failure, int>> getTotalPoints();
+  Future<Either<Failure, List<ActivityEntity>>> getActivities({int? limit});
 }

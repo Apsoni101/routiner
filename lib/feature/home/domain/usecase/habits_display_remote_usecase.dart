@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:routiner/core/services/network/failure.dart';
+import 'package:routiner/feature/challenge/domain/entity/challenge_entity.dart';
+import 'package:routiner/feature/create_custom_habit/domain/entity/activity_entity.dart';
 import 'package:routiner/feature/home/domain/entity/habit_log_entity.dart';
 import 'package:routiner/feature/home/domain/repo/habits_display_remote_repository.dart';
 
@@ -58,4 +60,14 @@ class HabitsDisplayRemoteUsecase {
       habitName: habitName,
     );
   }
+
+  Future<Either<Failure, List<ChallengeEntity>>> getAllChallenges() {
+    return _repository.getAllChallenges();
+  }
+
+  Future<Either<Failure, Unit>> saveActivity(final ActivityEntity activity) =>
+      _repository.saveActivity(activity);
+  Future<Either<Failure, int>> getTotalPoints() => _repository.getTotalPoints();
+  Future<Either<Failure, List<ActivityEntity>>> getActivities({int? limit}) =>
+      _repository.getActivities(limit: limit);
 }
