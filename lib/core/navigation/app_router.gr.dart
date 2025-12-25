@@ -47,7 +47,7 @@ import 'package:routiner/feature/profile/presentation/screen/create_profile_scre
     as _i6;
 import 'package:routiner/feature/profile/presentation/screen/profile_screen.dart'
     as _i15;
-import 'package:routiner/feature/settings/presentation/screen/activity_screen.dart'
+import 'package:routiner/feature/settings/presentation/screen/settings_screen.dart'
     as _i16;
 import 'package:routiner/feature/splash/presentation/screens/splash_screen.dart'
     as _i19;

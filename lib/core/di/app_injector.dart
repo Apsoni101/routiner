@@ -120,6 +120,7 @@ import 'package:routiner/feature/profile/domain/usecase/create_account_remote_us
 import 'package:routiner/feature/profile/domain/usecase/friends_remote_usecase.dart';
 import 'package:routiner/feature/profile/domain/usecase/profile_local_usecase.dart';
 import 'package:routiner/feature/profile/domain/usecase/profile_remote_usecase.dart';
+import 'package:routiner/feature/profile/presentation/bloc/achievements_bloc/achievement_bloc.dart';
 import 'package:routiner/feature/profile/presentation/bloc/activity_tab_bloc/activity_tab_bloc.dart';
 import 'package:routiner/feature/profile/presentation/bloc/create_account_bloc/create_account_bloc.dart';
 import 'package:routiner/feature/profile/presentation/bloc/friend_remote_bloc/friend_remote_bloc.dart';
@@ -139,7 +140,7 @@ class AppInjector {
       ..registerLazySingleton(FirebaseFirestoreService.new)
       ..registerLazySingleton(CrashlyticsService.new)
       ..registerLazySingleton<ThemeController>(
-        () => ThemeController(getIt<SharedPrefsService>()),
+        () => ThemeController(getIt<HiveService>()),
       )
       ..registerLazySingleton<AuthGuard>(
         () => AuthGuard(firebaseAuthService: getIt<FirebaseAuthService>()),
@@ -501,6 +502,12 @@ class AppInjector {
         () => ProfileBloc(
           profileRemoteUseCase: getIt<ProfileRemoteUseCase>(),
           profileLocalUseCase: getIt<ProfileLocalUseCase>(),
+        ),
+      )
+      ..registerFactory<AchievementsBloc>(
+        () => AchievementsBloc(
+          remoteUseCase: getIt<ProfileRemoteUseCase>(),
+          localUseCase: getIt<ProfileLocalUseCase>(),
         ),
       )
       ..registerFactory(

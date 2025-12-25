@@ -1390,12 +1390,6 @@ abstract class AppLocalizations {
   /// **'SAT'**
   String get weekdaySat;
 
-  /// No description provided for @retry.
-  ///
-  /// In en, this message translates to:
-  /// **'Retry'**
-  String get retry;
-
   /// No description provided for @habits.
   ///
   /// In en, this message translates to:
@@ -1636,6 +1630,12 @@ abstract class AppLocalizations {
   /// **'Error:'**
   String get errorPrefix;
 
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
   /// No description provided for @suggestedForYou.
   ///
   /// In en, this message translates to:
@@ -1689,6 +1689,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Members'**
   String get membersTab;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @generalSection.
+  ///
+  /// In en, this message translates to:
+  /// **'GENERAL'**
+  String get generalSection;
+
+  /// No description provided for @aboutUsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'ABOUT US'**
+  String get aboutUsSection;
+
+  /// No description provided for @general.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get general;
+
+  /// No description provided for @darkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get darkMode;
+
+  /// No description provided for @security.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get security;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @sounds.
+  ///
+  /// In en, this message translates to:
+  /// **'Sounds'**
+  String get sounds;
+
+  /// No description provided for @vacationMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacation Mode'**
+  String get vacationMode;
+
+  /// No description provided for @rateRoutiner.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Routiner'**
+  String get rateRoutiner;
+
+  /// No description provided for @shareWithFriends.
+  ///
+  /// In en, this message translates to:
+  /// **'Share with Friends'**
+  String get shareWithFriends;
+
+  /// No description provided for @aboutUs.
+  ///
+  /// In en, this message translates to:
+  /// **'About Us'**
+  String get aboutUs;
+
+  /// No description provided for @support.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get support;
 
   /// No description provided for @thisWeek.
   ///
@@ -2122,6 +2200,66 @@ abstract class AppLocalizations {
   /// **'Habits ({count})'**
   String habitsCount(int count);
 
+  /// Title shown while loading achievements
+  ///
+  /// In en, this message translates to:
+  /// **'Loading achievements...'**
+  String get achievementsTabLoadingTitle;
+
+  /// Title of the achievement unlock dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Achievement Unlocked!'**
+  String get achievementUnlockedTitle;
+
+  /// Button text in achievement unlock dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Awesome!'**
+  String get achievementUnlockedButton;
+
+  /// Retry button text on error state
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get achievementsErrorRetryButton;
+
+  /// Title shown when there are no achievements
+  ///
+  /// In en, this message translates to:
+  /// **'No achievements yet'**
+  String get achievementsEmptyTitle;
+
+  /// Subtitle shown when there are no achievements
+  ///
+  /// In en, this message translates to:
+  /// **'Start completing habits to unlock achievements!'**
+  String get achievementsEmptySubtitle;
+
+  /// Refresh button text on empty state
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get achievementsEmptyRefreshButton;
+
+  /// Points reward text for achievement
+  ///
+  /// In en, this message translates to:
+  /// **'+{points} points'**
+  String achievementPointsReward(int points);
+
+  /// Achievement unlock date and points display
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocked {date} • +{points} pts'**
+  String achievementUnlockedDate(String date, int points);
+
+  /// Celebration emoji for achievement unlock
+  ///
+  /// In en, this message translates to:
+  /// **'🎉'**
+  String get achievementEmoji;
+
   /// Text shown when no habits are selected
   ///
   /// In en, this message translates to:
@@ -2169,6 +2307,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get done;
+
+  /// No description provided for @noActivitiesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No activities yet'**
+  String get noActivitiesYet;
+
+  /// No description provided for @completeHabitsToEarnPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete habits to earn points!'**
+  String get completeHabitsToEarnPoints;
+
+  /// No description provided for @somethingWentWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get somethingWentWrong;
+
+  /// Title shown when an achievement is unlocked
+  ///
+  /// In en, this message translates to:
+  /// **'Achievement Unlocked!'**
+  String get achievementUnlocked;
+
+  /// Button label to dismiss achievement unlock dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Awesome!'**
+  String get awesome;
+
+  /// Loading state message for achievements
+  ///
+  /// In en, this message translates to:
+  /// **'Loading achievements...'**
+  String get loadingAchievements;
+
+  /// Retry button label
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// Empty state title when no achievements are unlocked
+  ///
+  /// In en, this message translates to:
+  /// **'No achievements yet'**
+  String get noAchievementsYet;
+
+  /// Empty state description message
+  ///
+  /// In en, this message translates to:
+  /// **'Start completing habits to unlock achievements!'**
+  String get startCompletingHabits;
+
+  /// Refresh button label
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get refresh;
+
+  /// Fallback message when no state is matched
+  ///
+  /// In en, this message translates to:
+  /// **'No achievements'**
+  String get noAchievements;
+
+  /// Points reward display in achievement unlock dialog
+  ///
+  /// In en, this message translates to:
+  /// **'+{points} points'**
+  String pointsReward(int points);
 }
 
 class _AppLocalizationsDelegate

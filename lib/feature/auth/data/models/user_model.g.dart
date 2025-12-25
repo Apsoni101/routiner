@@ -19,6 +19,8 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       name: reader.readString(),
       surname: reader.readString(),
       birthdate: reader.readString(),
+      isNewUser: reader.readBool(),
+
     );
   }
 
@@ -29,5 +31,7 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
     writer.writeString(obj.name ?? '');
     writer.writeString(obj.surname ?? '');
     writer.writeString(obj.birthdate ?? '');
+    writer.writeBool(obj.isNewUser);
+
   }
 }

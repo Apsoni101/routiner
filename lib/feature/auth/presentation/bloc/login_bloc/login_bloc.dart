@@ -132,29 +132,29 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   // -------------------- Google Login --------------------
 
   Future<void> _onGoogleLoginEvent(
-    OnGoogleLoginEvent event,
-    Emitter<LoginState> emit,
-  ) async {
+      OnGoogleLoginEvent event,
+      Emitter<LoginState> emit,
+      ) async {
     emit(LoginLoading());
 
-    /// 1️⃣ Remote Google login
     final Either<Failure, UserEntity> result = await authRemoteUseCase
         .signInWithGoogle();
 
     await result.fold(
-      (failure) async {
-        // Emit error first
+          (failure) async {
         emit(LoginError(message: failure.message));
-
-        // Then transition back to initial state
         emit(LoginUser.initial());
       },
-      (user) async {
-        /// 2️⃣ Save user locally
+          (user) async {
         await authLocalUseCase.saveUserCredentials(user);
 
-        /// 3️⃣ Success
-        emit(LoginSuccess());
+        if (user.isNewUser) {
+          // New user from Google Sign-In - need to go to create profile
+          emit(GoogleSignupSuccess()); // New state
+        } else {
+          // Existing user logging in
+          emit(LoginSuccess());
+        }
       },
     );
   }

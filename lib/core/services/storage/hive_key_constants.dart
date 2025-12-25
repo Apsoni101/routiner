@@ -20,4 +20,6 @@ class HiveKeyConstants {
   static const String activitiesListKey = 'activities_list';
   static const String activityKey = 'activity';
   static const String totalPointsKey = 'total_points';
+  static const String achievementsListKey = 'achievements_list';
+  static const String achievementKey = 'achievement';
 }

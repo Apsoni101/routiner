@@ -5,6 +5,8 @@ import 'package:routiner/feature/auth/domain/entities/user_entity.dart';
 import 'package:routiner/feature/create_custom_habit/data/model/activity_model.dart';
 import 'package:routiner/feature/create_custom_habit/domain/entity/activity_entity.dart';
 import 'package:routiner/feature/profile/data/data_source/remote_data_sources/profile_remote_data_source.dart';
+import 'package:routiner/feature/profile/data/model/achievement_model.dart';
+import 'package:routiner/feature/profile/domain/entity/achievement_entity.dart';
 import 'package:routiner/feature/profile/domain/repo/profile_remote_repo.dart';
 
 class ProfileRemoteRepoImpl implements ProfileRemoteRepo {
@@ -13,19 +15,21 @@ class ProfileRemoteRepoImpl implements ProfileRemoteRepo {
   final ProfileRemoteDataSource profileRemoteDataSource;
 
   @override
-  Future<Either<Failure, UserEntity>> getUserProfile(String uid) async {
-    final Either<Failure, UserModel> result =
-    await profileRemoteDataSource.getUserProfile(uid);
+  Future<Either<Failure, UserEntity>> getUserProfile(final String uid) async {
+    final Either<Failure, UserModel> result = await profileRemoteDataSource
+        .getUserProfile(uid);
 
     return result.fold(
-          Left<Failure, UserEntity>.new,
-          Right<Failure, UserEntity>.new,
+      Left<Failure, UserEntity>.new,
+      Right<Failure, UserEntity>.new,
     );
   }
 
   @override
-  Future<Either<Failure, Unit>> updateUserProfile(UserEntity profile) async {
-    final userModel = UserModel(
+  Future<Either<Failure, Unit>> updateUserProfile(
+    final UserEntity profile,
+  ) async {
+    final UserModel userModel = UserModel(
       uid: profile.uid,
       email: profile.email,
       name: profile.name,
@@ -34,19 +38,53 @@ class ProfileRemoteRepoImpl implements ProfileRemoteRepo {
     );
     return profileRemoteDataSource.updateUserProfile(userModel);
   }
+
   @override
-  Future<Either<Failure, List<ActivityEntity>>> getActivities({int? limit}) async {
+  Future<Either<Failure, List<ActivityEntity>>> getActivities({
+    final int? limit,
+  }) async {
     final Either<Failure, List<ActivityModel>> result =
-    await profileRemoteDataSource.getActivities(limit: limit);
+        await profileRemoteDataSource.getActivities(limit: limit);
 
     return result.fold(
       Left.new,
-          (models) => Right(models.map((m) => m.toEntity()).toList()),
+      (final List<ActivityModel> models) =>
+          Right(models.map((final ActivityModel m) => m.toEntity()).toList()),
     );
   }
 
   @override
   Future<Either<Failure, int>> getTotalPoints() {
     return profileRemoteDataSource.getTotalPoints();
+  }
+
+  @override
+  Future<Either<Failure, Unit>> initializeAchievements() {
+    return profileRemoteDataSource.initializeAchievements();
+  }
+
+  @override
+  Future<Either<Failure, List<AchievementEntity>>> getAchievements() async {
+    final Either<Failure, List<AchievementModel>> result =
+        await profileRemoteDataSource.getAchievements();
+    return result.fold(
+      Left.new,
+      (final List<AchievementModel> models) => Right(
+        models.map((final AchievementModel m) => m.toEntity()).toList(),
+      ),
+    );
+  }
+
+  @override
+  Future<Either<Failure, Unit>> updateAchievement(
+    final AchievementEntity achievement,
+  ) async {
+    final AchievementModel model = AchievementModel.fromEntity(achievement);
+    return profileRemoteDataSource.updateAchievement(model);
+  }
+
+  @override
+  Future<Either<Failure, Unit>> unlockAchievement(final String achievementId) {
+    return profileRemoteDataSource.unlockAchievement(achievementId);
   }
 }

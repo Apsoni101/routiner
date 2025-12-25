@@ -52,7 +52,12 @@ final class LoginUser extends LoginState {
     emailValid,
   ];
 }
+class GoogleSignupSuccess extends LoginState {
+  const GoogleSignupSuccess();
 
+  @override
+  List<Object?> get props => [];
+}
 final class LoginError extends LoginState {
   const LoginError({required this.message});
 

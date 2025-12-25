@@ -14,7 +14,7 @@ class CommonWaveBottomSheet extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return ClipPath(
-      // clipper: _TopWaveClipper(),
+      clipper: _TopWaveClipper(),
       child: ColoredBox(
         color: context.appColors.white,
         child: Padding(

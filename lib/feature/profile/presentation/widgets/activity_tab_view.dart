@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:routiner/core/constants/app_textstyles.dart';
 import 'package:routiner/core/constants/asset_constants.dart';
 import 'package:routiner/core/di/app_injector.dart';
@@ -17,9 +16,9 @@ class ActivityTabView extends StatelessWidget {
   const ActivityTabView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return BlocProvider<ActivityTabBloc>(
-      create: (context) =>
+      create: (final BuildContext context) =>
           AppInjector.getIt<ActivityTabBloc>()
             ..add(const LoadActivities(limit: 50)),
       child: const _ActivityTabContent(),
@@ -31,9 +30,9 @@ class _ActivityTabContent extends StatelessWidget {
   const _ActivityTabContent();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return BlocBuilder<ActivityTabBloc, ActivityTabState>(
-      builder: (context, state) {
+      builder: (final BuildContext context, final ActivityTabState state) {
         if (state is ActivityTabLoading) {
           return const Center(child: CircularProgressIndicator());
         }
@@ -41,7 +40,7 @@ class _ActivityTabContent extends StatelessWidget {
         if (state is ActivityTabError) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget>[
               Icon(Icons.error_outline, size: 48, color: context.appColors.red),
               const SizedBox(height: 16),
               Text(state.message),
@@ -60,31 +59,29 @@ class _ActivityTabContent extends StatelessWidget {
 
         if (state is ActivityTabLoaded) {
           if (state.activities.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.inbox_outlined,
-                    size: 64,
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  Icons.inbox_outlined,
+                  size: 64,
+                  color: context.appColors.slate,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  context.locale.noActivitiesYet,
+                  style: AppTextStyles.airbnbCerealW500S18Lh24.copyWith(
                     color: context.appColors.slate,
                   ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'No activities yet',
-                    style: AppTextStyles.airbnbCerealW500S18Lh24.copyWith(
-                      color: context.appColors.slate,
-                    ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  context.locale.completeHabitsToEarnPoints,
+                  style: AppTextStyles.airbnbCerealW500S14Lh20.copyWith(
+                    color: context.appColors.slate,
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Complete habits to earn points!',
-                    style: AppTextStyles.airbnbCerealW500S14Lh20.copyWith(
-                      color: context.appColors.slate,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             );
           }
 
@@ -95,7 +92,7 @@ class _ActivityTabContent extends StatelessWidget {
               );
             },
             child: Column(
-              children: [
+              children: <Widget>[
                 ListTile(
                   contentPadding: const EdgeInsetsGeometry.symmetric(
                     horizontal: 24,
@@ -117,18 +114,19 @@ class _ActivityTabContent extends StatelessWidget {
                   child: ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     itemCount: state.activities.length,
-                    itemBuilder: (context, index) {
-                      final activity = state.activities[index];
+                    itemBuilder: (final BuildContext context, final int index) {
+                      final ActivityEntity activity = state.activities[index];
                       return _ActivityTile(activity: activity);
                     },
                   ),
                 ),
+                const SizedBox(height: 100),
               ],
             ),
           );
         }
 
-        return const Center(child: Text('Something went wrong'));
+        return Center(child: Text(context.locale.somethingWentWrong));
       },
     );
   }
@@ -171,8 +169,8 @@ class _ActivityTile extends StatelessWidget {
     );
   }
 
-  String _buildTitle(BuildContext context) {
-    final type = activity.activityType;
+  String _buildTitle(final BuildContext context) {
+    final ActivityType type = activity.activityType;
 
     if (type == ActivityType.habitCreated ||
         type == ActivityType.habitCompleted) {

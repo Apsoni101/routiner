@@ -73,29 +73,27 @@ class AppAssets {
   static const String maleIc = 'assets/images/male_ic.png';
   static const String femaleIc = 'assets/images/female_ic.png';
 
-  // Sleep
+  static const String chatDots = 'assets/icons/chat_dots.svg';
+  static const String infoSquare = 'assets/icons/info_square.svg';
+  static const String share = 'assets/icons/share.svg';
+  static const String arrowRight2 = 'assets/icons/arrow_right2.svg';
+  static const String star = 'assets/icons/star.svg';
+
+  static const String play = 'assets/icons/play.svg';
+  static const String volumeUp = 'assets/icons/volume_up.svg';
+  static const String bookmark = 'assets/icons/bookmark.svg';
+  static const String bulbIc = 'assets/icons/bulb_ic.svg';
+  static const String passwordIc = 'assets/icons/password_ic.svg';
+  static const String notificationDark = 'assets/icons/notification_dark.svg';
   static const String sleepIc = 'assets/images/sleep_ic.png';
-  static const String challengeDetailBg = 'assets/images/challenge_detail_bg.png';
-
-  // Water plant
+  static const String challengeDetailBg =
+      'assets/images/challenge_detail_bg.png';
   static const String waterPlantIc = 'assets/images/water_plant.png';
-
-  // Journal
   static const String journalIc = 'assets/images/journal_ic.png';
-
-  // Study
   static const String studyIc = 'assets/images/study_ic.png';
   static const String lookingEyeIc = 'assets/images/looking_eye_ic.png';
-
-  // Meditate
   static const String meditateIc = 'assets/images/meditate_ic.png';
-
-  // Book
   static const String bookIc = 'assets/images/book_ic.png';
-
-  // Run
   static const String runIc = 'assets/images/run_ic.png';
-
-  // Water drop
   static const String waterIc = 'assets/images/water_ic.png';
 }

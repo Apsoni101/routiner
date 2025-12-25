@@ -216,7 +216,6 @@
   "weekdayThu": "THU",
   "weekdayFri": "FRI",
   "weekdaySat": "SAT",
-  "retry": "Retry",
   "habits": "Habits",
   "viewAll": "View All",
   "noHabitsForDay": "No habits for this day",
@@ -257,6 +256,7 @@
   "habitClubs": "Habit Clubs",
   "noEmail": "No email",
   "errorPrefix": "Error:",
+  "loading": "Loading...",
   "suggestedForYou": "Suggested for You",
   "leaveClubTitle": "Leave Club",
   "leaveClubMessage": "Are you sure you want to leave this club?",
@@ -266,6 +266,21 @@
   "typeMessageHint": "Type a message...",
   "clubMembersTitle": "Club Members",
   "membersTab": "Members",
+  "settings": "Settings",
+  "generalSection": "GENERAL",
+  "aboutUsSection": "ABOUT US",
+
+  "general": "General",
+  "darkMode": "Dark Mode",
+  "security": "Security",
+  "notifications": "Notifications",
+  "sounds": "Sounds",
+  "vacationMode": "Vacation Mode",
+
+  "rateRoutiner": "Rate Routiner",
+  "shareWithFriends": "Share with Friends",
+  "aboutUs": "About Us",
+  "support": "Support",
   "thisWeek": "This week",
   "thisMonth": "This month",
   "jan": "Jan",
@@ -398,6 +413,62 @@
       }
     }
   },
+  "achievementsTabLoadingTitle": "Loading achievements...",
+  "@achievementsTabLoadingTitle": {
+    "description": "Title shown while loading achievements"
+  },
+  "achievementUnlockedTitle": "Achievement Unlocked!",
+  "@achievementUnlockedTitle": {
+    "description": "Title of the achievement unlock dialog"
+  },
+  "achievementUnlockedButton": "Awesome!",
+  "@achievementUnlockedButton": {
+    "description": "Button text in achievement unlock dialog"
+  },
+  "achievementsErrorRetryButton": "Retry",
+  "@achievementsErrorRetryButton": {
+    "description": "Retry button text on error state"
+  },
+  "achievementsEmptyTitle": "No achievements yet",
+  "@achievementsEmptyTitle": {
+    "description": "Title shown when there are no achievements"
+  },
+  "achievementsEmptySubtitle": "Start completing habits to unlock achievements!",
+  "@achievementsEmptySubtitle": {
+    "description": "Subtitle shown when there are no achievements"
+  },
+  "achievementsEmptyRefreshButton": "Refresh",
+  "@achievementsEmptyRefreshButton": {
+    "description": "Refresh button text on empty state"
+  },
+  "achievementPointsReward": "+{points} points",
+  "@achievementPointsReward": {
+    "description": "Points reward text for achievement",
+    "placeholders": {
+      "points": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "achievementUnlockedDate": "Unlocked {date} • +{points} pts",
+  "@achievementUnlockedDate": {
+    "description": "Achievement unlock date and points display",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "today"
+      },
+      "points": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "achievementEmoji": "🎉",
+  "@achievementEmoji": {
+    "description": "Celebration emoji for achievement unlock"
+  },
   "addHabitsToChallenge": "Add habits to challenge",
   "@addHabitsToChallenge": {
     "description": "Text shown when no habits are selected"
@@ -429,5 +500,50 @@
   "done": "Done",
   "@done": {
     "description": "Done button text"
+  },
+  "noActivitiesYet": "No activities yet",
+  "completeHabitsToEarnPoints": "Complete habits to earn points!",
+  "somethingWentWrong": "Something went wrong",
+  "achievementUnlocked": "Achievement Unlocked!",
+  "@achievementUnlocked": {
+    "description": "Title shown when an achievement is unlocked"
+  },
+  "awesome": "Awesome!",
+  "@awesome": {
+    "description": "Button label to dismiss achievement unlock dialog"
+  },
+  "loadingAchievements": "Loading achievements...",
+  "@loadingAchievements": {
+    "description": "Loading state message for achievements"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button label"
+  },
+  "noAchievementsYet": "No achievements yet",
+  "@noAchievementsYet": {
+    "description": "Empty state title when no achievements are unlocked"
+  },
+  "startCompletingHabits": "Start completing habits to unlock achievements!",
+  "@startCompletingHabits": {
+    "description": "Empty state description message"
+  },
+  "refresh": "Refresh",
+  "@refresh": {
+    "description": "Refresh button label"
+  },
+  "noAchievements": "No achievements",
+  "@noAchievements": {
+    "description": "Fallback message when no state is matched"
+  },
+  "pointsReward": "+{points} points",
+  "@pointsReward": {
+    "description": "Points reward display in achievement unlock dialog",
+    "placeholders": {
+      "points": {
+        "type": "int",
+        "example": "100"
+      }
+    }
   }
 }

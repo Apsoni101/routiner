@@ -9,6 +9,7 @@ class UserEntity extends Equatable {
     this.name,
     this.birthdate,
     this.surname,
+    this.isNewUser = false,
   });
 
   /// Unique user id
@@ -26,6 +27,9 @@ class UserEntity extends Equatable {
   /// User birthdate
   final String? birthdate;
 
+  final bool isNewUser;
+
+
   @override
   List<Object?> get props => <Object?>[
     uid,
@@ -33,6 +37,7 @@ class UserEntity extends Equatable {
     name,
     surname,
     birthdate,
+    isNewUser,
   ];
 
   /// Copy with method for entity
@@ -42,6 +47,8 @@ class UserEntity extends Equatable {
     String? surname,
     String? email,
     String? birthdate,
+    bool? isNewUser,
+
   }) {
     return UserEntity(
       uid: uid ?? this.uid,
@@ -49,6 +56,8 @@ class UserEntity extends Equatable {
       surname: surname ?? this.surname,
       email: email ?? this.email,
       birthdate: birthdate ?? this.birthdate,
+      isNewUser: isNewUser ?? this.isNewUser,
+
     );
   }
 }

@@ -34,18 +34,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         body: BlocListener<LoginBloc, LoginState>(
           listener: (context, state) async {
             if (state is LoginError) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.message)));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.message)),
+              );
             }
             if (state is LoginSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(context.locale.loginSuccess)),
               );
-
-              // Call the callback to trigger AuthGuard's resolver.next()
               if (widget.onLoggedIn != null) {
                 await widget.onLoggedIn!(isFromSignup: false);
+              }
+            }
+            if (state is GoogleSignupSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(context.locale.loginSuccess)),
+              );
+              if (widget.onLoggedIn != null) {
+                await widget.onLoggedIn!(isFromSignup: true);
               }
             }
           },

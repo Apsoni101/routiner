@@ -12,13 +12,8 @@ class UserModel extends UserEntity {
     @HiveField(2) super.name,
     @HiveField(3) super.surname = '',
     @HiveField(4) super.birthdate = '',
+    @HiveField(5) super.isNewUser = false,
   });
-
-  factory UserModel.fromFirebaseUser(final User user) => UserModel(
-    uid: user.uid,
-    email: user.email ?? '',
-    name: user.displayName ?? user.email?.split('@').first ?? '',
-  );
 
   factory UserModel.fromFirestore({required final Map<String, dynamic> data}) =>
       UserModel(
@@ -27,29 +22,68 @@ class UserModel extends UserEntity {
         name: data['name']?.toString() ?? '',
         surname: data['surname']?.toString() ?? '',
         birthdate: data['birthdate']?.toString() ?? '',
+        isNewUser: false,
       );
 
-  factory UserModel.fromHive(final Map<String, dynamic> data) => UserModel(
-    uid: data['uid']?.toString() ?? '',
-    email: data['email']?.toString() ?? '',
-    name: data['name']?.toString() ?? '',
-    surname: data['surname']?.toString() ?? '',
-    birthdate: data['birthdate']?.toString() ?? '',
-  );
+  factory UserModel.fromFirebaseUser(final User user) {
+    final bool isNewUser =
+        user.metadata.creationTime == user.metadata.lastSignInTime;
 
+    // Extract name and surname from Google account
+    final String fullName =
+        user.displayName ?? user.email?.split('@').first ?? '';
+    final List<String> nameParts = fullName.split(' ');
+
+    final String name = nameParts.isNotEmpty ? nameParts.first : '';
+    final String surname = nameParts.length > 1
+        ? nameParts.sublist(1).join(' ')
+        : '';
+
+    return UserModel(
+      uid: user.uid,
+      email: user.email ?? '',
+      name: name,
+      surname: surname,
+      isNewUser: isNewUser,
+    );
+  }
+
+  // 2. Update toJson() to include all fields
   Map<String, dynamic> toJson() => {
-    'uid': uid,
-    'email': email,
-    'name': name,
-    'surname': surname,
-    'birthdate': birthdate,
+    'uid': uid ?? '',
+    'email': email ?? '',
+    'name': name ?? '',
+    'surname': surname ?? '',
+    'birthdate': birthdate ?? '',
+    'isNewUser': isNewUser,
   };
 
+  // 3. Update toHiveMap() to match
   Map<String, dynamic> toHiveMap() => {
-    'uid': uid,
-    'email': email,
-    'name': name,
-    'surname': surname,
-    'birthdate': birthdate,
+    'uid': uid ?? '',
+    'email': email ?? '',
+    'name': name ?? '',
+    'surname': surname ?? '',
+    'birthdate': birthdate ?? '',
+    'isNewUser': isNewUser,
   };
+
+  @override
+  UserModel copyWith({
+    String? uid,
+    String? name,
+    String? surname,
+    String? email,
+    String? birthdate,
+    bool? isNewUser,
+  }) {
+    return UserModel(
+      uid: uid ?? this.uid,
+      name: name ?? this.name,
+      surname: surname ?? this.surname,
+      email: email ?? this.email,
+      birthdate: birthdate ?? this.birthdate,
+      isNewUser: isNewUser ?? this.isNewUser,
+    );
+  }
 }

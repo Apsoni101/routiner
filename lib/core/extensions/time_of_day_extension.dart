@@ -67,3 +67,38 @@ extension SafeDateParsing on String? {
     return null;
   }
 }
+
+
+extension DateTimeFormatting on DateTime? {
+  String formatUnlockDate() {
+    if (this == null) {
+      return 'recently';
+    }
+
+    try {
+      final DateTime dateTime = this!;
+      final DateTime now = DateTime.now();
+      final Duration difference = now.difference(dateTime);
+
+      if (difference.inDays == 0) {
+        return 'today';
+      }
+      if (difference.inDays == 1) {
+        return 'yesterday';
+      }
+      if (difference.inDays < 7) {
+        return '${difference.inDays} days ago';
+      }
+      if (difference.inDays < 30) {
+        final int weeks = (difference.inDays / 7).floor();
+        return '$weeks ${weeks == 1 ? 'week' : 'weeks'} ago';
+      }
+
+      return '${dateTime.day.toString().padLeft(2, '0')}/'
+          '${dateTime.month.toString().padLeft(2, '0')}/'
+          '${dateTime.year}';
+    } catch (e) {
+      return 'recently';
+    }
+  }
+}

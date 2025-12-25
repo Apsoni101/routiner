@@ -1,13 +1,13 @@
+import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:routiner/core/constants/app_textstyles.dart';
 import 'package:routiner/core/constants/asset_constants.dart';
 import 'package:routiner/core/di/app_injector.dart';
 import 'package:routiner/core/extensions/color_extension.dart';
 import 'package:routiner/core/extensions/localization_extension.dart';
+import 'package:routiner/core/navigation/app_router.gr.dart';
 import 'package:routiner/feature/auth/domain/entities/user_entity.dart';
-import 'package:routiner/feature/auth/domain/use_cases/auth_local_usecase.dart';
 import 'package:routiner/feature/common/presentation/widgets/custom_app_bar.dart';
 import 'package:routiner/feature/common/presentation/widgets/svg_button.dart';
 import 'package:routiner/feature/home/presentation/widgets/home_tabs.dart';
@@ -26,35 +26,53 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  late ProfileBloc _profileBloc;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _profileBloc = AppInjector.getIt<ProfileBloc>();
+
+    _loadData();
+
+    _timer = Timer.periodic(const Duration(seconds: 3), (_) {
+      if (mounted && !_profileBloc.isClosed) {
+        _profileBloc.add(const LoadTotalPoints());
+      }
+    });
+  }
+
+  void _loadData() {
+    _profileBloc.add(const LoadCurrentUserProfile());
+    _profileBloc.add(const LoadTotalPoints());
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(final BuildContext context) {
-    return BlocProvider<ProfileBloc>(
-      create: (final BuildContext context) {
-        final bloc = AppInjector.getIt<ProfileBloc>();
-
-        // Get current user's UID from auth local usecase
-        final authLocalUseCase = AppInjector.getIt<AuthLocalUseCase>();
-        final currentUser = authLocalUseCase.getCurrentUser();
-
-        if (currentUser?.uid != null) {
-          bloc.add(LoadProfile(uid: currentUser!.uid!));
-        }
-
-        return bloc;
-      },
+    return BlocProvider<ProfileBloc>.value(
+      value: _profileBloc,
       child: DefaultTabController(
         length: 3,
         child: Scaffold(
           backgroundColor: context.appColors.white,
           appBar: CustomAppBar(
             title: context.locale.profile,
-            actions: [
+            actions: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 child: SvgIconButton(
                   padding: EdgeInsets.zero,
                   svgPath: AppAssets.settingsIc,
-                  onPressed: () {},
+                  onPressed: () {
+                    context.router.push(const SettingsRoute());
+                  },
                   iconSize: 48,
                 ),
               ),
@@ -65,9 +83,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           body: BlocConsumer<ProfileBloc, ProfileState>(
             listener: (final BuildContext context, final ProfileState state) {
               if (state is ProfileError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.message)),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.message)));
               }
             },
             builder: (final BuildContext context, final ProfileState state) {
@@ -75,48 +93,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 return const Center(child: CircularProgressIndicator());
               }
 
-              if (state is ProfileError) {
+              if (state is ProfileError && state is! ProfileLoaded) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Error loading profile',
-                      ),
+                    children: <Widget>[
+                      Text(context.locale.errorPrefix),
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () {
-                          final authLocalUseCase = AppInjector.getIt<AuthLocalUseCase>();
-                          final currentUser = authLocalUseCase.getCurrentUser();
-
-                          if (currentUser?.uid != null) {
-                            context.read<ProfileBloc>().add(
-                              RefreshProfile(uid: currentUser!.uid!),
-                            );
-                          }
+                          _loadData();
                         },
-                        child: const Text('Retry'),
+                        child: Text(context.locale.retry),
                       ),
                     ],
                   ),
                 );
               }
 
-              // Get profile data
               UserEntity? profile;
+              int? totalPoints;
               if (state is ProfileLoaded) {
                 profile = state.profile;
+                totalPoints = state.totalPoints;
               }
 
-              // Build UI with profile data
               return Column(
-                children: [
+                children: <Widget>[
                   ProfileHeader(
                     name: profile != null
-                        ? '${profile.name ?? ''} ${profile.surname ?? ''}'.trim()
-                        : 'Loading...',
-                    subtitle: '1452', // You can add this field to UserEntity if needed
-                    imagePath: AppAssets.avatar1Png, // You can add this field to UserEntity if needed
+                        ? '${profile.name ?? ''} ${profile.surname ?? ''}'
+                              .trim()
+                        : context.locale.loading,
+                    subtitle: totalPoints?.toString() ?? '0',
+                    imagePath: AppAssets.avatar1Png,
                   ),
                   Container(
                     color: context.appColors.white,
@@ -130,7 +140,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         context.locale.friends,
                         context.locale.achievements,
                       ],
-                      onTabChanged: (int) {},
+                      onTabChanged: (final int int) {},
                     ),
                   ),
                   Expanded(

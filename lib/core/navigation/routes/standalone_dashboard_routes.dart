@@ -8,4 +8,5 @@ final List<AutoRoute> standaloneDashboardRoutes = <AutoRoute>[
   AutoRoute(page: ChallengesListRoute.page),
   AutoRoute(page: ChallengeDetailRoute.page),
   AutoRoute(page: CreateChallengeRoute.page),
+  AutoRoute(page: SettingsRoute.page),
 ];

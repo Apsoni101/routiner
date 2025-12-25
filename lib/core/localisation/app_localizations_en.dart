@@ -664,9 +664,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get weekdaySat => 'SAT';
 
   @override
-  String get retry => 'Retry';
-
-  @override
   String get habits => 'Habits';
 
   @override
@@ -793,6 +790,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorPrefix => 'Error:';
 
   @override
+  String get loading => 'Loading...';
+
+  @override
   String get suggestedForYou => 'Suggested for You';
 
   @override
@@ -818,6 +818,45 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get membersTab => 'Members';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get generalSection => 'GENERAL';
+
+  @override
+  String get aboutUsSection => 'ABOUT US';
+
+  @override
+  String get general => 'General';
+
+  @override
+  String get darkMode => 'Dark Mode';
+
+  @override
+  String get security => 'Security';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get sounds => 'Sounds';
+
+  @override
+  String get vacationMode => 'Vacation Mode';
+
+  @override
+  String get rateRoutiner => 'Rate Routiner';
+
+  @override
+  String get shareWithFriends => 'Share with Friends';
+
+  @override
+  String get aboutUs => 'About Us';
+
+  @override
+  String get support => 'Support';
 
   @override
   String get thisWeek => 'This week';
@@ -1043,6 +1082,41 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get achievementsTabLoadingTitle => 'Loading achievements...';
+
+  @override
+  String get achievementUnlockedTitle => 'Achievement Unlocked!';
+
+  @override
+  String get achievementUnlockedButton => 'Awesome!';
+
+  @override
+  String get achievementsErrorRetryButton => 'Retry';
+
+  @override
+  String get achievementsEmptyTitle => 'No achievements yet';
+
+  @override
+  String get achievementsEmptySubtitle =>
+      'Start completing habits to unlock achievements!';
+
+  @override
+  String get achievementsEmptyRefreshButton => 'Refresh';
+
+  @override
+  String achievementPointsReward(int points) {
+    return '+$points points';
+  }
+
+  @override
+  String achievementUnlockedDate(String date, int points) {
+    return 'Unlocked $date • +$points pts';
+  }
+
+  @override
+  String get achievementEmoji => '🎉';
+
+  @override
   String get addHabitsToChallenge => 'Add habits to challenge';
 
   @override
@@ -1065,4 +1139,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get done => 'Done';
+
+  @override
+  String get noActivitiesYet => 'No activities yet';
+
+  @override
+  String get completeHabitsToEarnPoints => 'Complete habits to earn points!';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong';
+
+  @override
+  String get achievementUnlocked => 'Achievement Unlocked!';
+
+  @override
+  String get awesome => 'Awesome!';
+
+  @override
+  String get loadingAchievements => 'Loading achievements...';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get noAchievementsYet => 'No achievements yet';
+
+  @override
+  String get startCompletingHabits =>
+      'Start completing habits to unlock achievements!';
+
+  @override
+  String get refresh => 'Refresh';
+
+  @override
+  String get noAchievements => 'No achievements';
+
+  @override
+  String pointsReward(int points) {
+    return '+$points points';
+  }
 }

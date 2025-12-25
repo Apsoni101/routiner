@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "221689759358-5cstj24rhhmcjrpnka607qrchgqdlvb6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.coditas.routiner",
+            "certificate_hash": "ce65983506e5533e86c22b56e06917d1663adcef"
+          }
+        },
+        {
+          "client_id": "221689759358-pcuv0b730prr684tok1ersaui4j378nk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.coditas.routiner",
+            "certificate_hash": "9f33e6c74257587e675da3eaf457afd412199144"
+          }
+        },
+        {
           "client_id": "221689759358-41gc90ku1jnj90aem96q6cuof0cbjah6.apps.googleusercontent.com",
           "client_type": 3
         }

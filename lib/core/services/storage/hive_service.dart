@@ -6,6 +6,7 @@ import 'package:routiner/feature/challenge/data/model/challenge_hive_model.dart'
 import 'package:routiner/feature/create_custom_habit/data/model/activity_hive_model.dart';
 import 'package:routiner/feature/create_custom_habit/data/model/custom_habit_hive_model.dart';
 import 'package:routiner/feature/home/data/model/habit_log_hive_model.dart';
+import 'package:routiner/feature/profile/data/model/achievement_hive_model.dart';
 
 class HiveService {
   late Box _box;
@@ -30,6 +31,9 @@ class HiveService {
     }
     if (!Hive.isAdapterRegistered(6)) {
       Hive.registerAdapter(ActivityHiveModelAdapter());
+    }
+    if (!Hive.isAdapterRegistered(7)) {
+      Hive.registerAdapter(AchievementHiveModelAdapter());
     }
     print('[HiveService] Adapters registered');
   }

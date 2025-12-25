@@ -2,17 +2,17 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:routiner/core/constants/points_constants.dart';
 import 'package:routiner/core/enums/activity_type.dart';
 import 'package:routiner/core/enums/log_status.dart';
 import 'package:routiner/core/services/network/failure.dart';
 import 'package:routiner/feature/challenge/domain/entity/challenge_entity.dart';
-import 'package:routiner/feature/create_custom_habit/domain/entity/custom_habit_entity.dart';
 import 'package:routiner/feature/create_custom_habit/domain/entity/activity_entity.dart';
+import 'package:routiner/feature/create_custom_habit/domain/entity/custom_habit_entity.dart';
 import 'package:routiner/feature/home/domain/entity/habit_log_entity.dart';
 import 'package:routiner/feature/home/domain/entity/habit_with_log.dart';
 import 'package:routiner/feature/home/domain/usecase/habit_display_local_usecase.dart';
 import 'package:routiner/feature/home/domain/usecase/habits_display_remote_usecase.dart';
-import 'package:routiner/core/constants/points_constants.dart';
 import 'package:uuid/uuid.dart';
 
 part 'habit_display_event.dart';
@@ -68,23 +68,19 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
     final LoadChallenges event,
     final Emitter<HabitDisplayState> emit,
   ) async {
-    final currentState = state;
+    final HabitDisplayState currentState = state;
 
     if (currentState is! HabitDisplayLoaded) {
-      print('⚠️ LoadChallenges: State is not HabitDisplayLoaded, skipping');
       return;
     }
 
-    print('🔄 LoadChallenges: Setting loading flag');
     emit(currentState.copyWith(challengesLoading: true));
 
-    print('📡 LoadChallenges: Fetching challenges from remote');
     final Either<Failure, List<ChallengeEntity>> result = await _remoteUsecase
         .getAllChallenges();
 
     await result.fold(
       (final Failure failure) async {
-        print('❌ LoadChallenges: Failed to fetch - ${failure.message}');
         if (state is HabitDisplayLoaded) {
           emit(
             (state as HabitDisplayLoaded).copyWith(challengesLoading: false),
@@ -92,7 +88,6 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
         }
       },
       (final List<ChallengeEntity> challenges) async {
-        print('✅ LoadChallenges: Fetched ${challenges.length} challenges');
         final List<ChallengeEntity> challengesWithProgress =
             <ChallengeEntity>[];
 
@@ -102,11 +97,7 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
           challengesWithProgress.add(updatedChallenge);
         }
 
-        print('📊 LoadChallenges: Calculated progress for all challenges');
         if (state is HabitDisplayLoaded) {
-          print(
-            '✨ LoadChallenges: Emitting state with ${challengesWithProgress.length} challenges',
-          );
           emit(
             (state as HabitDisplayLoaded).copyWith(
               challenges: challengesWithProgress,
@@ -138,9 +129,14 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
 
       final CustomHabitEntity? habit = habits
           .cast<CustomHabitEntity?>()
-          .firstWhere((final h) => h?.id == habitId, orElse: () => null);
+          .firstWhere(
+            (final CustomHabitEntity? h) => h?.id == habitId,
+            orElse: () => null,
+          );
 
-      if (habit == null) continue;
+      if (habit == null) {
+        continue;
+      }
 
       final int habitGoalValue = habit.goalValue ?? 1;
       final int duration = challenge.duration ?? 1;
@@ -149,7 +145,9 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
 
       final List<HabitLogEntity> allLogs = await _habitUsecase.getAllLogs();
 
-      final List<HabitLogEntity> logsInRange = allLogs.where((log) {
+      final List<HabitLogEntity> logsInRange = allLogs.where((
+        final HabitLogEntity log,
+      ) {
         return log.habitId == habitId &&
             log.date.isAfter(startDate.subtract(const Duration(days: 1))) &&
             log.date.isBefore(endDate.add(const Duration(days: 1)));
@@ -186,7 +184,7 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
     final int totalPoints = await _habitUsecase.getTotalPoints();
 
     if (!emit.isDone) {
-      final currentState = state;
+      final HabitDisplayState currentState = state;
       if (currentState is HabitDisplayLoaded) {
         emit(
           currentState.copyWith(
@@ -229,7 +227,7 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
     }
 
     if (hasChanges && !emit.isDone) {
-      final currentState = state;
+      final HabitDisplayState currentState = state;
       if (currentState is HabitDisplayLoaded) {
         final List<HabitWithLog> currentHabits = await _fetchHabitsWithLogs(
           _currentDate,
@@ -254,7 +252,9 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
     final String? habitName = habitWithLog.habit.name;
     final String? habitId = habitWithLog.habit.id;
 
-    if (habitName == null || habitName.isEmpty || habitId == null) return;
+    if (habitName == null || habitName.isEmpty || habitId == null) {
+      return;
+    }
 
     final Either<Failure, int> result = await _remoteUsecase
         .getFriendsWithSameGoalCount(habitName: habitName);
@@ -276,7 +276,7 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
     final Emitter<HabitDisplayState> emit,
   ) async {
     if (event.log.status != LogStatus.pending) {
-      final currentState = state;
+      final HabitDisplayState currentState = state;
       if (currentState is HabitDisplayLoaded) {
         emit(
           currentState.copyWith(
@@ -316,7 +316,10 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
           .getCustomHabits();
       final CustomHabitEntity? habit = habits
           .cast<CustomHabitEntity?>()
-          .firstWhere((h) => h?.id == event.log.habitId, orElse: () => null);
+          .firstWhere(
+            (final CustomHabitEntity? h) => h?.id == event.log.habitId,
+            orElse: () => null,
+          );
 
       final ActivityEntity activity = ActivityEntity(
         id: _uuid.v4(),
@@ -331,7 +334,7 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
 
       await _habitUsecase.saveActivity(activity);
 
-      _remoteUsecase.saveActivity(activity);
+      await _remoteUsecase.saveActivity(activity);
 
       pointsEarned = PointsConstants.habitCompleted;
     }
@@ -343,7 +346,7 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
         .getAllFriendsCounts();
     final int totalPoints = await _habitUsecase.getTotalPoints();
 
-    final currentState = state;
+    final HabitDisplayState currentState = state;
     final List<ChallengeEntity> challenges = currentState is HabitDisplayLoaded
         ? currentState.challenges
         : <ChallengeEntity>[];
@@ -379,7 +382,7 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
         .getAllFriendsCounts();
     final int totalPoints = await _habitUsecase.getTotalPoints();
 
-    final currentState = state;
+    final HabitDisplayState currentState = state;
     final List<ChallengeEntity> existingChallenges =
         currentState is HabitDisplayLoaded
         ? currentState.challenges
@@ -401,16 +404,22 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
   Future<void> _syncWithRemote() async {
     final List<CustomHabitEntity> habits = await _habitUsecase
         .getCustomHabits();
-    final Map<String, List<HabitLogEntity>> remoteLogsByHabit = {};
-    final List<HabitLogEntity> allRemoteLogs = [];
+    final Map<String, List<HabitLogEntity>> remoteLogsByHabit =
+        <String, List<HabitLogEntity>>{};
+    final List<HabitLogEntity> allRemoteLogs = <HabitLogEntity>[];
 
     final List<Future<void>> fetchTasks = habits
-        .where((habit) => habit.id != null && habit.id!.isNotEmpty)
-        .map((habit) async {
+        .where(
+          (final CustomHabitEntity habit) =>
+              habit.id != null && habit.id!.isNotEmpty,
+        )
+        .map((final CustomHabitEntity habit) async {
           final Either<Failure, List<HabitLogEntity>> remoteResult =
               await _remoteUsecase.getLogsForHabit(habitId: habit.id!);
 
-          await remoteResult.fold((failure) async {}, (logs) async {
+          await remoteResult.fold((final Failure failure) async {}, (
+            final List<HabitLogEntity> logs,
+          ) async {
             remoteLogsByHabit[habit.id!] = logs;
             allRemoteLogs.addAll(logs);
           });
@@ -435,22 +444,23 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
   Future<void> _syncLocalLogsToRemote(
     final List<HabitLogEntity> localLogs,
   ) async {
-    final Map<String, List<HabitLogEntity>> logsByHabit = {};
+    final Map<String, List<HabitLogEntity>> logsByHabit =
+        <String, List<HabitLogEntity>>{};
 
-    for (final log in localLogs) {
+    for (final HabitLogEntity log in localLogs) {
       if (!logsByHabit.containsKey(log.habitId)) {
-        logsByHabit[log.habitId] = [];
+        logsByHabit[log.habitId] = <HabitLogEntity>[];
       }
       logsByHabit[log.habitId]!.add(log);
     }
 
     final List<Future<void>> uploadTasks = logsByHabit.entries.map((
-      entry,
+      final MapEntry<String, List<HabitLogEntity>> entry,
     ) async {
       final String habitId = entry.key;
       final List<HabitLogEntity> logs = entry.value;
 
-      for (final log in logs) {
+      for (final HabitLogEntity log in logs) {
         await _remoteUsecase.saveLog(habitId: habitId, log: log);
       }
     }).toList();
@@ -464,14 +474,14 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
     final List<HabitLogEntity> logs = await _habitUsecase.getAllLogs();
 
     final Iterable<HabitLogEntity> logsForDate = logs.where(
-      (log) => _isSameDay(log.date, date),
+      (final HabitLogEntity log) => _isSameDay(log.date, date),
     );
 
-    return habits.map((habit) {
+    return habits.map((final CustomHabitEntity habit) {
       final String habitId = habit.id ?? _uuid.v4();
 
       final HabitLogEntity logForHabit = logsForDate.firstWhere(
-        (log) => log.habitId == habitId,
+        (final HabitLogEntity log) => log.habitId == habitId,
         orElse: () => HabitLogEntity(
           id: '',
           habitId: habitId,
@@ -489,7 +499,9 @@ class HabitDisplayBloc extends Bloc<HabitDisplayEvent, HabitDisplayState> {
     final HabitLogEntity updatedLog,
     final String logId,
   ) {
-    final int index = logs.indexWhere((log) => log.id == logId);
+    final int index = logs.indexWhere(
+      (final HabitLogEntity log) => log.id == logId,
+    );
 
     if (index != -1) {
       logs[index] = updatedLog;
