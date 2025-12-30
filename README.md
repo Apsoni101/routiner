@@ -1,15 +1,53 @@
-About Routiner
+## 📱 About Routiner
 
-Managing habits and achieving your goals is becoming easier and more enjoyable than ever before. Routiner has been designed specifically to assist you in tracking your habits. With this app, you can receive guidance in the process of creating habits, discover new ones, and maintain consistent tracking. Furthermore, you can track your mood, share your habits with friends or groups, and provide support to one another. Routiner also includes educational content on habits and allows you to participate in competitions with daily, weekly, and monthly series. Explore Routiner!
+Routiner is a habit-tracking app that helps users build good habits, stay consistent, and achieve their goals in a simple and enjoyable way.
 
-onboarding screens
+Managing habits can be difficult when motivation drops or progress feels invisible. Routiner solves this by guiding users through habit creation, helping them discover new habits, and enabling consistent daily tracking. The app also allows users to track their mood, share habits with friends or groups, support one another, and learn more about habit-building through educational content.
 
-https://github.com/user-attachments/assets/38d088f3-6265-4230-9aec-9018a6939672
+Routiner includes daily, weekly, and monthly challenges, making habit tracking engaging and motivating. Whether you want to improve your lifestyle, stay productive, or build long-term routines, Routiner is designed to support you every step of the way.
 
-auth screens
+---
 
-https://github.com/user-attachments/assets/10f30e88-232e-4829-a1ae-e573b747f8f9
+## 🌱 Key Features
 
+- Create and track daily habits
+- Guided habit creation
+- Mood tracking
+- Social sharing with friends and groups
+- Educational content on habit building
+- Daily, weekly, and monthly challenges
+- Progress tracking and streaks
 
+---
 
+## 🚀 Onboarding Screens
 
+The onboarding screens introduce users to Routiner and explain how the app works when it is opened for the first time.
+
+![Onboarding Screens](https://github.com/user-attachments/assets/38d088f3-6265-4230-9aec-9018a6939672)
+
+---
+
+## 🔐 Authentication Screens
+
+Routiner provides secure authentication options to ensure user data and progress are safely stored.
+
+### 📧 Email Authentication
+
+Users can sign up or log in using their email address.
+
+![Email Authentication](https://github.com/user-attachments/assets/10f30e88-232e-4829-a1ae-e573b747f8f9)
+
+---
+
+### 🔑 Google Authentication
+
+Users can quickly sign in using their Google account for a faster and smoother experience.
+
+![Google Authentication](https://github.com/user-attachments/assets/c8e68504-6f5a-4d87-b676-3282f9fde245)
+
+---
+
+## 🌟 Explore Routiner
+
+Routiner makes habit building simple, social, and rewarding. Small daily actions lead to long-term success.
