@@ -46,6 +46,12 @@ https://github.com/user-attachments/assets/c8e68504-6f5a-4d87-b676-3282f9fde245
 
 ---
 
+### Adding a habit 
+
+https://github.com/user-attachments/assets/b70b3c02-1baf-4189-be4f-d4d5c1a0b672
+
+
+
 ## 🌟 Explore Routiner
 
 Routiner makes habit building simple, social, and rewarding. Small daily actions lead to long-term success.
