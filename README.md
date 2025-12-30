@@ -55,6 +55,7 @@ https://github.com/user-attachments/assets/b70b3c02-1baf-4189-be4f-d4d5c1a0b672
 ### clubs 
 
 chatting and creating a group and viewing members
+
 https://github.com/user-attachments/assets/3436f3fd-cf10-4f38-be6b-6d525f226e22
 
 accepting and rejecting request 
