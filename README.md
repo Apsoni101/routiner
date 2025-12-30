@@ -24,9 +24,7 @@ Routiner includes daily, weekly, and monthly challenges, making habit tracking e
 
 The onboarding screens introduce users to Routiner and explain how the app works when it is opened for the first time.
 
-![Onboarding Screens](https://github.com/user-attachments/assets/38d088f3-6265-4230-9aec-9018a6939672)
-
----
+https://github.com/user-attachments/assets/38d088f3-6265-4230-9aec-9018a6939672
 
 ## 🔐 Authentication Screens
 
@@ -36,7 +34,7 @@ Routiner provides secure authentication options to ensure user data and progress
 
 Users can sign up or log in using their email address.
 
-![Email Authentication](https://github.com/user-attachments/assets/10f30e88-232e-4829-a1ae-e573b747f8f9)
+https://github.com/user-attachments/assets/10f30e88-232e-4829-a1ae-e573b747f8f9
 
 ---
 
@@ -44,7 +42,7 @@ Users can sign up or log in using their email address.
 
 Users can quickly sign in using their Google account for a faster and smoother experience.
 
-![Google Authentication](https://github.com/user-attachments/assets/c8e68504-6f5a-4d87-b676-3282f9fde245)
+https://github.com/user-attachments/assets/c8e68504-6f5a-4d87-b676-3282f9fde245
 
 ---
 
