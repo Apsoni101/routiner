@@ -4,6 +4,12 @@ Managing habits and achieving your goals is becoming easier and more enjoyable t
 
 onboarding screens
 
-https://github.com/user-attachments/assets/10f30e88-232e-4829-a1ae-e573b747f8f9
+https://github.com/user-attachments/assets/38d088f3-6265-4230-9aec-9018a6939672
 
 auth screens
+
+https://github.com/user-attachments/assets/10f30e88-232e-4829-a1ae-e573b747f8f9
+
+
+
+
