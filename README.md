@@ -60,6 +60,10 @@ https://github.com/user-attachments/assets/3436f3fd-cf10-4f38-be6b-6d525f226e22
 
 accepting and rejecting request 
 
+### Explore screen 
+
+https://github.com/user-attachments/assets/0b1eb0ef-97cd-4256-aa5f-657dc79618d4
+
 
 
 
