@@ -1,16 +1,10 @@
-# routiner
+About Routiner
 
-A new Flutter project.
+Managing habits and achieving your goals is becoming easier and more enjoyable than ever before. Routiner has been designed specifically to assist you in tracking your habits. With this app, you can receive guidance in the process of creating habits, discover new ones, and maintain consistent tracking. Furthermore, you can track your mood, share your habits with friends or groups, and provide support to one another. Routiner also includes educational content on habits and allows you to participate in competitions with daily, weekly, and monthly series. Explore Routiner!
 
-## Getting Started
+onboarding screens
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+auth screens
