@@ -69,6 +69,9 @@ https://github.com/user-attachments/assets/0b1eb0ef-97cd-4256-aa5f-657dc79618d4
 
 https://github.com/user-attachments/assets/ebb72bdf-a88a-430d-be5a-a52a4ed9389d
 
+### Profile screen 
+
+https://github.com/user-attachments/assets/ce5a4d25-8686-455d-87cc-2d56c4c89ca9
 
 
 
