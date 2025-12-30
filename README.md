@@ -50,6 +50,16 @@ https://github.com/user-attachments/assets/c8e68504-6f5a-4d87-b676-3282f9fde245
 
 https://github.com/user-attachments/assets/b70b3c02-1baf-4189-be4f-d4d5c1a0b672
 
+### updating  a habit 
+
+### clubs 
+
+chatting and creating a group and viewing members
+https://github.com/user-attachments/assets/3436f3fd-cf10-4f38-be6b-6d525f226e22
+
+accepting and rejecting request 
+
+
 
 
 ## 🌟 Explore Routiner
