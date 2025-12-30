@@ -73,6 +73,12 @@ https://github.com/user-attachments/assets/ebb72bdf-a88a-430d-be5a-a52a4ed9389d
 
 https://github.com/user-attachments/assets/ce5a4d25-8686-455d-87cc-2d56c4c89ca9
 
+### Settings screen 
+
+
+https://github.com/user-attachments/assets/318a2dc8-d54a-4efb-9f94-b7532c4c8778
+
+
 
 
 
