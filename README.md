@@ -64,6 +64,12 @@ accepting and rejecting request
 
 https://github.com/user-attachments/assets/0b1eb0ef-97cd-4256-aa5f-657dc79618d4
 
+### Activity screen 
+
+
+https://github.com/user-attachments/assets/ebb72bdf-a88a-430d-be5a-a52a4ed9389d
+
+
 
 
 
