@@ -52,6 +52,10 @@ https://github.com/user-attachments/assets/b70b3c02-1baf-4189-be4f-d4d5c1a0b672
 
 ### updating  a habit 
 
+
+https://github.com/user-attachments/assets/93c5b7dc-87e8-4b5e-80cb-ec625db9381f
+
+
 ### clubs 
 
 chatting and creating a group and viewing members
