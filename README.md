@@ -16,6 +16,7 @@ Routiner includes daily, weekly, and monthly challenges, making habit tracking e
 - Social sharing with friends and groups and can chat in groups admin can accept and reject request 
 - Daily, weekly, and monthly challenges and can log any habit for previous days if forget 
 - Progress tracking and streaks
+- create challenges add habits in it 
 
 ---
 
